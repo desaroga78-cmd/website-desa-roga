@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Peristiwa Penduduk - Desa Roga</title>
+<style>
+:root{--green:#075b2d;--green2:#0b7b40;--gold:#e7bf54;--bg:#f3f7f3;--ink:#193323;--line:#dce8df;}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;}
+header{background:linear-gradient(135deg,#064b26,var(--green2));color:white;padding:22px 16px 25px;text-align:center;}
+.kop{max-width:1080px;margin:auto;display:grid;grid-template-columns:88px 1fr 88px;align-items:center;gap:16px;padding-bottom:15px;border-bottom:3px double var(--gold);}
+.logo{width:78px;height:78px;object-fit:contain;background:#fff;border:2px solid var(--gold);border-radius:50%;padding:4px;}
+.kop h1{font-size:clamp(18px,3vw,27px);margin:0 0 6px;letter-spacing:.7px;}.kop p{margin:4px 0;font-size:14px}.kop .desa{font-size:19px;font-weight:bold;letter-spacing:1px;}
+.alamat{margin:11px auto 0;line-height:1.5;font-size:13px;}
+.nav-home{display:inline-block;margin-top:12px;background:white;color:var(--green);text-decoration:none;font-weight:bold;padding:9px 15px;border:1px solid var(--gold);border-radius:999px;}
+main{width:min(1180px,95%);margin:26px auto 45px;}
+.card{background:#fff;border:1px solid var(--line);border-radius:13px;padding:20px;margin:0 0 20px;box-shadow:0 5px 16px #163c210d;}
+h2{margin:0 0 15px;color:var(--green);font-size:22px;}.note{background:#edf6ef;border-left:4px solid var(--green2);padding:12px 14px;border-radius:6px;line-height:1.5;margin-bottom:16px;}
+.form-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;}.field label{display:block;font-weight:bold;margin:0 0 6px;color:#31553e;}.field input,.field select,.field textarea{width:100%;padding:10px 11px;border:1px solid #bdcfc1;border-radius:7px;font:inherit;background:#fff;}.field textarea{min-height:75px;resize:vertical;}.wide{grid-column:1/-1;}
+.buttons{display:flex;flex-wrap:wrap;gap:9px;margin-top:15px;}.btn{border:0;border-radius:7px;padding:10px 15px;font-weight:bold;color:#fff;cursor:pointer;}.green{background:#138247}.blue{background:#1768a5}.gray{background:#65736a}.red{background:#b93838}.yellow{background:#d39214;color:#fff;}
+.stats{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:11px;margin:12px 0 18px;}.stat{background:#f1f8f3;border-left:4px solid var(--green2);border-radius:8px;padding:13px;}.stat span{display:block;color:#52675a;font-size:13px;}.stat strong{display:block;color:var(--green);font-size:25px;margin-top:5px;}
+.search{width:100%;padding:11px 12px;border:1px solid #bdcfc1;border-radius:7px;font:inherit;margin:4px 0 13px;}.table-wrap{overflow:auto;}table{width:100%;border-collapse:collapse;min-width:900px;}th,td{border:1px solid var(--line);padding:9px;text-align:left;vertical-align:top;}th{background:#edf5ef;color:#214d31;}td .btn{padding:7px 9px;font-size:12px;margin:2px;}.empty{text-align:center;color:#68756c;padding:20px;}
+#pesan{display:none;margin-top:13px;padding:11px;border-radius:7px;background:#e9f6ed;color:#155b30;font-weight:bold;}
+footer{background:#064b26;color:#fff;text-align:center;padding:17px;font-size:14px;}
+@media(max-width:850px){.form-grid{grid-template-columns:repeat(2,minmax(0,1fr));}.stats{grid-template-columns:repeat(3,minmax(0,1fr));}}
+@media(max-width:560px){.kop{grid-template-columns:52px 1fr 52px;gap:8px}.logo{width:48px;height:48px}.kop p{font-size:11px}.kop .desa{font-size:16px}.alamat{font-size:11px}.card{padding:15px}.form-grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,minmax(0,1fr));}.wide{grid-column:auto}}
+@media print{body.mode-print header,body.mode-print .form-card,body.mode-print .toolbar-no-print,body.mode-print footer{display:none!important}body.mode-print{background:#fff}.card{box-shadow:none;border:0;padding:0}.stats{grid-template-columns:repeat(5,minmax(0,1fr))}table{min-width:0;font-size:10px}td .btn{display:none!important}}
+</style>
+<style>html.roga-lock-pending body>*:not(#roga-auth-overlay){visibility:hidden!important}</style><script>document.documentElement.classList.add("roga-lock-pending")</script></head>
+<body>
+<header>
+  <div class="kop">
+    <img class="logo" src="logo_desaroga.jpg" alt="Logo Desa Roga">
+    <div><h1>PEMERINTAH KABUPATEN ENDE</h1><p>KECAMATAN NDONA TIMUR</p><p class="desa">DESA ROGA</p></div>
+    <img class="logo" src="logo_ende.jpg" alt="Logo Kabupaten Ende">
+  </div>
+  <div class="alamat"><strong>Alamat Kantor Desa:</strong> RT/RW 001/001, Dusun Aegomo<br>Jalan Jurusan Roga–Ende KM 45</div>
+  <a class="nav-home" href="index_beranda_desa_roga.html">🏠 KEMBALI KE BERANDA</a>
+</header>
+<main>
+  <section class="card form-card">
+    <h2>📝 PENCATATAN PERISTIWA PENDUDUK</h2>
+    <div class="note">Catat peristiwa kelahiran, kematian, pindah masuk, atau pindah keluar. Riwayat disimpan bersama database Desa Roga dan ikut tercakup dalam backup.</div>
+    <div class="form-grid">
+      <div class="field"><label for="jenisPeristiwa">Jenis Peristiwa *</label><select id="jenisPeristiwa"><option value="">-- PILIH PERISTIWA --</option><option>Kelahiran</option><option>Kematian</option><option>Pindah Masuk</option><option>Pindah Keluar</option></select></div>
+      <div class="field"><label for="tanggalPeristiwa">Tanggal Peristiwa *</label><input id="tanggalPeristiwa" type="date"></div>
+      <div class="field"><label for="nikPeristiwa">NIK (jika sudah ada)</label><input id="nikPeristiwa" type="text" inputmode="numeric" maxlength="16" placeholder="NIK penduduk" onchange="isiDariDatabase()"><small class="hint">Jika NIK sudah tersimpan, nama dan wilayah dapat diisi otomatis.</small></div>
+      <div class="field"><label for="namaPeristiwa">Nama Penduduk *</label><input id="namaPeristiwa" type="text" placeholder="Nama lengkap"></div>
+      <div class="field"><label for="kkPeristiwa">Nomor KK</label><input id="kkPeristiwa" type="text" placeholder="Nomor Kartu Keluarga"></div>
+      <div class="field"><label for="dusunPeristiwa">Dusun</label><select id="dusunPeristiwa"><option value="">-- PILIH DUSUN --</option><option value="Aegomo">DUSUN AEGOMO</option><option value="Dekotonga">DUSUN DEKOTONGA</option><option value="Roga">DUSUN ROGA</option><option value="Toba">DUSUN TOBA</option></select></div>
+      <div class="field"><label for="rtPeristiwa">RT</label><select id="rtPeristiwa"><option value="">-- PILIH RT --</option></select></div>
+      <div class="field"><label for="rwPeristiwa">RW</label><select id="rwPeristiwa"><option value="">-- PILIH RW --</option></select></div>
+      <div class="field"><label for="peranPelapor">Peran pelapor</label><select id="peranPelapor"><option value="">-- PILIH PERAN (OPSIONAL) --</option><option>Ketua RT</option><option>Ketua RW</option><option>Kepala Dusun</option><option>Admin Desa</option></select></div><div class="field"><label for="namaPelapor">Nama pelapor</label><input id="namaPelapor" type="text" maxlength="100" placeholder="Nama RT/RW/Kadus/Admin"></div><div class="field"><label for="kontakPelapor">Kontak pelapor</label><input id="kontakPelapor" type="tel" maxlength="24" placeholder="Nomor telepon (opsional)"></div><div class="field"><label for="nomorDokumen">Nomor Dokumen Pendukung</label><input id="nomorDokumen" type="text" placeholder="Nomor akta/surat jika tersedia"></div>
+      <div class="field wide"><label for="tujuanPeristiwa">Alamat Asal/Tujuan (untuk pindah)</label><input id="tujuanPeristiwa" type="text" placeholder="Alamat asal atau alamat tujuan perpindahan"></div>
+      <div class="field wide"><label for="catatanPeristiwa">Keterangan</label><textarea id="catatanPeristiwa" placeholder="Catatan tambahan"></textarea></div>
+    </div>
+    <div class="buttons">
+      <button class="btn green" type="button" onclick="simpanPeristiwa()">💾 SIMPAN PERISTIWA</button>
+      <button class="btn gray" type="button" onclick="resetFormPeristiwa()">↺ BERSIHKAN FORM</button>
+    </div>
+    <div id="pesan" role="status"></div>
+  </section>
+
+  <section class="card" id="laporanPeristiwa">
+    <div class="toolbar-no-print">
+      <h2>📊 REKAP PERISTIWA PENDUDUK</h2>
+      <button class="btn blue" type="button" onclick="cetakPeristiwa()">🖨️ CETAK / SIMPAN PDF</button>
+    </div>
+    <div class="stats">
+      <div class="stat"><span>Total Peristiwa</span><strong id="jumlahSemua">0</strong></div>
+      <div class="stat"><span>Kelahiran</span><strong id="jumlahLahir">0</strong></div>
+      <div class="stat"><span>Kematian</span><strong id="jumlahMeninggal">0</strong></div>
+      <div class="stat"><span>Pindah Masuk</span><strong id="jumlahMasuk">0</strong></div>
+      <div class="stat"><span>Pindah Keluar</span><strong id="jumlahKeluar">0</strong></div>
+    </div>
+    <input class="search" id="cariPeristiwa" type="search" placeholder="Cari nama, NIK, No. KK, Dusun, atau jenis peristiwa..." oninput="tampilkanPeristiwa()">
+    <div class="table-wrap"><table>
+      <thead><tr><th>No</th><th>Tanggal</th><th>Jenis</th><th>NIK</th><th>Nama</th><th>No. KK</th><th>Dusun / RT / RW</th><th>Pelapor</th><th>Keterangan</th><th class="toolbar-no-print">Aksi</th></tr></thead>
+      <tbody id="tabelPeristiwa"></tbody>
+    </table></div>
+  </section>
+</main>
+<footer>© 2026 Pemerintah Desa Roga · Pencatatan Peristiwa Penduduk</footer>
+<script>
+const KUNCI_DATABASE="DATABASE_DESA_ROGA_UTAMA";
+let idPeristiwaSedangDiedit="";
+function ambilDataPeristiwa(){
+    try{
+        const raw=localStorage.getItem(KUNCI_DATABASE);
+        const data=raw ? JSON.parse(raw) : {kk:[],anggota:[],peristiwa:[]};
+        if(!Array.isArray(data.kk)) data.kk=[];
+        if(!Array.isArray(data.anggota)) data.anggota=[];
+        if(!Array.isArray(data.peristiwa)) data.peristiwa=[];
+        return data;
+    }catch(error){return {kk:[],anggota:[],peristiwa:[]};}
+}
+function simpanDataPeristiwa(data){localStorage.setItem(KUNCI_DATABASE,JSON.stringify(data));}
+function escapePeristiwa(nilai){return String(nilai==null?"":nilai).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");}
+function isiPilihanWilayah(){
+    const rt=document.getElementById("rtPeristiwa"),rw=document.getElementById("rwPeristiwa");
+    for(let i=1;i<=20;i++){const n=String(i).padStart(3,"0");rt.insertAdjacentHTML("beforeend",'<option value="'+n+'">RT '+n+'</option>');}
+    for(let i=1;i<=9;i++){const n=String(i).padStart(3,"0");rw.insertAdjacentHTML("beforeend",'<option value="'+n+'">RW '+n+'</option>');}
+}
+function isiDariDatabase(){const nik=document.getElementById("nikPeristiwa").value.replace(/\D/g,"");if(!nik)return;const db=ambilDataPeristiwa(),anggota=db.anggota.find(function(a){return String(a.nik||"").replace(/\D/g,"")===nik;});if(!anggota){pesanPeristiwa("NIK belum ditemukan di Database Penduduk. Isi data secara manual.");return;}document.getElementById("namaPeristiwa").value=anggota.nama||"";document.getElementById("kkPeristiwa").value=anggota.nomorKK||"";const kk=db.kk.find(function(k){return String(k.nomorKK||"")===String(anggota.nomorKK||"");});if(kk){document.getElementById("dusunPeristiwa").value=kk.dusun||"";document.getElementById("rtPeristiwa").value=kk.rt||"";document.getElementById("rwPeristiwa").value=kk.rw||"";}pesanPeristiwa("Data penduduk ditemukan dan kolom identitas diisi. Periksa kembali sebelum menyimpan.");}function formatTanggal(nilai){if(!nilai)return "";const p=nilai.split("-");return p.length===3?p[2]+"/"+p[1]+"/"+p[0]:nilai;}
+function pesanPeristiwa(teks){const el=document.getElementById("pesan");el.textContent=teks;el.style.display="block";setTimeout(function(){el.style.display="none";},3500);}
+function resetFormPeristiwa(){
+    ["jenisPeristiwa","tanggalPeristiwa","nikPeristiwa","namaPeristiwa","kkPeristiwa","dusunPeristiwa","rtPeristiwa","rwPeristiwa","peranPelapor","namaPelapor","kontakPelapor","nomorDokumen","tujuanPeristiwa","catatanPeristiwa"].forEach(function(id){document.getElementById(id).value="";});
+    document.getElementById("tanggalPeristiwa").value=new Date().toISOString().slice(0,10);
+    idPeristiwaSedangDiedit="";
+    document.querySelector('.btn.green').textContent="💾 SIMPAN PERISTIWA";
+}
+function simpanPeristiwa(){
+    const jenis=document.getElementById("jenisPeristiwa").value;
+    const tanggal=document.getElementById("tanggalPeristiwa").value;
+    const nama=document.getElementById("namaPeristiwa").value.trim();
+    const tujuan=document.getElementById("tujuanPeristiwa").value.trim();
+    if(!jenis||!tanggal||!nama){alert("Jenis peristiwa, tanggal, dan nama penduduk wajib diisi.");return;}
+    if((jenis==="Pindah Masuk"||jenis==="Pindah Keluar")&&!tujuan){alert("Alamat asal/tujuan wajib diisi untuk peristiwa perpindahan.");document.getElementById("tujuanPeristiwa").focus();return;}
+    const data=ambilDataPeristiwa();
+    const peristiwa={
+        id:idPeristiwaSedangDiedit||("PERISTIWA-"+Date.now()+"-"+Math.random().toString(36).slice(2,7)),
+        jenis:jenis,tanggal:tanggal,nik:document.getElementById("nikPeristiwa").value.trim(),nama:nama,
+        nomorKK:document.getElementById("kkPeristiwa").value.trim(),dusun:document.getElementById("dusunPeristiwa").value,peranPelapor:document.getElementById("peranPelapor").value,namaPelapor:document.getElementById("namaPelapor").value.trim(),kontakPelapor:document.getElementById("kontakPelapor").value.trim(),
+        rt:document.getElementById("rtPeristiwa").value,rw:document.getElementById("rwPeristiwa").value,
+        nomorDokumen:document.getElementById("nomorDokumen").value.trim(),tujuan:tujuan,
+        keterangan:document.getElementById("catatanPeristiwa").value.trim(),
+        diperbarui:new Date().toISOString()
+    };
+    if(!idPeristiwaSedangDiedit){const sama=data.peristiwa.some(function(item){return item.jenis===peristiwa.jenis&&item.tanggal===peristiwa.tanggal&&((peristiwa.nik&&item.nik===peristiwa.nik)||(!peristiwa.nik&&String(item.nama||"").toLocaleLowerCase("id-ID")===peristiwa.nama.toLocaleLowerCase("id-ID")));});if(sama){alert("Catatan dengan jenis, tanggal, dan penduduk yang sama sudah ada. Periksa rekap sebelum menyimpan ulang.");return;}}const idx=data.peristiwa.findIndex(function(item){return String(item.id)===String(idPeristiwaSedangDiedit);});
+    if(idx>=0) data.peristiwa[idx]=peristiwa; else data.peristiwa.unshift(peristiwa);
+    try{simpanDataPeristiwa(data);}catch(error){alert("Data tidak dapat disimpan. Periksa ruang penyimpanan browser.");return;}
+    tampilkanPeristiwa();resetFormPeristiwa();pesanPeristiwa("Data peristiwa berhasil disimpan.");
+}
+function tampilkanPeristiwa(){
+    const data=ambilDataPeristiwa();
+    const daftar=data.peristiwa.slice().sort(function(a,b){return String(b.tanggal||"").localeCompare(String(a.tanggal||""));});
+    const cari=String(document.getElementById("cariPeristiwa").value||"").trim().toLocaleLowerCase("id-ID");
+    const jenis=["Kelahiran","Kematian","Pindah Masuk","Pindah Keluar"];
+    document.getElementById("jumlahSemua").textContent=daftar.length;
+    document.getElementById("jumlahLahir").textContent=daftar.filter(function(x){return x.jenis===jenis[0];}).length;
+    document.getElementById("jumlahMeninggal").textContent=daftar.filter(function(x){return x.jenis===jenis[1];}).length;
+    document.getElementById("jumlahMasuk").textContent=daftar.filter(function(x){return x.jenis===jenis[2];}).length;
+    document.getElementById("jumlahKeluar").textContent=daftar.filter(function(x){return x.jenis===jenis[3];}).length;
+    const hasil=daftar.filter(function(x){return [x.jenis,x.tanggal,x.nik,x.nama,x.nomorKK,x.dusun,x.rt,x.rw,x.peranPelapor,x.namaPelapor,x.nomorDokumen,x.tujuan,x.keterangan].join(" ").toLocaleLowerCase("id-ID").includes(cari);});
+    const tbody=document.getElementById("tabelPeristiwa");
+    if(!hasil.length){tbody.innerHTML='<tr><td colspan="9" class="empty">Belum ada peristiwa yang sesuai.</td></tr>';return;}
+    tbody.innerHTML=hasil.map(function(x,index){
+        const lokasi=[x.dusun?"Dusun "+x.dusun:"",x.rt?"RT "+x.rt:"",x.rw?"RW "+x.rw:""].filter(Boolean).join(" / ");
+        const pelapor=[x.peranPelapor,x.namaPelapor].filter(Boolean).join(" · ");
+        const catatan=[x.tujuan?"Asal/Tujuan: "+x.tujuan:"",x.nomorDokumen?"Dokumen: "+x.nomorDokumen:"",x.keterangan||""].filter(Boolean).join(" · ");
+        return '<tr><td>'+(index+1)+'</td><td>'+escapePeristiwa(formatTanggal(x.tanggal))+'</td><td>'+escapePeristiwa(x.jenis)+'</td><td>'+escapePeristiwa(x.nik)+'</td><td>'+escapePeristiwa(x.nama)+'</td><td>'+escapePeristiwa(x.nomorKK)+'</td><td>'+escapePeristiwa(lokasi)+'</td><td>'+escapePeristiwa(pelapor)+'</td><td>'+escapePeristiwa(catatan)+'</td><td class="toolbar-no-print"><button class="btn yellow" onclick="editPeristiwa(\''+escapePeristiwa(x.id)+'\')">EDIT</button><button class="btn red" onclick="hapusPeristiwa(\''+escapePeristiwa(x.id)+'\')">HAPUS</button></td></tr>';
+    }).join("");
+}
+function editPeristiwa(id){
+    const data=ambilDataPeristiwa(),x=data.peristiwa.find(function(item){return String(item.id)===String(id);});if(!x)return;
+    idPeristiwaSedangDiedit=x.id;
+    document.getElementById("jenisPeristiwa").value=x.jenis||"";document.getElementById("tanggalPeristiwa").value=x.tanggal||"";
+    document.getElementById("nikPeristiwa").value=x.nik||"";document.getElementById("namaPeristiwa").value=x.nama||"";
+    document.getElementById("kkPeristiwa").value=x.nomorKK||"";document.getElementById("dusunPeristiwa").value=x.dusun||"";document.getElementById("peranPelapor").value=x.peranPelapor||"";document.getElementById("namaPelapor").value=x.namaPelapor||"";document.getElementById("kontakPelapor").value=x.kontakPelapor||"";
+    document.getElementById("rtPeristiwa").value=x.rt||"";document.getElementById("rwPeristiwa").value=x.rw||"";
+    document.getElementById("nomorDokumen").value=x.nomorDokumen||"";document.getElementById("tujuanPeristiwa").value=x.tujuan||"";
+    document.getElementById("catatanPeristiwa").value=x.keterangan||"";document.querySelector('.btn.green').textContent="✓ SIMPAN PERUBAHAN";
+    document.querySelector(".form-card").scrollIntoView({behavior:"smooth",block:"start"});
+}
+function hapusPeristiwa(id){
+    if(!confirm("Hapus catatan peristiwa ini?"))return;
+    const data=ambilDataPeristiwa();data.peristiwa=data.peristiwa.filter(function(item){return String(item.id)!==String(id);});
+    simpanDataPeristiwa(data);tampilkanPeristiwa();pesanPeristiwa("Catatan peristiwa berhasil dihapus.");
+}
+function cetakPeristiwa(){document.body.classList.add("mode-print");window.print();setTimeout(function(){document.body.classList.remove("mode-print");},1000);}
+isiPilihanWilayah();
+document.getElementById("tanggalPeristiwa").value=new Date().toISOString().slice(0,10);
+tampilkanPeristiwa();
+</script>
+<script src="kunci_lokal_desaroga.js"></script></body>
+</html>
+

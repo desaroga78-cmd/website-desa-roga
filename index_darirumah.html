@@ -1,0 +1,306 @@
+<!DOCTYPE html><html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Pelayanan Surat Desa Roga V16.2 - Konek index_jptdatapenduduk100 - KAROLUS DARI</title><style>*{box-sizing:border-box}body{margin:0;font-family:Arial;background:#eef3ee}.no-print{display:block}header{background:linear-gradient(135deg,#126b36,#218c4b);color:white;text-align:center;padding:18px}header h1{margin:0;font-size:20px}header p{margin:4px 0;font-size:11px}.container{width:96%;max-width:1350px;margin:12px auto}.card{background:white;padding:14px;margin-bottom:14px;border-radius:12px;box-shadow:0 3px 10px rgba(0,0,0,.1)}.card h2{color:#126b36;margin-top:0;border-bottom:2px solid #126b36;padding-bottom:6px;font-size:14px}label{display:block;font-weight:bold;margin-top:8px;margin-bottom:3px;font-size:11px}input,select,textarea{width:100%;padding:8px;border:1px solid #bbb;border-radius:6px;font-size:12px}textarea{min-height:70px}button{border:0;border-radius:6px;padding:8px 12px;font-weight:bold;cursor:pointer;margin:3px;font-size:11px}.btn-hijau{background:#126b36;color:white}.btn-biru{background:#1769aa;color:white}.btn-kuning{background:#9a6800;color:white}.btn-merah{background:#b3261e;color:white}.btn-abu{background:#777;color:white}.btn-wa{background:#25D366;color:white}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.status{display:none;padding:10px;margin-top:10px;border-radius:6px;background:#e8f5e9;color:#145a2a;font-size:11px}.hasil{overflow-x:auto;margin-top:10px}table{width:100%;border-collapse:collapse;min-width:800px;font-size:11px}th,td{border:1px solid #ccc;padding:6px;text-align:left}th{background:#126b36;color:white}tr:nth-child(even){background:#f7f7f7}.data-terpilih{display:none;background:#f1f8f3;border-left:5px solid #126b36;padding:12px;margin-top:12px;border-radius:6px}.readonly{background:#eeeeee}.deskripsi-surat{background:#f3f7f4;border-left:5px solid #126b36;padding:10px;margin-top:10px;border-radius:6px;font-size:11px}.preview{display:none}.surat-kertas{max-width:850px;margin:20px auto;padding:40px;background:white;color:#000;font-family:"Times New Roman",serif;line-height:1.6;font-size:14px;box-shadow:0 0 10px rgba(0,0,0,0.1)}.kop{position:relative;width:100%;text-align:center;border-bottom:4px double #000;padding:10px 0;margin-bottom:15px}.kop h2{margin:0;font-size:18px;text-transform:uppercase;font-weight:bold}.kop h1{margin:2px 0;font-size:22px;text-transform:uppercase;font-weight:bold}.kop p{margin:2px 0;font-size:12px;font-style:italic}.judul-surat{text-align:center;font-size:16px;font-weight:bold;text-decoration:underline;text-transform:uppercase;margin-top:20px}.nomor-surat{text-align:center;margin-bottom:20px;font-size:14px}.data-surat{width:100%;margin:15px 0;border-collapse:collapse}.data-surat td{border:0;padding:4px 5px;font-size:14px;background:none!important}.data-surat td:first-child{width:220px}.ttd{width:300px;margin-left:auto;text-align:center;margin-top:35px;font-size:14px}.btn-beranda{display:inline-block;margin-top:6px;padding:8px 14px;border:1px solid #e8cf70;border-radius:999px;background:#fff;color:#075b2d;font-weight:700;text-decoration:none;font-size:11px}.status-sinkron{display:block;margin:8px 0;padding:10px;border-radius:6px;background:#eaf5ed;border-left:4px solid #0b7b40;color:#174326;font-size:11px}.status-sinkron.peringatan{background:#fff4e5;border-left-color:#d68a15;color:#62420b}.bantuan-pencarian{font-size:10px;color:#666}@media(max-width:700px){.grid{grid-template-columns:1fr}}@media print{header,.no-print,footer{display:none!important}.card{box-shadow:none;padding:0;margin:0;border:none}.preview{display:block!important}body{background:white}}</style></head><body>
+
+<header class="no-print">
+    <h1>PELAYANAN SURAT DESA ROGA V16.2 FINAL</h1>
+    <p>Konek 100% dengan <b>index_jptdatapenduduk100.html</b> - TTD: <b>KAROLUS DARI (KASI PEMERINTAHAN)</b><br>
+    WA Pengajuan Kasi Pem: <b>0821-4402-5922</b></p>
+    <a class="btn-beranda" href="index_beranda_desa_roga.html">🏠 KEMBALI KE BERANDA</a> 
+    <a class="btn-beranda" href="index_jptdatapenduduk100.html" style="background:#ffc107;color:#000">📂 BUKA DATA PENDUDUK</a>
+</header>
+
+<div class="container">
+    <!-- KARTU PENCARIAN -->
+    <div class="card no-print">
+        <h2>🔎 PENCARIAN DATA PENDUDUK SECARA REAL-TIME</h2>
+        <div id="statusDatabasePenduduk" class="status-sinkron">Memeriksa koneksi database lokal...</div>
+        <input type="text" id="kataPencarian" placeholder="Masukkan Nama Lengkap, NIK 16 digit, atau Nomor KK..." oninput="cariPenduduk()">
+        <small class="bantuan-pencarian">💡 Cukup ketik 1 angka atau huruf, data kependudukan langsung tersaring otomatis.</small>
+        <div style="margin-top: 8px;">
+            <button class="btn-hijau" onclick="cariPenduduk()">🔎 CARI DATA</button>
+            <button class="btn-biru" onclick="sinkronkanDatabaseJPT()">🔄 SINKRONKAN DATABASE</button>
+            <button class="btn-abu" onclick="resetPencarian()">↺ RESET</button>
+        </div>
+        <div id="hasilPencarian" class="hasil"></div>
+    </div>
+
+    <!-- KARTU DATA TERPILIH -->
+    <div class="card no-print">
+        <h2>👤 DATA PENDUDUK TERPILIH (OTOMATIS)</h2>
+        <div id="belumAdaPenduduk"><p style="color: #666; font-style: italic;">Belum ada warga yang dipilih. Cari data warga di atas lalu klik tombol "PILIH PENDUDUK".</p></div>
+        <div id="dataTerpilih" class="data-terpilih">
+            <div class="grid">
+                <div><label>NIK</label><input id="suratNIK" class="readonly" readonly></div>
+                <div><label>Nomor KK</label><input id="suratKK" class="readonly" readonly></div>
+                <div><label>Nama Lengkap</label><input id="suratNama" class="readonly" readonly></div>
+                <div><label>Jenis Kelamin</label><input id="suratJK" class="readonly" readonly></div>
+                <div><label>Tempat Lahir</label><input id="suratTempatLahir" class="readonly" readonly></div>
+                <div><label>Tanggal Lahir</label><input id="suratTanggalLahir" class="readonly" readonly></div>
+                <div><label>Agama</label><input id="suratAgama" class="readonly" readonly></div>
+                <div><label>Pekerjaan</label><input id="suratPekerjaan" class="readonly" readonly></div>
+                <div><label>Status Perkawinan</label><input id="suratKawin" class="readonly" readonly></div>
+                <div><label>Dusun</label>
+                    <select id="suratDusun" onchange="updateKepalaDusun()">
+                        <option value="Aegomo">Dusun Aegomo</option>
+                        <option value="Dekotonga">Dusun Dekotonga</option>
+                        <option value="Roga">Dusun Roga</option>
+                        <option value="Toba">Dusun Toba</option>
+                    </select>
+                </div>
+                <div><label>Kepala Dusun (Otomatis)</label><input id="suratKadus" class="readonly" readonly></div>
+                <div><label>Alamat Detail Kantor</label><input id="suratAlamat" value="Dusun Aegomo, RT/RW.001/001 Jln. Jurusan Roga Ende KM.45" class="readonly" readonly></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- KARTU FORM LAYANAN SURAT & INTEGRASI AGENDA -->
+    <div class="card no-print">
+        <h2>📄 FORMULIR PEMBUATAN SURAT KELUAR DESA</h2>
+        <div class="grid">
+            <div>
+               <div class="card no-print"><h2>📄 PEMBUATAN SURAT - 45 JENIS SURAT FINAL - TTD HANYA KAROLUS DARI (TANPA WA & JABATAN DI SURAT)</h2><label>Jenis Surat (45 Surat)</label><select id="jenisSurat" onchange="tampilkanDeskripsiSurat()"><option value="">-- PILIH 45 SURAT FINAL --</option><option value="SKD">SKD - Surat Keterangan Domisili</option><option value="SKTM">SKTM - Surat Keterangan Tidak Mampu</option><option value="SKKL">SKKL - Surat Keterangan Kelahiran</option><option value="SKKM">SKKM - Surat Keterangan Kematian</option><option value="SKPD">SKPD - Surat Keterangan Pindah Domisili</option><option value="SKW">SKW - Surat Keterangan Wali</option><option value="SKU">SKU - Surat Keterangan Usaha</option><option value="SKK">SKK - Surat Keterangan Umum</option><option value="SKPEND">SKPEND - Surat Keterangan Penduduk</option><option value="SKBM">SKBM - Surat Keterangan Belum Menikah</option><option value="SKPH">SKPH - Surat Keterangan Penghasilan</option><option value="SKA">SKA - Surat Keterangan Ahli Waris</option><option value="SKT">SKT - Surat Keterangan Tanah</option><option value="SKRT">SKRT - Surat Keterangan Riwayat Tanah</option><option value="SKM">SKM - Surat Keterangan Kepemilikan</option><option value="SKJD">SKJD - Surat Keterangan Janda/Duda</option><option value="SP">SP - Surat Pengantar</option><option value="SKDOM">SKDOM - Surat Keterangan Tempat Tinggal</option><option value="SKP">SKP - Surat Keterangan Perpindahan Penduduk</option><option value="SKKEL">SKKEL - Surat Keterangan Keluarga</option><option value="SKIK">SKIK - Pengantar Izin Keramaian</option><option value="SPCK">SPCK - Pengantar SKCK</option><option value="SPN">SPN - Surat Pengantar Nikah</option><option value="SPB">SPB - Pengantar Beasiswa</option><option value="SPS">SPS - Pengantar Sekolah</option><option value="SPJKN">SPJKN - Pengantar JKN/BPJS</option><option value="SKBR">SKBR - Belum Memiliki Rumah</option><option value="SKTS">SKTS - Tidak Sengketa Tanah</option><option value="SKPF">SKPF - Penguasaan Fisik Tanah</option><option value="SKBN">SKBN - Beda Nama</option><option value="SKSO">SKSO - Satu Orang Sama</option><option value="SKTK">SKTK - Tanggungan Keluarga</option><option value="SKKD">SKKD - Pindah Antar Dusun</option><option value="SKHIL">SKHIL - Kehilangan</option><option value="SKBENC">SKBENC - Dampak Bencana</option><option value="SKUB">SKUB - Untuk Penguburan</option><option value="SKASUH">SKASUH - Pengasuhan Anak</option><option value="SKPO">SKPO - Penghasilan Orang Tua</option><option value="SKJAM">SKJAM - Sosial untuk Jaminan Kesehatan</option><option value="SKDT">SKDT - Datang/Tinggal Sementara</option><option value="SKPERJ">SKPERJ - Perjalanan</option><option value="SKKEG">SKKEG - Kegiatan Kemasyarakatan</option><option value="SKLHN">SKLHN - Lahan Pertanian</option><option value="SKPENS">SKPENS - Pensiun</option><option value="SKPENG">SKPENG - Pengantar Administrasi</option></select><div id="deskripsiSurat" class="deskripsi-surat" style="display:none;"></div><label>Nomor Surat (Otomatis)</label><input id="nomorSurat" class="readonly" readonly><label>Tanggal Surat</label><input id="tanggalSurat" class="readonly" readonly><label>Pejabat Penandatangan </label><select id="pejabatTtd"><option value="kepala">PETRUS KANISIUS LETA -KEPALA DESA ROGA</option><option value="kasipem">KASOLUS DARI - KASI PEMERINTAHAN</option><option value="sekdes">RIFALDUS TUKA - SEKRETARIS DESA</option></select><label>Keperluan Surat</label><textarea id="keperluanSurat" placeholder="Tulis keperluan surat lengkap..."></textarea><br><button class="btn-hijau" onclick="buatPreviewSurat()">👁️ PREVIEW SURAT - TTD KAROLUS DARI</button><button class="btn-biru" onclick="simpanSurat()">💾 SIMPAN KE ARSIP</button><button class="btn-kuning" onclick="cetakSurat()">🖨️ CETAK / PDF </button><button class="btn-abu" onclick="resetFormSurat()">↺ RESET</button><div id="pesanSurat" class="status"></div></div>
+
+            </div>
+            <div>
+                <label>Nomor Surat Keluar Resmi Kantor Desa</label>
+                <input type="text" id="nomorSurat" placeholder="Contoh: 140/01/PEM/X/2026">
+            </div>
+        </div>
+        <div>
+            <label>Keperluan / Keterangan Isi Surat</label>
+            <textarea id="keperluanSurat" placeholder="Tuliskan tujuan pembuatan surat secara detail di sini..."></textarea>
+        </div>
+        <div style="margin-top: 12px;">
+            <button class="btn-hijau" onclick="prosesCetakSurat()">🖨️ PROSES & CETAK SURAT UTUH</button>
+            <button class="btn-biru" onclick="simpanKeBukuAgenda()">💾 SIMPAN DATA KE BUKU AGENDA KARTU SURAT</button>
+        </div>
+        <div id="statusProses" class="status"></div>
+    </div>
+</div>
+
+<!-- AREA PREVIEW KERTAS SURAT DINAS (SIAP PRINT) -->
+<div id="areaPreview" class="preview">
+    <div class="surat-kertas">
+        <div class="kop">
+            <h2>Pemerintah Kabupaten Ende</h2>
+            <h2>Kecamatan Ndona Timur</h2>
+            <h1>Pemerintah Desa Roga</h1>
+            <p>Alamat: Dusun Aegomo, RT/RW.001/001 Jln. Jurusan Roga Ende KM.45</p>
+        </div>
+        <div class="judul-surat" id="printJudul">SURAT KETERANGAN</div>
+        <div class="nomor-surat" id="printNomor">Nomor: ...</div>
+        
+        <p>Yang bertanda tangan di bawah ini Pemerintah Desa Roga, Kecamatan Ndona Timur, Kabupaten Ende, Provinsi Nusa Tenggara Timur, menerangkan dengan sebenarnya bahwa:</p>
+        
+        <table class="data-surat">
+            <tr><td>1. Nama Lengkap</td><td>: <span id="pNama">...</span></td></tr>
+            <tr><td>2. NIK / No. KK</td><td>: <span id="pNIK">...</span> / <span id="pKK">...</span></td></tr>
+            <tr><td>3. Tempat / Tanggal Lahir</td><td>: <span id="pTTL">...</span></td></tr>
+            <tr><td>4. Jenis Kelamin</td><td>: <span id="pJK">...</span></td></tr>
+            <tr><td>5. Agama</td><td>: <span id="pAgama">...</span></td></tr>
+            <tr><td>6. Pekerjaan</td><td>: <span id="pPekerjaan">...</span></td></tr>
+            <tr><td>7. Alamat / Wilayah Dusun</td><td>: <span id="pAlamat">...</span></td></tr>
+        </table>
+        <p>Orang tersebut di atas adalah benar warga kami yang berdomisili di wilayah administrasi Pemerintah Desa Roga. Surat keterangan ini diberikan kepadanya untuk digunakan sebagai: <b id="pKeperluan">...</b>.</p>
+        <p>Demikian surat keterangan ini dibuat dengan sadar dan sebenar-benarnya untuk dapat dipergunakan sebagaimana mestinya.</p>
+        
+        <div class="ttd">
+            <p>Roga, <span id="printTanggal"></span></p>
+            <p><b>KASI PEMERINTAHAN DESA ROGA</b></p>
+            <br><br><br>
+            <p><u><b>KAROLUS DARI</b></u></p>
+        </div>
+        <center class="no-print" style="margin-top:30px;">
+            <button class="btn-hijau" onclick="window.print()">🖨️ CETAK SEKARANG (KE KERTAS FISIK)</button>
+            <button class="btn-merah" onclick="tutupPreview()">❌ TUTUP PREVIEW SURAT</button>
+        </center>
+    </div>
+</div>
+
+<script>
+const kunciDatabase = ["data_penduduk", "jpt_penduduk", "db_penduduk", "penduduk_desa", "jpt_penduduk100", "penduduk_roga"];
+let databasePenduduk = [];
+
+window.onload = function() {
+    sinkronkanDatabaseJPT();
+    updateKepalaDusun();
+    document.getElementById('printTanggal').innerText = dapatkanTanggalHariIni();
+};
+
+function dapatkanTanggalHariIni() {
+    const d = new Date();
+    const bulan = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+    return `${d.getDate()} ${bulan[d.getMonth()]} ${d.getFullYear()}`;
+}
+
+function sinkronkanDatabaseJPT() {
+    let dataDitemukan = false;
+    let statusDiv = document.getElementById("statusDatabasePenduduk");
+    
+    for (let kunci of kunciDatabase) {
+        let lokalData = localStorage.getItem(kunci);
+        if (lokalData) {
+            try {
+                databasePenduduk = JSON.parse(lokalData);
+                if (Array.isArray(databasePenduduk) && databasePenduduk.length > 0) {
+                    statusDiv.className = "status-sinkron";
+                    statusDiv.innerHTML = `✅ Terhubung! Berhasil memuat <b>${databasePenduduk.length} Data Penduduk</b> dari database lokal (${kunci}).`;
+                    dataDitemukan = true;
+                    break;
+                }
+            } catch(e) { console.log("Gagal memformat data kunci: " + kunci); }
+        }
+    }
+    
+    if (!dataDitemukan) {
+        statusDiv.className = "status-sinkron peringatan";
+        statusDiv.innerHTML = "⚠️ Hubungan database kosong / belum terdeteksi. Silakan isi data penduduk di file index_jptdatapenduduk100.html terlebih dahulu.";
+        databasePenduduk = [
+            {nik:"5311011234560001", kk:"5311011234567890", nama:"BUDI UTOMO", jk:"Laki-laki", tempat_lahir:"Ende", tanggal_lahir:"12-05-1994", agama:"Katolik", pekerjaan:"Petani", status_kawin:"Kawin", dusun:"Aegomo"},
+            {nik:"5311019876540002", kk:"5311011234567890", nama:"MARIA GORETI", jk:"Perempuan", tempat_lahir:"Roga", tanggal_lahir:"20-10-1998", agama:"Katolik", pekerjaan:"Wiraswasta", status_kawin:"Belum Kawin", dusun:"Roga"}
+        ];
+    }
+}
+
+function cariPenduduk() {
+    let kataKunci = document.getElementById("kataPencarian").value.toUpperCase();
+    let hasilDiv = document.getElementById("hasilPencarian");
+    
+    if (kataKunci.trim() === "") {
+        hasilDiv.innerHTML = "";
+        return;
+    }
+    
+    let hasilFilter = databasePenduduk.filter(p => 
+        (p.nama && p.nama.toUpperCase().includes(kataKunci)) || 
+        (p.nik && p.nik.includes(kataKunci)) || 
+        (p.kk && p.kk.includes(kataKunci))
+    );
+    
+    if (hasilFilter.length === 0) {
+        hasilDiv.innerHTML = "<p style='color:red;'>Warga tidak ditemukan. Periksa kembali NIK atau ejaan nama.</p>";
+        return;
+    }
+    
+    let htmlTabel = `<table><tr><th>NIK</th><th>Nama Lengkap</th><th>Dusun</th><th>Aksi</th></tr>`;
+    hasilFilter.forEach(p => {
+        htmlTabel += `<tr>
+            <td>${p.nik || '-'}</td>
+            <td><b>${p.nama || '-'}</b></td>
+            <td>Dusun ${p.dusun || 'Aegomo'}</td>
+            <td><button class="btn-hijau" onclick='pilihWarga(${JSON.stringify(p)})'>✓ PILIH PENDUDUK</button></td>
+        </tr>`;
+    });
+    htmlTabel += `</table>`;
+    hasilDiv.innerHTML = htmlTabel;
+}
+
+function pilihWarga(warga) {
+    document.getElementById("belumAdaPenduduk").style.display = "none";
+    document.getElementById("dataTerpilih").style.display = "block";
+    
+    document.getElementById("suratNIK").value = warga.nik || "";
+    document.getElementById("suratKK").value = warga.kk || "";
+    document.getElementById("suratNama").value = warga.nama || "";
+    document.getElementById("suratJK").value = warga.jk || "Laki-laki";
+    document.getElementById("suratTempatLahir").value = warga.tempat_lahir || "Roga";
+    document.getElementById("suratTanggalLahir").value = warga.tanggal_lahir || "";
+    document.getElementById("suratAgama").value = warga.agama || "Katolik";
+    document.getElementById("suratPekerjaan").value = warga.pekerjaan || "Petani";
+    document.getElementById("suratKawin").value = warga.status_kawin || "Kawin";
+    if(warga.dusun) {
+        document.getElementById("suratDusun").value = warga.dusun;
+    }
+    updateKepalaDusun();
+    document.getElementById("hasilPencarian").innerHTML = "";
+    document.getElementById("kataPencarian").value = warga.nama;
+}
+
+function updateKepalaDusun() {
+    let dusun = document.getElementById("suratDusun").value;
+    let kadus = "";
+    if (dusun === "Aegomo") kadus = "Kristoforus Ngaga";
+    else if (dusun === "Dekotonga") kadus = "Sabimus Deki";
+    else if (dusun === "Roga") kadus = "Kletus A Malu";
+    else if (dusun === "Toba") kadus = "Agustinis Pe'u";
+    document.getElementById("suratKadus").value = kadus;
+}
+
+function resetPencarian() {
+    document.getElementById("kataPencarian").value = "";
+    document.getElementById("hasilPencarian").innerHTML = "";
+    document.getElementById("dataTerpilih").style.display = "none";
+    document.getElementById("belumAdaPenduduk").style.display = "block";
+}
+
+function simpanKeBukuAgenda() {
+    let nik = document.getElementById("suratNIK").value;
+    let nama = document.getElementById("suratNama").value;
+    let jenis = document.getElementById("jenisSurat").value;
+    let nomor = document.getElementById("nomorSurat").value;
+    let keperluan = document.getElementById("keperluanSurat").value;
+    let dusun = document.getElementById("suratDusun").value;
+
+    if (!nama || !nomor) {
+        alert("⚠️ Gagal menyimpan! Pastikan Anda sudah memilih warga dan mengisi Nomor Surat.");
+        return;
+    }
+
+    let arsipSurat = localStorage.getItem("buku_agenda_surat_roga");
+    arsipSurat = arsipSurat ? JSON.parse(arsipSurat) : [];
+
+    let suratBaru = {
+        id: Date.now(),
+        jenis_agenda: "SURAT KELUAR",
+        indeks: "140/PEM",
+        nomor_surat: nomor,
+        tanggal_surat: new Date().toISOString().split('T')[0],
+        tanggal_terima: new Date().toISOString().split('T')[0],
+        asal_tujuan: "Warga Dusun " + dusun + " an. " + nama,
+        perihal: jenis,
+        disposisi: "Karolus Dari",
+        keterangan: keperluan
+    };
+
+    arsipSurat.push(suratBaru);
+    localStorage.setItem("buku_agenda_surat_roga", JSON.stringify(arsipSurat));
+
+    let statusDiv = document.getElementById("statusProses");
+    statusDiv.style.display = "block";
+    statusDiv.innerHTML = `✅ Berhasil Terintegrasi! Surat Keluar Nomor <b>${nomor}</b> telah otomatis tersimpan di Buku Agenda Surat Masuk/Keluar Desa Roga.`;
+}
+
+function prosesCetakSurat() {
+    let nama = document.getElementById("suratNama").value;
+    let nomor = document.getElementById("nomorSurat").value;
+    
+    if(!nama) {
+        alert("Pilih data warga terlebih dahulu di pencarian atas!");
+        return;
+    }
+    if(!nomor) {
+        alert("Isi Nomor Surat Keluar resmi terlebih dahulu!");
+        return;
+    }
+
+    document.getElementById("printJudul").innerText = document.getElementById("jenisSurat").value.toUpperCase();
+    document.getElementById("printNomor").innerText = "Nomor: " + nomor;
+    document.getElementById("pNama").innerText = nama;
+    document.getElementById("pNIK").innerText = document.getElementById("suratNIK").value;
+    document.getElementById("pKK").innerText = document.getElementById("suratKK").value;
+    document.getElementById("pTTL").innerText = document.getElementById("suratTempatLahir").value + ", " + document.getElementById("suratTanggalLahir").value;
+    document.getElementById("pJK").innerText = document.getElementById("suratJK").value;
+    document.getElementById("pAgama").innerText = document.getElementById("suratAgama").value;
+    document.getElementById("pPekerjaan").innerText = document.getElementById("suratPekerjaan").value;
+    document.getElementById("pAlamat").innerText = "Dusun " + document.getElementById("suratDusun").value + ", RT/RW.001/001, Desa Roga";
+    document.getElementById("pKeperluan").innerText = document.getElementById("keperluanSurat").value || "Keperluan Administrasi Kependudukan";
+
+    document.getElementById("areaPreview").style.display = "block";
+    simpanKeBukuAgenda();
+    window.scrollTo(0, document.body.scrollHeight);
+}
+
+function tutupPreview() {
+    document.getElementById("areaPreview").style.display = "none";
+}
+</script>
+</body></html>

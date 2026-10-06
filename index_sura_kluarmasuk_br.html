@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Kartu Kendali Surat - Desa Roga</title>
+    <link rel="stylesheet" href="style_surat.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- HEADER -->
+        <header class="main-header">
+            <div class="header-logo">
+                <h2>PEMERINTAH KABUPATEN ENDE</h2>
+                <h3>KECAMATAN NDONA TIMUR - DESA ROGA</h3>
+                <p>Alamat: Dusun Aegomo, RT/RW.001/001 Jln. Jurusan Roga Ende KM.45</p>
+            </div>
+            <div class="app-title">
+                <h1>SISTEM KARTU KENDALI SURAT (DIGITAL)</h1>
+            </div>
+        </header>
+
+        <!-- DASHBOARD RINGKASAN -->
+        <section class="dashboard-cards">
+            <div class="card bg-blue">
+                <h3>Total Surat Masuk</h3>
+                <p id="count-masuk">0</p>
+            </div>
+            <div class="card bg-green">
+                <h3>Total Surat Keluar</h3>
+                <p id="count-keluar">0</p>
+            </div>
+        </section>
+
+        <!-- FORM INPUT KARTU SURAT -->
+        <section class="form-section">
+            <div class="section-title">
+                <h2>Pencatatan Kartu Surat Baru</h2>
+            </div>
+            <form id="form-surat" class="grid-form">
+                <div class="form-group">
+                    <label for="jenis-surat">Jenis Kartu Surat *</label>
+                    <select id="jenis-surat" required>
+                        <option value="Masuk">SURAT MASUK</option>
+                        <option value="Keluar">SURAT KELUAR</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="indeks-surat">Indeks / Kode Klasifikasi *</label>
+                    <input type="text" id="indeks-surat" placeholder="Contoh: 140/Pem/2026" required>
+                </div>
+                <div class="form-group">
+                    <label for="no-surat">Nomor Surat *</label>
+                    <input type="text" id="no-surat" placeholder="Nomor resmi dari surat" required>
+                </div>
+                <div class="form-group">
+                    <label for="tgl-surat">Tanggal Surat *</label>
+                    <input type="date" id="tgl-surat" required>
+                </div>
+                <div class="form-group">
+                    <label for="tgl-terima">Tanggal Terima / Catat *</label>
+                    <input type="date" id="tgl-terima" required>
+                </div>
+                <div class="form-group">
+                    <label for="asal-tujuan" id="label-asal">Asal Pengirim / Pengirim *</label>
+                    <input type="text" id="asal-tujuan" placeholder="Contoh: Camat Ndona Timur / Dinas PMD" required>
+                </div>
+                <div class="form-group full-width">
+                    <label for="perihal-surat">Isi Ringkas / Perihal Surat *</label>
+                    <textarea id="perihal-surat" rows="2" placeholder="Tuliskan perihal singkat atau ringkasan isi surat..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="disposisi-surat">Disposisi / Diteruskan Kepada</label>
+                    <input type="text" id="disposisi-surat" placeholder="Contoh: Kepala Desa / Sekdes / Kaur Pembangunan">
+                </div>
+                <div class="form-group">
+                    <label for="keterangan-surat">Keterangan / Catatan Tambahan</label>
+                    <input type="text" id="keterangan-surat" placeholder="Catatan opsional">
+                </div>
+
+                <div class="form-actions full-width">
+                    <button type="submit" class="btn btn-primary" id="btn-simpan">💾 Simpan Data Kartu</button>
+                    <button type="button" class="btn btn-secondary" id="btn-reset">🔄 Bersihkan Form</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- TABEL DATA ARSIP KARTU SURAT -->
+        <section class="table-section">
+            <div class="table-header-flex">
+                <h2>Buku Agenda & Tabel Penyimpanan Arsip Surat</h2>
+                <div class="filter-controls">
+                    <button class="btn-filter active" onclick="filterTabel('Semua')">Semua Surat</button>
+                    <button class="btn-filter" onclick="filterTabel('Masuk')">Surat Masuk</button>
+                    <button class="btn-filter" onclick="filterTabel('Keluar')">Surat Keluar</button>
+                </div>
+            </div>
+
+            <div class="responsive-table-wrapper">
+                <table id="tabel-arsip-surat">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Jenis</th>
+                            <th>Indeks / Kode</th>
+                            <th>Nomor Surat</th>
+                            <th>Tgl Surat</th>
+                            <th>Tgl Terima/Kirim</th>
+                            <th>Asal / Tujuan Pengirim</th>
+                            <th>Isi Ringkas / Perihal</th>
+                            <th>Disposisi/Penerima</th>
+                            <th>Ket</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="data-surat-body">
+                        <!-- Data otomatis disisipkan lewat JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+            <div id="no-data-msg" class="empty-message" style="display: none;">
+                Belum ada arsip kartu surat yang tersimpan di dalam sistem.
+            </div>
+        </section>
+    </div>
+
+    <!-- LOGIKA JAVASCRIPT INSTAN -->
+    <script>
+        // Set tanggal hari ini otomatis pada input tanggal terima/catat
+        document.addEventListener('DOMContentLoaded', () => {
+            const hariIni = new Date().toISOString().split('T')[0];
+            document.getElementById('tgl-terima').value = hariIni;
+            document.getElementById('tgl-surat').value = hariIni;
+            
+            // Muat data awal jika ada di local storage laptop, jika tidak pakai contoh kosong
+            muatDataSurat();
+        });
+
+        // Mengubah label secara dinamis berdasarkan jenis kartu surat
+        const jenisSuratSelect = document.getElementById('jenis-surat');
+        const labelAsal = document.getElementById('label-asal');
+        const inputAsalTujuan = document.getElementById('asal-tujuan');
+
+        jenisSuratSelect.addEventListener('change', () => {
+            if (jenisSuratSelect.value === 'Masuk') {
+                labelAsal.innerText = 'Asal Pengirim / Instansi *';
+                inputAsalTujuan.placeholder = 'Contoh: Camat Ndona Timur / Dinas PMD';
+            } else {
+                labelAsal.innerText = 'Tujuan Surat / Penerima *';
+                inputAsalTujuan.placeholder = 'Contoh: Bupati Ende / Kepala Dusun Aegomo';
+            }
+        });
+
+        // Database lokal sementara berbasis array di memori browser laptop (LocalStorage)
+        let databaseSurat = JSON.parse(localStorage.getItem('db_surat_roga')) || [];
+        let filterAktif = 'Semua';
+
+        // Handler tombol Simpan
+        document.getElementById('form-surat').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Ambil semua value dari form
+            const jenis = document.getElementById('jenis-surat').value;
+            const indeks = document.getElementById('indeks-surat').value;
+            const noSurat = document.getElementById('no-surat').value;
+            const tglSurat = document.getElementById('tgl-surat').value;
+            const tglTerima = document.getElementById('tgl-terima').value;
+            const asalTujuan = document.getElementById('asal-tujuan').value;
+            const perihal = document.getElementById('perihal-surat').value;
+            const disposisi = document.getElementById('disposisi-surat').value || '-';
+            const keterangan = document.getElementById('keterangan-surat').value || '-';
+
+            // Buat objek data baru
+            const dataBaru = {
+                id: Date.now(),
+                jenis,
+                indeks,
+                noSurat,
+                tglSurat,
+                tglTerima,
+                asalTujuan,
+                perihal,
+                disposisi,
+                keterangan
+            };
+
+            // Simpan ke array database dan local storage laptop
+            databaseSurat.push(dataBaru);
+            localStorage.setItem('db_surat_roga', JSON.stringify(databaseSurat));
+
+            // Perbarui antarmuka
+            muatDataSurat();
+            
+            // Reset form ke semula
+            this.reset();
+            const hariIni = new Date().toISOString().split('T')[0];
+            document.getElementById('tgl-terima').value = hariIni;
+            document.getElementById('tgl-surat').value = hariIni;
+            
+            alert('Sukses: Data Kartu Surat Berhasil Disimpan ke dalam Tabel!');
+        });
+
+        // Handler tombol Reset Form
+        document.getElementById('btn-reset').addEventListener('click', () => {
+            document.getElementById('form-surat').reset();
+            const hariIni = new Date().toISOString().split('T')[0];
+            document.getElementById('tgl-terima').value = hariIni;
+            document.getElementById('tgl-surat').value = hariIni;
+        });
+
+        // Fungsi memuat data ke tabel dan menghitung total dashboard
+        function muatDataSurat() {
+            const tableBody = document.getElementById('data-surat-body');
+            const noDataMsg = document.getElementById('no-data-msg');
+            tableBody.innerHTML = '';
+
+            // Hitung Counter Dashboard
+            const totalMasuk = databaseSurat.filter(s => s.jenis === 'Masuk').length;
+            const totalKeluar = databaseSurat.filter(s => s.jenis === 'Keluar').length;
+            document.getElementById('count-masuk').innerText = totalMasuk;
+            document.getElementById('count-keluar').innerText = totalKeluar;
+
+            // Filter data yang akan ditampilkan
+            let dataTerfilter = databaseSurat;
+            if (filterAktif !== 'Semua') {
+                dataTerfilter = databaseSurat.filter(s => s.jenis === filterAktif);
+            }
+
+            if (dataTerfilter.length === 0) {
+                noDataMsg.style.display = 'block';
+            } else {
+                noDataMsg.style.display = 'none';
+                
+                // Urutkan dari yang paling baru diinput
+                dataTerfilter.forEach((surat, index) => {
+                    const row = document.createElement('tr');
+                    
+                    // Beri warna baris berdasarkan jenis surat masuk/keluar
+                    if (surat.jenis === 'Masuk') {
+                        row.classList.add('row-masuk');
+                    } else {
+                        row.classList.add('row-keluar');
+                    }
+
+                    row.innerHTML = `
+                        <td>${index + 1}</td>
+                        <td><span class="badge ${surat.jenis === 'Masuk' ? 'badge-masuk' : 'badge-keluar'}">${surat.jenis}</span></td>
+                        <td><strong>${surat.indeks}</strong></td>
+                        <td>${surat.noSurat}</td>
+                        <td>${formatTanggal(surat.tglSurat)}</td>
+                        <td>${formatTanggal(surat.tglTerima)}</td>
+                        <td>${surat.asalTujuan}</td>
+                        <td>${surat.perihal}</td>
+                        <td>${surat.disposisi}</td>
+                        <td>${surat.keterangan}</td>
+                        <td>
+                            <button class="btn-delete" onclick="hapusSurat(${surat.id})">❌ Hapus</button>
+                        </td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            }
+        }
+
+        // Fungsi filter tabel Surat Masuk / Keluar lewat tombol kategori
+        function filterTabel(kategori) {
+            filterAktif = kategori;
+            
+            // Perbarui style tombol filter aktif
+            const tombols = document.querySelectorAll('.filter-controls button');
+            tombols.forEach(btn => btn.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            muatDataSurat();
+        }
+
+        // Fungsi hapus data kartu surat
+        function hapusSurat(id) {
+            if (confirm('Apakah Anda yakin ingin menghapus data kartu kendali surat ini secara permanen dari tabel?')) {
+                databaseSurat = databaseSurat.filter(s => s.id !== id);
+                localStorage.setItem('db_surat_roga', JSON.stringify(databaseSurat));
+                muatDataSurat();
+            }
+        }
+
+        // Pembantu format tanggal agar mudah dibaca Indonesia
+        function formatTanggal(stringTanggal) {
+            if (!stringTanggal) return '-';
+            const parts = stringTanggal.split('-');
+            if (parts.length === 3) {
+                return `${parts[2]}/${parts[1]}/${parts[0]}`;
+            }
+            return stringTanggal;
+        }
+    </script>
+</body>
+</html>

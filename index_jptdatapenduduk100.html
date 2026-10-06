@@ -1,0 +1,3011 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Database Desa Roga</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:#f1f8f4;
+    color:#222;
+}
+
+header{
+    background:linear-gradient(135deg,#087f3d,#20a65a);
+    color:white;
+    padding:25px 15px;
+    text-align:center;
+}
+
+header h1{
+    margin:5px 0;
+    font-size:28px;
+}
+
+header p{
+    margin:5px 0;
+}
+
+.container{
+    width:95%;
+    max-width:1250px;
+    margin:25px auto;
+}
+
+.card{
+    background:white;
+    padding:22px;
+    margin-bottom:25px;
+    border-radius:15px;
+    box-shadow:0 4px 15px rgba(0,0,0,.12);
+}
+
+.card h2{
+    margin-top:0;
+    color:#087f3d;
+    border-bottom:2px solid #20a65a;
+    padding-bottom:10px;
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:15px;
+}
+
+.grid-form{
+    display:grid;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:12px;
+    align-items:start;
+}
+
+.form-group{
+    display:flex;
+    flex-direction:column;
+}
+
+.form-group label{
+    font-weight:bold;
+    margin-bottom:6px;
+}
+
+input,
+select{
+    width:100%;
+    padding:10px;
+    border:1px solid #bbb;
+    border-radius:7px;
+    font-size:14px;
+}
+
+input:focus,
+select:focus{
+    outline:none;
+    border-color:#087f3d;
+}
+
+.buttons{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-top:20px;
+}
+
+button{
+    border:none;
+    padding:11px 17px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.btn-green{
+    background:#087f3d;
+    color:white;
+}
+
+.btn-blue{
+    background:#0d6efd;
+    color:white;
+}
+
+.btn-yellow{
+    background:#ffc107;
+    color:#222;
+}
+
+.btn-red{
+    background:#dc3545;
+    color:white;
+}
+
+.btn-gray{
+    background:#6c757d;
+    color:white;
+}
+
+button:hover{
+    opacity:.88;
+}
+
+.anggota-form{
+    background:#f8fffa;
+    border:2px solid #20a65a;
+    border-radius:12px;
+    padding:18px;
+    margin-top:18px;
+}
+
+.anggota-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    margin-bottom:15px;
+}
+
+.anggota-header h3{
+    margin:0;
+    color:#087f3d;
+}
+
+.table-wrapper{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:900px;
+}
+
+th,
+td{
+    border:1px solid #ccc;
+    padding:9px;
+    text-align:left;
+    vertical-align:top;
+}
+
+th{
+    background:#087f3d;
+    color:white;
+}
+
+tr:nth-child(even){
+    background:#f8f8f8;
+}
+
+.status{
+    margin-top:15px;
+    padding:12px;
+    border-radius:8px;
+    background:#e9f7ef;
+    color:#087f3d;
+    font-weight:bold;
+    display:none;
+}
+
+.search-box{
+    margin-bottom:15px;
+}
+
+.search-box input{
+    max-width:500px;
+}
+
+.keterangan{
+    background:#fff8df;
+    border-left:5px solid #ffc107;
+    padding:12px;
+    margin-bottom:15px;
+}
+
+.empty{
+    text-align:center;
+    padding:25px;
+    color:#777;
+}
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.55);
+    z-index:9999;
+    padding:20px;
+    overflow:auto;
+}
+
+.modal-box{
+    background:white;
+    max-width:1200px;
+    margin:30px auto;
+    border-radius:15px;
+    padding:22px;
+}
+
+.modal-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+}
+
+.modal-header h2{
+    color:#087f3d;
+    margin:0;
+}
+
+footer{
+    margin-top:40px;
+    background:#075b2d;
+    color:white;
+    text-align:center;
+    padding:25px 15px;
+}
+
+.credit{
+    margin-top:10px;
+    font-weight:bold;
+}
+
+@media(max-width:600px){
+
+    header h1{
+        font-size:22px;
+    }
+
+    .container{
+        width:96%;
+    }
+
+    .card{
+        padding:15px;
+    }
+
+}
+
+@media(max-width:1000px){
+    .grid-form{
+        grid-template-columns:repeat(2,minmax(0,1fr));
+    }
+}
+
+@media(max-width:600px){
+    .grid-form{
+        grid-template-columns:1fr;
+    }
+}
+
+.laporan-stat-grid{
+    display:grid;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:12px;
+    margin:18px 0;
+}
+
+.laporan-stat{
+    background:#f1f8f3;
+    border-left:5px solid #08783d;
+    border-radius:8px;
+    padding:15px;
+}
+
+.laporan-stat span{
+    display:block;
+    color:#365343;
+    font-size:14px;
+}
+
+.laporan-stat strong{
+    display:block;
+    color:#075b2d;
+    font-size:26px;
+    margin-top:5px;
+}
+
+.laporan-grid{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:16px;
+}
+
+.laporan-breakdown{
+    border:1px solid #d9e3dc;
+    border-radius:8px;
+    padding:12px;
+    overflow:hidden;
+}
+
+.laporan-breakdown h3{
+    color:#075b2d;
+    margin:4px 0 10px;
+}
+
+.laporan-breakdown table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+.laporan-breakdown th,.laporan-breakdown td{
+    border:1px solid #d9e3dc;
+    padding:8px;
+    text-align:left;
+}
+
+.laporan-breakdown th{
+    background:#edf5ef;
+}
+
+.laporan-meta{
+    color:#53675a;
+    font-size:13px;
+}
+
+.laporan-filter-grid{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:12px;
+    margin:15px 0;
+}
+
+.laporan-filter-grid label{display:block;font-weight:bold;color:#174a2d;}
+.laporan-filter-grid select{width:100%;margin-top:6px;padding:10px;border:1px solid #b8c8bc;border-radius:6px;background:#fff;}
+@media(max-width:800px){
+    .laporan-stat-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+    .laporan-grid{grid-template-columns:1fr;}
+}
+
+@media print{
+    body.mode-cetak-laporan>*{display:none!important;}
+    body.mode-cetak-laporan>.container{display:block!important;width:100%!important;margin:0!important;}
+    body.mode-cetak-laporan>.container>*{display:none!important;}
+    body.mode-cetak-laporan #bagianLaporan{display:block!important;border:0!important;box-shadow:none!important;padding:0!important;margin:0!important;}
+    body.mode-cetak-laporan #bagianLaporan .no-print{display:none!important;}
+    body.mode-cetak-laporan .laporan-stat-grid{grid-template-columns:repeat(5,minmax(0,1fr))!important;}
+    body.mode-cetak-laporan .laporan-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;}
+    body.mode-cetak-laporan .laporan-breakdown{break-inside:avoid;}
+}.btn-beranda{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    margin-top:8px;
+    padding:10px 17px;
+    border:1px solid #e8cf70;
+    border-radius:999px;
+    background:#fff;
+    color:#075b2d;
+    font-weight:700;
+    text-decoration:none;
+    box-shadow:0 3px 10px #0002;
+    transition:transform .18s ease,box-shadow .18s ease,background .18s ease;
+}
+.btn-beranda:hover,.btn-beranda:focus{
+    background:#fff8df;
+    transform:translateY(-1px);
+    box-shadow:0 5px 14px #0003;
+    outline:2px solid #e8cf70;
+}
+@media print{.btn-beranda{display:none!important;}}</style>
+<style>html.roga-lock-pending body>*:not(#roga-auth-overlay){visibility:hidden!important}</style><script>document.documentElement.classList.add("roga-lock-pending")</script><style id="compact-data-roga">
+/* Pemadatan visual tanpa mengubah kolom, isi, tombol, atau fungsi. */
+.container{width:min(98%,1450px);margin:16px auto}
+.card{padding:16px;margin-bottom:16px;border-radius:12px}
+.card h2{font-size:19px;padding-bottom:7px;margin-bottom:12px}
+.form-grid{grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:9px}
+.grid-form{gap:8px}
+.form-group label{font-size:12px;margin-bottom:3px}
+input,select{padding:8px;font-size:13px;min-height:36px}
+.buttons{gap:7px;margin-top:13px}
+button{padding:9px 12px;font-size:13px}
+.anggota-form{padding:13px;margin-top:12px;border-width:1px}
+.anggota-header{margin-bottom:10px}
+th,td{padding:6px 7px;font-size:12px}
+table{min-width:840px}
+@media(max-width:1000px){.grid-form{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.grid-form{grid-template-columns:1fr}.card{padding:12px}}
+</style></head>
+
+<body>
+
+<header>
+
+    <h1>DATABASE DESA ROGA</h1>
+
+    <p>
+        Pemerintah Desa Roga |
+        Kecamatan Ndona Timur |
+        Kabupaten Ende
+    </p>
+
+    <p>Nusa Tenggara Timur</p>
+
+    <a class="btn-beranda" href="index_beranda_desa_roga.html">🏠 KEMBALI KE BERANDA</a></header>
+
+
+<div class="container">
+
+
+<!-- =====================================================
+     DATA KK
+===================================================== -->
+
+<div class="card">
+
+    <h2>📋 DATA KARTU KELUARGA</h2>
+
+    <div class="keterangan">
+        Isi data KK terlebih dahulu, kemudian tambahkan anggota keluarga.
+        Setelah semua data selesai, klik <b>SIMPAN DATA KK</b>.
+    </div>
+
+    <div class="form-grid">
+
+        <div class="form-group">
+
+            <label>Nomor KK</label>
+
+            <input
+                type="text"
+                id="nomorKK"
+                placeholder="Masukkan Nomor KK">
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Nama Kepala Keluarga</label>
+
+            <input
+                type="text"
+                id="namaKepala"
+                placeholder="Nama Kepala Keluarga">
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Jenis Kelamin Kepala Keluarga</label>
+
+            <select id="jkKepala">
+
+                <option value="">-- Pilih --</option>
+                <option value="Laki-laki">Laki-laki</option>
+                <option value="Perempuan">Perempuan</option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Alamat</label>
+
+            <input
+                type="text"
+                id="alamat"
+                placeholder="Alamat">
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>RT</label>
+
+            <select id="rt"><option value="">-- PILIH RT --</option>
+                <option value="001">RT 001</option>
+                <option value="002">RT 002</option>
+                <option value="003">RT 003</option>
+                <option value="004">RT 004</option>
+                <option value="005">RT 005</option>
+                <option value="006">RT 006</option>
+                <option value="007">RT 007</option>
+                <option value="008">RT 008</option>
+                <option value="009">RT 009</option>
+                <option value="010">RT 010</option>
+                <option value="011">RT 011</option>
+                <option value="012">RT 012</option>
+                <option value="013">RT 013</option>
+                <option value="014">RT 014</option>
+                <option value="015">RT 015</option>
+                <option value="016">RT 016</option>
+                <option value="017">RT 017</option>
+                <option value="018">RT 018</option>
+                <option value="019">RT 019</option>
+                <option value="020">RT 020</option>            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>RW</label>
+
+            <select id="rw"><option value="">-- PILIH RW --</option>
+                <option value="001">RW 001</option>
+                <option value="002">RW 002</option>
+                <option value="003">RW 003</option>
+                <option value="004">RW 004</option>
+                <option value="005">RW 005</option>
+                <option value="006">RW 006</option>
+                <option value="007">RW 007</option>
+                <option value="008">RW 008</option>
+                <option value="009">RW 009</option>            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Dusun</label>
+
+            <select id="dusun">
+                <option value="">-- PILIH DUSUN --</option>
+                <option value="Aegomo">DUSUN AEGOMO</option>
+                <option value="Dekotonga">DUSUN DEKOTONGA</option>
+                <option value="Roga">DUSUN ROGA</option>
+                <option value="Toba">DUSUN TOBA</option>
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Desa</label>
+
+            <input
+                type="text"
+                id="desa"
+                value="Roga">
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Kecamatan</label>
+
+            <input
+                type="text"
+                id="kecamatan"
+                value="Ndona Timur">
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Kabupaten</label>
+
+            <input
+                type="text"
+                id="kabupaten"
+                value="Ende">
+
+        </div>
+
+    </div>
+
+
+    <div class="buttons">
+
+        <button
+            type="button"
+            class="btn-gray"
+            onclick="dataBaruKK()">
+
+            + DATA BARU
+
+        </button>
+
+
+        <button
+            type="button"
+            class="btn-green"
+            onclick="tambahAnggota()">
+
+            + TAMBAH ANGGOTA
+
+        </button>
+
+
+        <button
+            type="button"
+            class="btn-blue"
+            onclick="simpanKK()">
+
+            💾 SIMPAN DATA KK
+
+        </button>
+
+
+        <button
+            type="button"
+            class="btn-yellow"
+            onclick="bukaDataPenduduk()">
+
+            📂 BUKA DATA PENDUDUK
+
+        </button>
+        <button
+            type="button"
+            class="btn-blue"
+            onclick="bukaLaporan()">
+
+            📊 LAPORAN DAN REKAP
+
+        </button>
+        <button
+            type="button"
+            class="btn-gray"
+            onclick="bukaBackupData()">
+
+            💾 BACKUP / PULIHKAN DATA
+
+        </button>
+
+    </div>
+
+
+    <div id="pesan" class="status"></div>
+
+</div>
+
+
+
+<!-- =====================================================
+     FORM ANGGOTA
+===================================================== -->
+
+<div class="card">
+
+    <h2>👨‍👩‍👧‍👦 DATA ANGGOTA KELUARGA</h2>
+
+    <div id="daftarAnggota">
+
+        <div class="empty">
+            Belum ada anggota.
+            Klik <b>+ TAMBAH ANGGOTA</b>.
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     TABEL DATA KK
+===================================================== -->
+
+<div class="card">
+
+    <h2>📁 TABEL DATA KK TERSIMPAN</h2>
+
+    <div class="search-box">
+
+        <input
+            type="text"
+            id="cariKK"
+            placeholder="Cari Nomor KK atau Nama Kepala Keluarga..."
+            oninput="tampilkanTabelKK()">
+
+    </div>
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>No</th>
+                    <th>Nomor KK</th>
+                    <th>Kepala Keluarga</th>
+                    <th>Alamat</th>
+                    <th>Jumlah Anggota</th>
+                    <th>Aksi</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="tabelKK">
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     TABEL SEMUA ANGGOTA
+===================================================== -->
+
+<div class="card">
+
+    <h2>👨‍👩‍👧‍👦 TABEL ANGGOTA KELUARGA</h2>
+
+    <div class="search-box">
+
+        <input
+            type="text"
+            id="cariAnggota"
+            placeholder="Cari NIK, nama, atau Nomor KK..."
+            oninput="tampilkanTabelAnggota()">
+
+    </div>
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>No</th>
+                    <th>Nomor KK</th>
+                    <th>NIK</th>
+                    <th>Nama Lengkap</th>
+                    <th>Jenis Kelamin</th>
+                    <th>Tempat/Tanggal Lahir</th>
+                    <th>Hubungan</th>
+                    <th>Aksi</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="tabelAnggota">
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     LAPORAN DAN REKAP DATA DESA
+===================================================== -->
+<div id="bagianLaporan" class="card">
+    <div class="no-print">
+        <h2>📊 MENU LAPORAN DAN REKAP DATA DESA</h2>
+        <p class="keterangan">Rekap otomatis memakai data KK, anggota keluarga, dan peristiwa yang tersimpan di perangkat ini. Gunakan filter wilayah untuk meninjau cakupan tertentu; laporan berisi angka agregat tanpa daftar NIK atau nama penduduk.</p>
+        <div class="laporan-filter-grid">
+            <label>Dusun<select id="filterDusun" onchange="tampilkanLaporan()"><option value="">Semua Dusun</option></select></label>
+            <label>RT<select id="filterRT" onchange="tampilkanLaporan()"><option value="">Semua RT</option></select></label>
+            <label>RW<select id="filterRW" onchange="tampilkanLaporan()"><option value="">Semua RW</option></select></label>
+        </div>
+        <button type="button" class="btn-blue" onclick="tampilkanLaporan()">↻ PERBARUI REKAP</button>
+        <button type="button" class="btn-green" onclick="cetakLaporan()">🖨️ CETAK / SIMPAN PDF</button><button type="button" class="btn-blue" onclick="eksporRekapCSV()">⬇️ EKSPOR REKAP CSV</button>
+    </div>
+
+    <div id="isiLaporan">
+        <div class="laporan-header">
+            <h2>📊 LAPORAN DAN REKAP DATA DESA ROGA</h2>
+            <p class="laporan-meta">Diperbarui: <span id="waktuLaporan">—</span></p><p class="laporan-meta">Wilayah laporan: <strong id="filterLaporanAktif">Seluruh Desa Roga</strong></p>
+        </div>
+        <div class="laporan-stat-grid">
+            <div class="laporan-stat"><span>Jumlah Kartu Keluarga</span><strong id="rekapJumlahKK">0</strong></div>
+            <div class="laporan-stat"><span>Jumlah Penduduk</span><strong id="rekapJumlahPenduduk">0</strong></div>
+            <div class="laporan-stat"><span>Penduduk Laki-laki</span><strong id="rekapLakiLaki">0</strong></div>
+            <div class="laporan-stat"><span>Penduduk Perempuan</span><strong id="rekapPerempuan">0</strong></div><div class="laporan-stat"><span>Peristiwa Penduduk</span><strong id="rekapJumlahPeristiwa">0</strong></div>
+        </div>
+        <div class="laporan-grid">
+            <div class="laporan-breakdown"><h3>Rekap Jenis Kelamin</h3><div id="rekapJenisKelamin"></div></div>
+            <div class="laporan-breakdown"><h3>Rekap Agama</h3><div id="rekapAgama"></div></div>
+            <div class="laporan-breakdown"><h3>Rekap Pendidikan</h3><div id="rekapPendidikan"></div></div>
+            <div class="laporan-breakdown"><h3>Rekap Pekerjaan</h3><div id="rekapPekerjaan"></div></div>
+            <div class="laporan-breakdown"><h3>Rekap Hubungan Dalam Keluarga</h3><div id="rekapHubungan"></div></div>
+            <div class="laporan-breakdown"><h3>Rekap Status Penduduk</h3><div id="rekapStatusPenduduk"></div></div>
+            <div class="laporan-breakdown"><h3>Rekap Golongan Darah</h3><div id="rekapGolonganDarah"></div></div>
+<div class="laporan-breakdown"><h3>Rekap Peristiwa Penduduk</h3><div id="rekapJenisPeristiwa"></div></div>
+<div class="laporan-breakdown"><h3>Rekap per Dusun / RT / RW</h3><div id="rekapWilayahPenduduk"></div></div>
+        </div>
+    </div>
+</div>
+
+<!-- =====================================================
+     BACKUP DAN PEMULIHAN DATA
+===================================================== -->
+<div id="bagianBackup" class="card">
+    <h2>💾 BACKUP DAN PEMULIHAN DATA</h2>
+    <p class="keterangan">Backup mencakup data KK, anggota keluarga, dan arsip surat. Simpan berkas backup di lokasi yang aman.</p>
+    <div class="buttons">
+        <button type="button" class="btn-green" onclick="buatBackupDataDesa()">⬇️ UNDUH BACKUP DATA</button>
+        <button type="button" class="btn-yellow" onclick="document.getElementById('fileBackupDesa').click()">📂 PULIHKAN DARI BACKUP</button>
+        <input type="file" id="fileBackupDesa" accept=".json,application/json" style="display:none" onchange="pulihkanDataDesa(this)">
+    </div>
+    <p class="laporan-meta">Pemulihan akan mengganti data KK, anggota, dan arsip surat saat ini setelah Sobat menyetujuinya.</p>
+    <div id="pesanBackup" class="status" style="display:none"></div>
+</div></div>
+
+
+
+<!-- =====================================================
+     MODAL LIHAT ANGGOTA
+===================================================== -->
+
+<div id="modalAnggota" class="modal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <h2>👨‍👩‍👧‍👦 ANGGOTA KELUARGA</h2>
+
+            <button
+                class="btn-red"
+                onclick="tutupModal()">
+
+                ✕ TUTUP
+
+            </button>
+
+        </div>
+
+        <hr>
+
+        <div id="isiModalAnggota"></div>
+
+    </div>
+
+</div>
+
+
+
+<footer>
+
+    <div>
+        © 2026 Pemerintah Desa Roga
+    </div>
+
+    <div class="credit">
+        WEBSITE INI TERJAWAB BERKAT KERJA SAMA PEMDES ROGA
+        DENGAN SOBAT CHAT JPT
+    </div>
+
+</footer>
+
+
+
+<script>
+
+/* =====================================================
+   DATABASE UTAMA
+   SATU-SATUNYA LOCALSTORAGE YANG DIGUNAKAN
+===================================================== */
+
+const NAMA_DATABASE = "DATABASE_DESA_ROGA_UTAMA";
+
+
+/* =====================================================
+   AMBIL DATABASE
+===================================================== */
+
+function ambilDatabase(){
+    try{
+        const data = localStorage.getItem(NAMA_DATABASE);
+        if(!data){ return {kk:[], anggota:[], peristiwa:[]}; }
+        const database = JSON.parse(data);
+        if(!database || typeof database !== "object" || Array.isArray(database)){
+            throw new Error("Format database tidak valid.");
+        }
+        if(!Array.isArray(database.kk) || !Array.isArray(database.anggota)){
+            throw new Error("Daftar KK atau anggota tidak valid.");
+        }
+        if(!Array.isArray(database.peristiwa)) database.peristiwa = [];
+        return database;
+    }catch(error){
+        console.error("Gagal membaca database Desa Roga:", error);
+        tampilPesan("Database tidak dapat dibaca. Data tidak akan ditimpa; periksa penyimpanan browser atau pulihkan dari backup.");
+        return {kk:[], anggota:[], peristiwa:[], __gagalBaca:true};
+    }
+}
+function simpanDatabase(database){
+    if(database && database.__gagalBaca){
+        tampilPesan('Database yang terbaca tidak valid. Penyimpanan dibatalkan agar data lama tidak tertimpa.');
+        return false;
+    }
+    try{
+        localStorage.setItem(NAMA_DATABASE, JSON.stringify(database));
+        return true;
+    }catch(error){
+        tampilPesan("Data belum tersimpan. Penyimpanan browser mungkin penuh atau tidak tersedia. Buat backup, lalu coba kembali.");
+        console.error("Gagal menyimpan database Desa Roga:", error);
+        return false;
+    }
+}
+
+
+/* =====================================================
+   PESAN
+===================================================== */
+
+function tampilPesan(teks){
+
+    const pesan = document.getElementById("pesan");
+
+    pesan.innerText = teks;
+
+    pesan.style.display = "block";
+
+    setTimeout(function(){
+
+        pesan.style.display = "none";
+
+    },4000);
+
+}
+
+/* =====================================================
+   FORMAT TANGGAL INDONESIA
+   YYYY-MM-DD → DD/MM/YYYY
+===================================================== */
+
+function formatTanggalIndonesia(tanggal){
+
+    if(!tanggal){
+        return "";
+    }
+
+    const bagian = tanggal.split("-");
+
+    if(bagian.length !== 3){
+        return tanggal;
+    }
+
+    return (
+        bagian[2] + "/" +
+        bagian[1] + "/" +
+        bagian[0]
+    );
+
+}
+
+/* =====================================================
+   DATA BARU
+===================================================== */
+
+function dataBaruKK(){
+
+    document.getElementById("nomorKK").value = "";
+    document.getElementById("namaKepala").value = "";
+    document.getElementById("jkKepala").value = "";
+    document.getElementById("alamat").value = "";
+    document.getElementById("rt").value = "";
+    document.getElementById("rw").value = "";
+    document.getElementById("dusun").value = "";
+
+    document.getElementById("desa").value = "Roga";
+    document.getElementById("kecamatan").value = "Ndona Timur";
+    document.getElementById("kabupaten").value = "Ende";
+
+    document.getElementById("daftarAnggota").innerHTML =
+        '<div class="empty">' +
+        'Belum ada anggota. Klik <b>+ TAMBAH ANGGOTA</b>.' +
+        '</div>';
+
+    tampilPesan("FORM DATA BARU SIAP DIGUNAKAN.");
+
+}
+
+
+/* =====================================================
+   TAMBAH ANGGOTA - 18 DATA
+===================================================== */
+
+const PILIHAN_ANGGOTA = {
+    agama: [
+        "Islam", "Kristen", "Katolik", "Hindu", "Buddha", "Khonghucu",
+        "Penghayat Kepercayaan terhadap Tuhan Yang Maha Esa", "Lainnya"
+    ],
+    pendidikan: [
+        "Tidak/Belum Sekolah",
+        "Tidak Tamat SD/Sederajat",
+        "Tamat SD/Sederajat",
+        "SLTP/Sederajat",
+        "SLTA/Sederajat",
+        "Diploma I/II",
+        "Akademi/Diploma III",
+        "Diploma IV/Strata I",
+        "Strata II",
+        "Strata III"
+    ],
+    pekerjaan: [
+        "Belum/Tidak Bekerja",
+        "Mengurus Rumah Tangga",
+        "Pelajar/Mahasiswa",
+        "Pensiunan",
+        "Pegawai Negeri Sipil",
+        "Tentara Nasional Indonesia",
+        "Kepolisian RI",
+        "Karyawan Swasta",
+        "Karyawan BUMN",
+        "Karyawan BUMD",
+        "Karyawan Honorer",
+        "Perangkat Desa",
+        "Kepala Desa",
+        "Petani/Pekebun",
+        "Peternak",
+        "Nelayan/Perikanan",
+        "Buruh Tani/Perkebunan",
+        "Buruh Nelayan/Perikanan",
+        "Buruh Harian Lepas",
+        "Pedagang",
+        "Wiraswasta",
+        "Perdagangan",
+        "Industri",
+        "Konstruksi",
+        "Transportasi",
+        "Guru",
+        "Dosen",
+        "Dokter",
+        "Bidan",
+        "Perawat",
+        "Apoteker",
+        "Tukang",
+        "Mekanik",
+        "Sopir",
+        "Seniman",
+        "Rohaniwan",
+        "Juru Masak",
+        "Wartawan",
+        "Lainnya"
+    ],
+    darah: [
+        "A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-", "Tidak Tahu"
+    ]
+};
+
+function buatSelectAnggota(kelas, petunjuk, pilihan, nilai){
+    const nilaiAktif = String(nilai || "").trim();
+    let html = '<select class="' + kelas + '"><option value="">' + petunjuk + '</option>';
+
+    pilihan.forEach(function(item){
+        const aman = escapeHTML(item);
+        const terpilih = item === nilaiAktif ? " selected" : "";
+        html += '<option value="' + aman + '"' + terpilih + '>' + aman + '</option>';
+    });
+
+    if(nilaiAktif && !pilihan.includes(nilaiAktif)){
+        const aman = escapeHTML(nilaiAktif);
+        html += '<option value="' + aman + '" selected>' + aman + '</option>';
+    }
+
+    return html + '</select>';
+}
+function tambahAnggota(){
+
+    const daftar =
+        document.getElementById("daftarAnggota");
+
+    if(!daftar){
+
+        alert("Kolom daftar anggota tidak ditemukan.");
+
+        return;
+    }
+
+
+    /* Hapus pesan "Belum ada anggota" */
+
+    const kosong =
+        daftar.querySelector(".empty");
+
+    if(kosong){
+        kosong.remove();
+    }
+
+
+    /* Buat form anggota */
+
+    const form =
+        document.createElement("div");
+
+    form.className = "anggota-form";
+
+    form.style.marginTop = "15px";
+    form.style.padding = "15px";
+    form.style.border = "1px solid #ccc";
+    form.style.borderRadius = "10px";
+    form.style.background = "#f9f9f9";
+
+
+    form.innerHTML = `
+
+        <h3>👤 DATA ANGGOTA KELUARGA</h3>
+
+        <div class="grid-form">
+
+            <input type="text"
+                class="f-nik"
+                placeholder="NIK">
+
+            <input type="text"
+                class="f-nama"
+                placeholder="Nama Lengkap">
+
+            <select class="f-jk">
+                <option value="">Jenis Kelamin</option>
+                <option value="Laki-laki">Laki-laki</option>
+                <option value="Perempuan">Perempuan</option>
+            </select>
+
+            <input type="text"
+                class="f-tempat"
+                placeholder="Tempat Lahir">
+
+            <input
+    type="text"
+    class="f-tanggal"
+    placeholder="DD/MM/YYYY"
+    maxlength="10"
+    autocomplete="off"
+    oninput="formatInputTanggal(this)">
+
+            ${buatSelectAnggota("f-agama","Pilih Agama/Kepercayaan",PILIHAN_ANGGOTA.agama,"")}
+
+            ${buatSelectAnggota("f-pendidikan","Pilih Pendidikan",PILIHAN_ANGGOTA.pendidikan,"")}
+
+            ${buatSelectAnggota("f-pekerjaan","Pilih Pekerjaan",PILIHAN_ANGGOTA.pekerjaan,"")}
+
+            <select class="f-kawin">
+                <option value="">Status Perkawinan</option>
+                <option value="Belum Kawin">Belum Kawin</option>
+                <option value="Kawin">Kawin</option>
+                <option value="Cerai Hidup">Cerai Hidup</option>
+                <option value="Cerai Mati">Cerai Mati</option>
+            </select>
+
+            <select class="f-hubungan">
+                <option value="">Hubungan Dalam Keluarga</option>
+                <option value="Kepala Keluarga">Kepala Keluarga</option>
+                <option value="Istri">Istri</option>
+                <option value="Anak">Anak</option>
+                <option value="Orang Tua">Orang Tua</option>
+                <option value="Famili Lain">Famili Lain</option>
+            </select>
+
+            <input type="text"
+                class="f-statushubungan"
+                placeholder="Status Hubungan">
+
+            ${buatSelectAnggota("f-darah","Pilih Golongan Darah",PILIHAN_ANGGOTA.darah,"")}
+
+            <input type="text"
+                class="f-wn"
+                placeholder="Kewarganegaraan">
+
+            <input type="text"
+                class="f-paspor"
+                placeholder="Nomor Paspor">
+
+            <input type="text"
+                class="f-kitas"
+                placeholder="Nomor KITAS/KITAP">
+
+            <input type="text"
+                class="f-ayah"
+                placeholder="Nama Ayah">
+
+            <input type="text"
+                class="f-ibu"
+                placeholder="Nama Ibu">
+
+            <select class="f-statuspenduduk">
+                <option value="">Status Penduduk</option>
+                <option value="Tetap">Tetap</option>
+                <option value="Pendatang">Pendatang</option>
+                <option value="Pindah">Pindah</option>
+                <option value="Meninggal">Meninggal</option>
+            </select>
+
+        </div>
+
+        <br>
+
+        <button type="button"
+            onclick="simpanAnggotaForm(this)"
+            class="btn-green">
+            💾 SIMPAN DATA ANGGOTA
+        </button>
+
+        <button type="button"
+            onclick="this.parentElement.remove()"
+            class="btn-red">
+            🗑️ HAPUS
+        </button>
+
+    `;
+
+
+    daftar.appendChild(form);
+
+    form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+}
+
+/* =====================================================
+   SIMPAN ANGGOTA PADA FORM
+===================================================== */
+
+function ambilDataFormAnggota(form){
+    const nilai = function(selector){
+        const elemen = form.querySelector(selector);
+        return elemen ? elemen.value.trim() : "";
+    };
+
+    return {
+        nik: nilai(".f-nik"),
+        nama: nilai(".f-nama"),
+        jk: nilai(".f-jk"),
+        tempat: nilai(".f-tempat"),
+        tanggal: nilai(".f-tanggal"),
+        agama: nilai(".f-agama"),
+        pendidikan: nilai(".f-pendidikan"),
+        pekerjaan: nilai(".f-pekerjaan"),
+        kawin: nilai(".f-kawin"),
+        hubungan: nilai(".f-hubungan"),
+        statushubungan: nilai(".f-statushubungan"),
+        darah: nilai(".f-darah"),
+        wn: nilai(".f-wn"),
+        paspor: nilai(".f-paspor"),
+        kitas: nilai(".f-kitas"),
+        ayah: nilai(".f-ayah"),
+        ibu: nilai(".f-ibu"),
+        statuspenduduk: nilai(".f-statuspenduduk")
+    };
+}
+
+function formatInputTanggal(input){
+    const angka = input.value.replace(/\D/g, "").slice(0, 8);
+    let hasil = angka;
+
+    if(angka.length > 4){
+        hasil = angka.slice(0, 2) + "/" + angka.slice(2, 4) + "/" + angka.slice(4);
+    }else if(angka.length > 2){
+        hasil = angka.slice(0, 2) + "/" + angka.slice(2);
+    }
+
+    input.value = hasil;
+}
+function simpanAnggotaForm(tombol){
+
+    const form =
+        tombol.closest(".anggota-form, .form-anggota-baru");
+
+    if(!form){
+
+        alert("FORM ANGGOTA TIDAK DITEMUKAN.");
+
+        return;
+
+    }
+
+    const anggota =
+        ambilDataFormAnggota(form);
+
+    if(anggota.nik === ""){
+
+        alert("NIK anggota wajib diisi.");
+
+        form.querySelector(".f-nik").focus();
+
+        return;
+
+    }
+
+    if(anggota.nama === ""){
+
+        alert("Nama Lengkap anggota wajib diisi.");
+
+        form.querySelector(".f-nama").focus();
+
+        return;
+
+    }
+
+    /*
+       Data disimpan sementara pada form.
+       Penyimpanan permanen dilakukan oleh SIMPAN DATA KK.
+    */
+
+    form.dataset.data =
+        JSON.stringify(anggota);
+
+    form.dataset.siap =
+        "true";
+
+    tombol.innerHTML =
+        "✓ ANGGOTA SIAP DISIMPAN";
+
+    tombol.style.background =
+        "#198754";
+
+    tampilPesan(
+        "DATA ANGGOTA BERHASIL DISIAPKAN."
+    );
+
+}
+
+
+/* =====================================================
+   HAPUS FORM ANGGOTA
+===================================================== */
+
+function hapusAnggotaForm(tombol){
+
+    const form =
+        tombol.closest(".anggota-form");
+
+    if(!form){
+        return;
+    }
+
+    if(
+        confirm(
+            "Hapus form anggota ini?"
+        )
+    ){
+
+        form.remove();
+
+        nomorUlangAnggota();
+
+    }
+
+}
+
+
+/* =====================================================
+   NOMOR ULANG ANGGOTA
+===================================================== */
+
+function nomorUlangAnggota(){
+
+    const semua =
+        document.querySelectorAll(
+            "#daftarAnggota .anggota-form"
+        );
+
+    semua.forEach(function(form,index){
+
+        form.dataset.nomor =
+            index + 1;
+
+        const judul =
+            form.querySelector("h3");
+
+        if(judul){
+
+            judul.innerText =
+                "ANGGOTA KELUARGA " + (index + 1);
+
+        }
+
+    });
+
+    if(semua.length === 0){
+
+        document.getElementById(
+            "daftarAnggota"
+        ).innerHTML =
+            '<div class="empty">' +
+            'Belum ada anggota. ' +
+            'Klik <b>+ TAMBAH ANGGOTA</b>.' +
+            '</div>';
+
+    }
+
+}
+
+
+/* =====================================================
+   SIMPAN DATA KK
+===================================================== */
+
+function simpanKK(){
+
+    const nomorKK =
+        document.getElementById("nomorKK").value.trim();
+
+    const namaKepala =
+        document.getElementById("namaKepala").value.trim();
+
+    if(nomorKK === ""){
+
+        alert("Nomor KK wajib diisi.");
+
+        return;
+
+    }
+
+    if(namaKepala === ""){
+
+        alert("Nama Kepala Keluarga wajib diisi.");
+
+        return;
+
+    }
+
+
+    const database =
+        ambilDatabase();
+
+
+    /*
+       Cari KK berdasarkan Nomor KK.
+       Jika ada = EDIT.
+       Jika belum ada = DATA BARU.
+    */
+
+    let kk =
+        database.kk.find(
+            item => String(item.nomorKK || "") === String(nomorKK || "")
+        );
+
+
+    if(!kk){
+
+        kk = {
+
+            id:
+                Date.now().toString(),
+
+            nomorKK:
+                nomorKK,
+
+            namaKepala:
+                namaKepala,
+
+            jkKepala:
+                document.getElementById("jkKepala").value,
+
+            alamat:
+                document.getElementById("alamat").value.trim(),
+
+            rt:
+                document.getElementById("rt").value.trim(),
+
+            rw:
+                document.getElementById("rw").value.trim(),
+
+            dusun:
+                document.getElementById("dusun").value.trim(),
+
+            desa:
+                document.getElementById("desa").value.trim(),
+
+            kecamatan:
+                document.getElementById("kecamatan").value.trim(),
+
+            kabupaten:
+                document.getElementById("kabupaten").value.trim(),
+
+            tanggalSimpan:
+                new Date().toLocaleString("id-ID")
+
+        };
+
+        database.kk.push(kk);
+
+    }else{
+
+        kk.namaKepala =
+            namaKepala;
+
+        kk.jkKepala =
+            document.getElementById("jkKepala").value;
+
+        kk.alamat =
+            document.getElementById("alamat").value.trim();
+
+        kk.rt =
+            document.getElementById("rt").value.trim();
+
+        kk.rw =
+            document.getElementById("rw").value.trim();
+
+        kk.dusun =
+            document.getElementById("dusun").value.trim();
+
+        kk.desa =
+            document.getElementById("desa").value.trim();
+
+        kk.kecamatan =
+            document.getElementById("kecamatan").value.trim();
+
+        kk.kabupaten =
+            document.getElementById("kabupaten").value.trim();
+
+    }
+
+
+    /* =================================================
+       SIMPAN ANGGOTA KE DATABASE
+    ================================================= */
+
+    const semuaForm =
+        document.querySelectorAll(
+            "#daftarAnggota .anggota-form"
+        );
+
+
+    /*
+       Hapus anggota lama dari KK ini.
+       Kemudian masukkan anggota yang ada di form.
+       Dengan demikian EDIT tidak menghasilkan data ganda.
+    */
+
+    const anggotaSebelumnya = database.anggota.filter(function(item){
+        return String(item.nomorKK || "") === String(nomorKK || "");
+    });
+
+    database.anggota =
+        database.anggota.filter(
+            item => String(item.nomorKK || "") !== String(nomorKK || "")
+        );
+
+
+    let jumlah =
+        0;
+
+
+    semuaForm.forEach(function(form){
+
+        // Selalu baca nilai terbaru yang tampak di form agar edit terakhir tidak tertimpa snapshot lama.
+        const anggota = ambilDataFormAnggota(form);
+
+
+        if(
+            anggota.nik !== "" &&
+            anggota.nama !== ""
+        ){
+
+            const anggotaLama = anggotaSebelumnya.find(function(item){
+                return String(item.nik || "") === String(anggota.nik || "");
+            });
+
+            database.anggota.push({
+
+                id:
+                    String((anggotaLama && anggotaLama.id) || (Date.now().toString() + Math.random().toString(36).substring(2))),
+
+                nomorKK:
+                    nomorKK,
+
+                nik:
+                    anggota.nik,
+
+                nama:
+                    anggota.nama,
+
+                jk:
+                    anggota.jk,
+
+                tempat:
+                    anggota.tempat,
+
+                tanggal:
+                    anggota.tanggal,
+
+                agama:
+                    anggota.agama,
+
+                pendidikan:
+                    anggota.pendidikan,
+
+                pekerjaan:
+                    anggota.pekerjaan,
+
+                kawin:
+                    anggota.kawin,
+
+                hubungan:
+                    anggota.hubungan,
+
+                statushubungan:
+                    anggota.statushubungan,
+
+                darah:
+                    anggota.darah,
+
+                wn:
+                    anggota.wn,
+
+                paspor:
+                    anggota.paspor,
+
+                kitas:
+                    anggota.kitas,
+
+                ayah:
+                    anggota.ayah,
+
+                ibu:
+                    anggota.ibu,
+
+                statuspenduduk:
+                    anggota.statuspenduduk
+
+            });
+
+            jumlah++;
+
+        }
+
+    });
+
+
+    /* =================================================
+       SIMPAN SATU DATABASE
+    ================================================= */
+
+    if(!simpanDatabase(database)){
+        return;
+    }
+
+
+    tampilkanTabelKK();
+
+    tampilkanTabelAnggota();
+
+
+    tampilPesan(
+        "DATA KK DAN " +
+        jumlah +
+        " ANGGOTA BERHASIL DISIMPAN."
+    );
+
+    alert(
+        "DATA KK BERHASIL DISIMPAN.\n\n" +
+        "Nomor KK: " + nomorKK +
+        "\nKepala Keluarga: " + namaKepala +
+        "\nJumlah Anggota: " + jumlah
+    );
+
+    document.getElementById("tabelAnggota").scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+
+}
+
+
+/* =====================================================
+   TAMPILKAN TABEL KK
+===================================================== */
+
+function tampilkanTabelKK(){
+
+    const database =
+        ambilDatabase();
+
+    const tbody =
+        document.getElementById("tabelKK");
+
+    const pencarian =
+        document.getElementById("cariKK")
+        .value
+        .toLowerCase()
+        .trim();
+
+
+    const data =
+        database.kk.filter(function(kk){
+
+            return (
+
+                String(kk.nomorKK || "").toLowerCase()
+                .includes(pencarian)
+
+                ||
+
+                String(kk.namaKepala || "").toLowerCase()
+                .includes(pencarian)
+
+            );
+
+        });
+
+
+    if(data.length === 0){
+
+        tbody.innerHTML =
+            '<tr><td colspan="6" class="empty">' +
+            'Belum ada data KK tersimpan.' +
+            '</td></tr>';
+
+        return;
+
+    }
+
+
+    tbody.innerHTML = "";
+
+
+    data.forEach(function(kk,index){
+
+        const jumlah =
+            database.anggota.filter(
+                item =>
+                    String(item.nomorKK || "") === String(kk.nomorKK || "")
+            ).length;
+
+
+        const tr =
+            document.createElement("tr");
+
+
+        tr.innerHTML = `
+
+            <td>${index + 1}</td>
+
+            <td>${escapeHTML(kk.nomorKK)}</td>
+
+            <td>${escapeHTML(kk.namaKepala)}</td>
+
+            <td>
+                ${escapeHTML(kk.alamat || "")}
+            </td>
+
+            <td>${jumlah}</td>
+
+            <td>
+
+                <button
+                    class="btn-blue"
+                    onclick="lihatAnggota('${escapeJS(kk.nomorKK)}')">
+
+                    👁️ LIHAT ANGGOTA
+
+                </button>
+
+                <button
+                    class="btn-yellow"
+                    onclick="editKK('${escapeJS(kk.nomorKK)}')">
+
+                    ✏️ EDIT
+
+                </button>
+
+                <button
+                    class="btn-red"
+                    onclick="hapusKK('${escapeJS(kk.nomorKK)}')">
+
+                    🗑️ HAPUS
+
+                </button>
+
+            </td>
+
+        `;
+
+        tbody.appendChild(tr);
+
+    });
+
+}
+
+
+/* =====================================================
+   TAMPILKAN TABEL ANGGOTA
+===================================================== */
+
+function tampilkanTabelAnggota(){
+
+    const database =
+        ambilDatabase();
+
+    const tbody =
+        document.getElementById("tabelAnggota");
+
+    const pencarian =
+        document.getElementById("cariAnggota")
+        .value
+        .toLowerCase()
+        .trim();
+
+
+    const data =
+        database.anggota.filter(function(a){
+
+            return (
+
+                String(a.nik || "").toLowerCase()
+                .includes(pencarian)
+
+                ||
+
+                String(a.nama || "").toLowerCase()
+                .includes(pencarian)
+
+                ||
+
+                String(a.nomorKK || "").toLowerCase()
+                .includes(pencarian)
+
+            );
+
+        });
+
+
+    if(data.length === 0){
+
+        tbody.innerHTML =
+            '<tr><td colspan="8" class="empty">' +
+            'Belum ada anggota tersimpan.' +
+            '</td></tr>';
+
+        return;
+
+    }
+
+
+    tbody.innerHTML = "";
+
+
+    data.forEach(function(a,index){
+
+        const tr =
+            document.createElement("tr");
+
+
+        tr.innerHTML = `
+
+            <td>${index + 1}</td>
+
+            <td>${escapeHTML(a.nomorKK)}</td>
+
+            <td>${escapeHTML(a.nik)}</td>
+
+            <td>${escapeHTML(a.nama)}</td>
+
+            <td>${escapeHTML(a.jk)}</td>
+
+            <td>
+                ${escapeHTML(a.tempat)}
+                /
+                ${escapeHTML(formatTanggalIndonesia(a.tanggal))}
+            </td>
+
+            <td>${escapeHTML(a.hubungan)}</td>
+
+            <td>
+
+                <button
+                    class="btn-yellow"
+                    onclick="editAnggota('${escapeJS(a.id)}')">
+
+                    ✏️ EDIT
+
+                </button>
+
+                <button
+                    class="btn-red"
+                    onclick="hapusAnggota('${escapeJS(a.id)}')">
+
+                    🗑️ HAPUS
+
+                </button>
+
+            </td>
+
+        `;
+
+        tbody.appendChild(tr);
+
+    });
+
+}
+
+
+/* =====================================================
+   LIHAT ANGGOTA
+===================================================== */
+
+function lihatAnggota(nomorKK){
+
+    const database =
+        ambilDatabase();
+
+    const kk =
+        database.kk.find(
+            item => String(item.nomorKK || "") === String(nomorKK || "")
+        );
+
+
+    const anggota =
+        database.anggota.filter(
+            item => String(item.nomorKK || "") === String(nomorKK || "")
+        );
+
+
+    const isi =
+        document.getElementById(
+            "isiModalAnggota"
+        );
+
+
+    let html = "";
+
+
+    if(kk){
+
+        html += `
+
+            <div class="keterangan">
+
+                <b>Nomor KK:</b>
+                ${escapeHTML(kk.nomorKK)}
+                <br>
+
+                <b>Kepala Keluarga:</b>
+                ${escapeHTML(kk.namaKepala)}
+                <br>
+
+                <b>Alamat:</b>
+                ${escapeHTML(kk.alamat || "")}
+
+            </div>
+
+        `;
+
+    }
+
+
+    if(anggota.length === 0){
+
+        html +=
+            '<div class="empty">' +
+            'Belum ada anggota untuk KK ini.' +
+            '</div>';
+
+    }else{
+
+        html += `
+
+            <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>No</th>
+                        <th>NIK</th>
+                        <th>Nama</th>
+                        <th>JK</th>
+                        <th>Tempat Lahir</th>
+                        <th>Tanggal Lahir</th>
+                        <th>Agama</th>
+                        <th>Pendidikan</th>
+                        <th>Pekerjaan</th>
+                        <th>Hubungan</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+        `;
+
+
+        anggota.forEach(function(a,index){
+
+            html += `
+
+                <tr>
+
+                    <td>${index + 1}</td>
+
+                    <td>${escapeHTML(a.nik)}</td>
+
+                    <td>${escapeHTML(a.nama)}</td>
+
+                    <td>${escapeHTML(a.jk)}</td>
+
+                    <td>${escapeHTML(a.tempat)}</td>
+
+                    <td>${escapeHTML(a.tanggal)}</td>
+
+                    <td>${escapeHTML(a.agama)}</td>
+
+                    <td>${escapeHTML(a.pendidikan)}</td>
+
+                    <td>${escapeHTML(a.pekerjaan)}</td>
+
+                    <td>${escapeHTML(a.hubungan)}</td>
+
+                </tr>
+
+            `;
+
+        });
+
+
+        html += `
+
+                </tbody>
+
+            </table>
+
+            </div>
+
+        `;
+
+    }
+
+
+    isi.innerHTML =
+        html;
+
+
+    document.getElementById(
+        "modalAnggota"
+    ).style.display = "block";
+
+}
+
+
+/* =====================================================
+   TUTUP MODAL
+===================================================== */
+
+function tutupModal(){
+
+    document.getElementById(
+        "modalAnggota"
+    ).style.display = "none";
+
+}
+
+
+/* =====================================================
+   EDIT KK
+===================================================== */
+
+function editKK(nomorKK){
+
+    const database =
+        ambilDatabase();
+
+    const kk =
+        database.kk.find(
+            item => String(item.nomorKK || "") === String(nomorKK || "")
+        );
+
+
+    if(!kk){
+
+        alert("Data KK tidak ditemukan.");
+
+        return;
+
+    }
+
+
+    document.getElementById("nomorKK").value =
+        kk.nomorKK;
+
+    document.getElementById("namaKepala").value =
+        kk.namaKepala;
+
+    document.getElementById("jkKepala").value =
+        kk.jkKepala || "";
+
+    document.getElementById("alamat").value =
+        kk.alamat || "";
+
+    document.getElementById("rt").value =
+        normalisasiNomorWilayah(kk.rt);
+
+    document.getElementById("rw").value =
+        normalisasiNomorWilayah(kk.rw);
+
+    document.getElementById("dusun").value =
+        kk.dusun || "";
+
+    document.getElementById("desa").value =
+        kk.desa || "Roga";
+
+    document.getElementById("kecamatan").value =
+        kk.kecamatan || "Ndona Timur";
+
+    document.getElementById("kabupaten").value =
+        kk.kabupaten || "Ende";
+
+
+    const anggota =
+        database.anggota.filter(
+            item => String(item.nomorKK || "") === String(nomorKK || "")
+        );
+
+
+    const daftar =
+        document.getElementById(
+            "daftarAnggota"
+        );
+
+    daftar.innerHTML = "";
+
+
+    if(anggota.length === 0){
+
+        daftar.innerHTML =
+            '<div class="empty">' +
+            'Belum ada anggota.' +
+            '</div>';
+
+    }else{
+
+        anggota.forEach(function(a){
+
+            buatFormDariData(a);
+
+        });
+
+    }
+
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+
+    tampilPesan(
+        "DATA KK DIBUKA UNTUK EDIT."
+    );
+
+}
+
+
+/* =====================================================
+   BUAT FORM DARI DATA ANGGOTA
+   FORMAT TANGGAL : DD/MM/YYYY
+===================================================== */
+
+function buatFormDariData(a){
+
+    const daftar =
+        document.getElementById("daftarAnggota");
+
+
+    const nomor =
+        daftar.querySelectorAll(".anggota-form").length + 1;
+
+
+    const form =
+        document.createElement("div");
+
+    form.className =
+    "anggota-form";
+
+
+    /* =================================================
+       UBAH TANGGAL DATABASE KE FORMAT DD/MM/YYYY
+    ================================================= */
+
+    let tanggalTampil = a.tanggal || "";
+
+    if(tanggalTampil){
+
+        /* Jika data lama masih YYYY-MM-DD */
+        if(/^\d{4}-\d{2}-\d{2}$/.test(tanggalTampil)){
+
+            const bagian =
+                tanggalTampil.split("-");
+
+            tanggalTampil =
+                bagian[2] + "/" +
+                bagian[1] + "/" +
+                bagian[0];
+
+        }
+
+    }
+
+
+    form.innerHTML = `
+
+        <div class="anggota-header">
+
+            <h3>
+                ANGGOTA KELUARGA ${nomor}
+            </h3>
+
+            <button
+                type="button"
+                class="btn-red"
+                onclick="hapusAnggotaForm(this)">
+
+                🗑️ HAPUS
+
+            </button>
+
+        </div>
+
+
+        <div class="form-grid">
+
+            <div class="form-group">
+                <label>1. NIK</label>
+                <input
+                    class="f-nik"
+                    value="${escapeHTML(a.nik || "")}">
+            </div>
+
+
+            <div class="form-group">
+                <label>2. Nama Lengkap</label>
+                <input
+                    class="f-nama"
+                    value="${escapeHTML(a.nama || "")}">
+            </div>
+
+
+            <div class="form-group">
+                <label>3. Jenis Kelamin</label>
+
+                <select class="f-jk">
+
+                    <option value="">-- Pilih --</option>
+
+                    <option value="Laki-laki"
+                        ${a.jk==="Laki-laki"?"selected":""}>
+                        Laki-laki
+                    </option>
+
+                    <option value="Perempuan"
+                        ${a.jk==="Perempuan"?"selected":""}>
+                        Perempuan
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+                <label>4. Tempat Lahir</label>
+
+                <input
+                    class="f-tempat"
+                    value="${escapeHTML(a.tempat || "")}">
+            </div>
+
+
+            <div class="form-group">
+
+                <label>5. Tanggal Lahir</label>
+
+                <input
+                    type="text"
+                    class="f-tanggal"
+                    placeholder="DD/MM/YYYY"
+                    maxlength="10"
+                    value="${escapeHTML(tanggalTampil)}"
+                    oninput="formatInputTanggal(this)">
+
+            </div>
+
+
+            <div class="form-group">
+                <label>6. Agama</label>
+
+                ${buatSelectAnggota("f-agama","Pilih Agama/Kepercayaan",PILIHAN_ANGGOTA.agama,a.agama || "")}
+            </div>
+
+
+            <div class="form-group">
+                <label>7. Pendidikan</label>
+
+                ${buatSelectAnggota("f-pendidikan","Pilih Pendidikan",PILIHAN_ANGGOTA.pendidikan,a.pendidikan || "")}
+            </div>
+
+
+            <div class="form-group">
+                <label>8. Pekerjaan</label>
+
+                ${buatSelectAnggota("f-pekerjaan","Pilih Pekerjaan",PILIHAN_ANGGOTA.pekerjaan,a.pekerjaan || "")}
+            </div>
+
+
+            <div class="form-group">
+                <label>9. Status Perkawinan</label>
+
+                <input
+                    class="f-kawin"
+                    value="${escapeHTML(a.kawin || "")}">
+            </div>
+
+
+            <div class="form-group">
+                <label>10. Hubungan Dalam Keluarga</label>
+
+                <input
+                    class="f-hubungan"
+                    value="${escapeHTML(a.hubungan || "")}">
+            </div>
+
+
+            <div class="form-group">
+                <label>11. Status Hubungan</label>
+
+                <input
+                    class="f-statushubungan"
+                    value="${escapeHTML(a.statushubungan || "")}">
+            </div>
+
+
+            <div class="form-group">
+                <label>12. Golongan Darah</label>
+
+                ${buatSelectAnggota("f-darah","Pilih Golongan Darah",PILIHAN_ANGGOTA.darah,a.darah || "")}
+            </div>
+
+
+            <div class="form-group">
+                <label>13. Kewarganegaraan</label>
+
+                <input
+                    class="f-wn"
+                    value="${escapeHTML(a.wn || "")}">
+            </div>
+
+
+            <div class="form-group">
+                <label>14. Nomor Paspor</label>
+
+                <input
+                    class="f-paspor"
+                    value="${escapeHTML(a.paspor || "")}">
+            </div>
+
+
+            <div class="form-group">
+                <label>15. Nomor KITAS/KITAP</label>
+
+                <input
+                    class="f-kitas"
+                    value="${escapeHTML(a.kitas || "")}">
+            </div>
+
+
+            <div class="form-group">
+                <label>16. Nama Ayah</label>
+
+                <input
+                    class="f-ayah"
+                    value="${escapeHTML(a.ayah || "")}">
+            </div>
+
+
+            <div class="form-group">
+                <label>17. Nama Ibu</label>
+
+                <input
+                    class="f-ibu"
+                    value="${escapeHTML(a.ibu || "")}">
+            </div>
+
+
+            <div class="form-group">
+                <label>18. Status Penduduk</label>
+
+                <input
+                    class="f-statuspenduduk"
+                    value="${escapeHTML(a.statuspenduduk || "")}">
+            </div>
+
+        </div>
+
+
+        <div class="buttons">
+
+            <button
+                type="button"
+                class="btn-green"
+                onclick="simpanAnggotaForm(this)">
+
+                ✓ DATA ANGGOTA
+
+            </button>
+
+        </div>
+
+    `;
+
+
+    daftar.appendChild(form);
+
+}
+/* =====================================================
+   FORMAT TANGGAL INDONESIA
+   Mendukung:
+   YYYY-MM-DD
+   DD/MM/YYYY
+===================================================== */
+
+function formatTanggalIndonesia(tanggal){
+
+    if(!tanggal){
+        return "";
+    }
+
+    tanggal = String(tanggal).trim();
+
+    /* Jika sudah DD/MM/YYYY */
+    if(/^\d{2}\/\d{2}\/\d{4}$/.test(tanggal)){
+        return tanggal;
+    }
+
+    /* Jika YYYY-MM-DD */
+    if(/^\d{4}-\d{2}-\d{2}$/.test(tanggal)){
+
+        const bagian = tanggal.split("-");
+
+        return (
+            bagian[2] + "/" +
+            bagian[1] + "/" +
+            bagian[0]
+        );
+    }
+
+    return tanggal;
+}
+/* =====================================================
+   EDIT ANGGOTA
+===================================================== */
+
+function editAnggota(id){
+
+    const database =
+        ambilDatabase();
+
+    const anggota =
+        database.anggota.find(
+            item => String(item.id || "") === String(id || "")
+        );
+
+
+    if(!anggota){
+
+        alert("Data anggota tidak ditemukan.");
+
+        return;
+
+    }
+
+
+    editKK(
+        anggota.nomorKK
+    );
+
+}
+
+
+/* =====================================================
+   HAPUS KK
+===================================================== */
+
+function hapusKK(nomorKK){
+
+    if(
+        !confirm(
+            "Hapus KK dan seluruh anggota dalam KK ini?"
+        )
+    ){
+
+        return;
+
+    }
+
+
+    const database =
+        ambilDatabase();
+
+
+    database.kk =
+        database.kk.filter(
+            item => String(item.nomorKK || "") !== String(nomorKK || "")
+        );
+
+
+    database.anggota =
+        database.anggota.filter(
+            item => String(item.nomorKK || "") !== String(nomorKK || "")
+        );
+
+
+    if(!simpanDatabase(database)){
+        return;
+    }
+
+
+    tampilkanTabelKK();
+
+    tampilkanTabelAnggota();
+
+
+    tampilPesan(
+        "DATA KK DAN ANGGOTANYA BERHASIL DIHAPUS."
+    );
+
+}
+
+
+/* =====================================================
+   HAPUS ANGGOTA
+===================================================== */
+
+function hapusAnggota(id){
+
+    if(
+        !confirm(
+            "Hapus anggota ini?"
+        )
+    ){
+
+        return;
+
+    }
+
+
+    const database =
+        ambilDatabase();
+
+
+    database.anggota =
+        database.anggota.filter(
+            item => String(item.id || "") !== String(id || "")
+        );
+
+
+    if(!simpanDatabase(database)){
+        return;
+    }
+
+
+    tampilkanTabelKK();
+
+    tampilkanTabelAnggota();
+
+
+    tampilPesan(
+        "DATA ANGGOTA BERHASIL DIHAPUS."
+    );
+
+}
+
+
+/* =====================================================
+   BUKA DATA PENDUDUK
+===================================================== */
+
+function bukaDataPenduduk(){
+
+    tampilkanTabelKK();
+
+    tampilkanTabelAnggota();
+
+
+    document.getElementById("tabelKK").closest(".card").scrollIntoView({
+        behavior:"smooth"
+    });
+
+}
+
+
+/* =====================================================
+   LAPORAN DAN REKAP DATA DESA
+===================================================== */
+
+function buatTabelRekap(data,kunci){
+    const kelompok = new Map();
+
+    data.forEach(function(item){
+        const nilai = String(item && item[kunci] || "").trim() || "Belum diisi";
+        const key = nilai.toLocaleLowerCase("id-ID");
+        if(!kelompok.has(key)) kelompok.set(key,{label:nilai,jumlah:0});
+        kelompok.get(key).jumlah++;
+    });
+
+    if(kelompok.size === 0){
+        return '<p class="empty">Belum ada data tersimpan.</p>';
+    }
+
+    const baris = Array.from(kelompok.values()).sort(function(a,b){
+        return b.jumlah-a.jumlah || a.label.localeCompare(b.label,"id-ID");
+    }).map(function(item){
+        return "<tr><td>"+escapeHTML(item.label)+"</td><td>"+item.jumlah+"</td></tr>";
+    }).join("");
+
+    return '<table><thead><tr><th>Kategori</th><th>Jumlah</th></tr></thead><tbody>'+baris+'</tbody></table>';
+}
+
+function normalisasiNomorWilayah(nilai){
+    const teks = String(nilai || "").trim();
+    if(!teks) return "";
+    const angka = teks.replace(/\D/g,"");
+    if(!angka) return teks;
+    const nomor = parseInt(angka,10);
+    return Number.isNaN(nomor) ? teks : String(nomor).padStart(3,"0");
+}
+
+function isiPilihanFilterWilayah(daftarKK,idSelect,kunci,label){
+    const select = document.getElementById(idSelect);
+    const nilaiSebelumnya = select.value;
+    const nilaiUnik = new Map();
+    function tambah(value,teks){
+        const key=value.toLocaleLowerCase("id-ID");
+        if(!nilaiUnik.has(key)) nilaiUnik.set(key,{value:value,label:teks});
+    }
+
+    if(kunci === "dusun"){
+        [
+            {value:"Aegomo",label:"DUSUN AEGOMO"},
+            {value:"Dekotonga",label:"DUSUN DEKOTONGA"},
+            {value:"Roga",label:"DUSUN ROGA"},
+            {value:"Toba",label:"DUSUN TOBA"}
+        ].forEach(function(item){tambah(item.value,item.label);});
+    }else if(kunci === "rt"){
+        for(let i=1;i<=20;i++){
+            const value=String(i).padStart(3,"0");
+            tambah(value,"RT "+value);
+        }
+    }else if(kunci === "rw"){
+        for(let i=1;i<=9;i++){
+            const value=String(i).padStart(3,"0");
+            tambah(value,"RW "+value);
+        }
+    }
+
+    daftarKK.forEach(function(kk){
+        const mentah=String(kk && kk[kunci] || "").trim();
+        if(!mentah){
+            tambah("__KOSONG__","Belum diisi");
+            return;
+        }
+        const value=(kunci === "rt" || kunci === "rw") ? normalisasiNomorWilayah(mentah) : mentah;
+        const teks=(kunci === "rt" || kunci === "rw") ? label+" "+value : value;
+        tambah(value,teks);
+    });
+
+    const pilihan=Array.from(nilaiUnik.values()).sort(function(a,b){
+        return a.label.localeCompare(b.label,"id-ID");
+    });
+    select.innerHTML='<option value="">Semua '+label+'</option>'+pilihan.map(function(item){
+        return '<option value="'+escapeHTML(item.value)+'">'+escapeHTML(item.label)+'</option>';
+    }).join("");
+
+    if(Array.from(select.options).some(function(option){return option.value===nilaiSebelumnya;})){
+        select.value=nilaiSebelumnya;
+    }else{
+        select.value="";
+    }
+}
+
+function cocokFilterWilayah(kk,kunci,filter){
+    if(!filter) return true;
+    const nilai=String(kk && kk[kunci] || "").trim();
+    if(filter === "__KOSONG__") return nilai === "";
+    if(kunci === "rt" || kunci === "rw"){
+        return normalisasiNomorWilayah(nilai) === normalisasiNomorWilayah(filter);
+    }
+    return nilai.toLocaleLowerCase("id-ID") === filter.toLocaleLowerCase("id-ID");
+}
+
+function buatTabelWilayahRekap(daftarKK,daftarAnggota){
+    if(!daftarKK.length)return '<p class="empty">Belum ada data KK pada wilayah ini.</p>';
+    const kelompok=new Map();
+    daftarKK.forEach(function(kk){const key=[kk.dusun||"Belum diisi",normalisasiNomorWilayah(kk.rt)||"Belum diisi",normalisasiNomorWilayah(kk.rw)||"Belum diisi"].join("|");if(!kelompok.has(key))kelompok.set(key,{dusun:kk.dusun||"Belum diisi",rt:normalisasiNomorWilayah(kk.rt)||"Belum diisi",rw:normalisasiNomorWilayah(kk.rw)||"Belum diisi",kk:0,nomor:new Set()});const item=kelompok.get(key);item.kk++;item.nomor.add(String(kk.nomorKK||""));});
+    const baris=Array.from(kelompok.values()).map(function(item){item.penduduk=daftarAnggota.filter(function(a){return item.nomor.has(String(a.nomorKK||""));}).length;return item;}).sort(function(a,b){return a.dusun.localeCompare(b.dusun,"id-ID")||a.rt.localeCompare(b.rt,"id-ID")||a.rw.localeCompare(b.rw,"id-ID");}).map(function(x){return "<tr><td>"+escapeHTML(x.dusun)+"</td><td>"+escapeHTML(x.rt)+"</td><td>"+escapeHTML(x.rw)+"</td><td>"+x.kk+"</td><td>"+x.penduduk+"</td></tr>";}).join("");
+    return '<div style="overflow:auto"><table><thead><tr><th>Dusun</th><th>RT</th><th>RW</th><th>KK</th><th>Penduduk</th></tr></thead><tbody>'+baris+'</tbody></table></div>';
+}
+function eksporRekapCSV(){
+    const db=ambilDatabase(),filterDusun=document.getElementById("filterDusun").value,filterRT=document.getElementById("filterRT").value,filterRW=document.getElementById("filterRW").value;
+    const kk=db.kk.filter(function(x){return cocokFilterWilayah(x,"dusun",filterDusun)&&cocokFilterWilayah(x,"rt",filterRT)&&cocokFilterWilayah(x,"rw",filterRW);}),nomor=new Set(kk.map(function(x){return String(x.nomorKK||"");})),anggota=db.anggota.filter(function(x){return nomor.has(String(x.nomorKK||""));}),events=db.peristiwa.filter(function(x){return cocokFilterWilayah(x,"dusun",filterDusun)&&cocokFilterWilayah(x,"rt",filterRT)&&cocokFilterWilayah(x,"rw",filterRW);});
+    const rows=[["Jenis Rekap","Kategori","Jumlah"],["Wilayah",document.getElementById("filterLaporanAktif").textContent,""],["Kartu Keluarga","Total",kk.length],["Penduduk","Total",anggota.length],["Penduduk","Laki-laki",anggota.filter(function(x){return String(x.jk||"").toLowerCase()==="laki-laki";}).length],["Penduduk","Perempuan",anggota.filter(function(x){return String(x.jk||"").toLowerCase()==="perempuan";}).length]];
+    ["Kelahiran","Kematian","Pindah Masuk","Pindah Keluar"].forEach(function(j){rows.push(["Peristiwa",j,events.filter(function(x){return x.jenis===j;}).length]);});
+    function q(v){return '"'+String(v==null?"":v).replace(/"/g,'""')+'"';}
+    const csv="\uFEFF"+rows.map(function(r){return r.map(q).join(",");}).join("\r\n"),blob=new Blob([csv],{type:"text/csv;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="rekap-desa-roga-"+new Date().toISOString().slice(0,10)+".csv";a.click();setTimeout(function(){URL.revokeObjectURL(url);},1000);
+}
+function tampilkanLaporan(){
+    const database = ambilDatabase();
+    isiPilihanFilterWilayah(database.kk,"filterDusun","dusun","Dusun");
+    isiPilihanFilterWilayah(database.kk,"filterRT","rt","RT");
+    isiPilihanFilterWilayah(database.kk,"filterRW","rw","RW");
+
+    const filterDusun = document.getElementById("filterDusun").value;
+    const filterRT = document.getElementById("filterRT").value;
+    const filterRW = document.getElementById("filterRW").value;
+    const kkTerpilih = database.kk.filter(function(kk){
+        return cocokFilterWilayah(kk,"dusun",filterDusun) &&
+               cocokFilterWilayah(kk,"rt",filterRT) &&
+               cocokFilterWilayah(kk,"rw",filterRW);
+    });
+    const nomorKKTerpilih = new Set(kkTerpilih.map(function(kk){return String(kk.nomorKK || "");}));
+    const anggota = database.anggota.filter(function(a){return nomorKKTerpilih.has(String(a.nomorKK || ""));});
+    const peristiwaTerpilih = database.peristiwa.filter(function(item){return cocokFilterWilayah(item,"dusun",filterDusun)&&cocokFilterWilayah(item,"rt",filterRT)&&cocokFilterWilayah(item,"rw",filterRW);});
+    const laki = anggota.filter(function(a){return String(a.jk || "").trim().toLocaleLowerCase("id-ID")==="laki-laki";}).length;
+    const perempuan = anggota.filter(function(a){return String(a.jk || "").trim().toLocaleLowerCase("id-ID")==="perempuan";}).length;
+
+    document.getElementById("rekapJumlahKK").textContent = kkTerpilih.length;
+    document.getElementById("rekapJumlahPenduduk").textContent = anggota.length;
+    document.getElementById("rekapLakiLaki").textContent = laki;
+    document.getElementById("rekapPerempuan").textContent = perempuan;
+    document.getElementById("rekapJumlahPeristiwa").textContent = peristiwaTerpilih.length;
+    document.getElementById("waktuLaporan").textContent = new Date().toLocaleString("id-ID");
+
+    const wilayahAktif = [];
+    if(filterDusun) wilayahAktif.push("Dusun: "+(filterDusun==="__KOSONG__"?"Belum diisi":filterDusun));
+    if(filterRT) wilayahAktif.push("RT: "+(filterRT==="__KOSONG__"?"Belum diisi":filterRT));
+    if(filterRW) wilayahAktif.push("RW: "+(filterRW==="__KOSONG__"?"Belum diisi":filterRW));
+    document.getElementById("filterLaporanAktif").textContent = wilayahAktif.length ? wilayahAktif.join(" | ") : "Seluruh Desa Roga";
+
+    document.getElementById("rekapJenisKelamin").innerHTML = buatTabelRekap(anggota,"jk");
+    document.getElementById("rekapAgama").innerHTML = buatTabelRekap(anggota,"agama");
+    document.getElementById("rekapPendidikan").innerHTML = buatTabelRekap(anggota,"pendidikan");
+    document.getElementById("rekapPekerjaan").innerHTML = buatTabelRekap(anggota,"pekerjaan");
+    document.getElementById("rekapHubungan").innerHTML = buatTabelRekap(anggota,"hubungan");
+    document.getElementById("rekapStatusPenduduk").innerHTML = buatTabelRekap(anggota,"statuspenduduk");
+    document.getElementById("rekapGolonganDarah").innerHTML = buatTabelRekap(anggota,"darah");
+    document.getElementById("rekapJenisPeristiwa").innerHTML = buatTabelRekap(peristiwaTerpilih,"jenis");
+    document.getElementById("rekapWilayahPenduduk").innerHTML = buatTabelWilayahRekap(kkTerpilih,anggota);
+}
+
+function bukaLaporan(){
+    tampilkanLaporan();
+    document.getElementById("bagianLaporan").scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function cetakLaporan(){
+    tampilkanLaporan();
+    document.body.classList.add("mode-cetak-laporan");
+    window.print();
+    setTimeout(function(){document.body.classList.remove("mode-cetak-laporan");},1000);
+}
+/* =====================================================
+   BACKUP DAN PEMULIHAN DATA DESA
+===================================================== */
+
+function bukaBackupData(){
+    document.getElementById("bagianBackup").scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function buatBackupDataDesa(){
+    let arsipSurat=[];
+    try{
+        const nilaiArsip=localStorage.getItem("ARSIP_SURAT_DESA_ROGA");
+        const parsedArsip=nilaiArsip ? JSON.parse(nilaiArsip) : [];
+        arsipSurat=Array.isArray(parsedArsip) ? parsedArsip : [];
+    }catch(error){
+        alert("Arsip surat tidak dapat dibaca, jadi backup dibatalkan agar datanya tidak tertinggal.");
+        return;
+    }
+
+    const databaseBackup=ambilDatabase();
+    if(databaseBackup.__gagalBaca){
+        alert("Backup dibatalkan karena database penduduk tidak dapat dibaca. Buka halaman dari alamat lokal yang sama, lalu coba kembali.");
+        return;
+    }
+    const backup={
+        format:"BACKUP_DESA_ROGA",
+        versi:1,
+        waktuEkspor:new Date().toISOString(),
+        database:databaseBackup,
+        arsipSurat:arsipSurat
+    };
+    const blob=new Blob([JSON.stringify(backup,null,2)],{type:"application/json;charset=utf-8"});
+    const url=URL.createObjectURL(blob);
+    const tautan=document.createElement("a");
+    const waktu=new Date().toISOString().replace(/[:.]/g,"-");
+    tautan.href=url;
+    tautan.download="backup-data-desa-roga-"+waktu+".json";
+    document.body.appendChild(tautan);
+    tautan.click();
+    tautan.remove();
+    setTimeout(function(){URL.revokeObjectURL(url);},1000);
+    const pesan=document.getElementById("pesanBackup");
+    pesan.textContent="Backup data KK, anggota, dan arsip surat berhasil dibuat.";
+    pesan.style.display="block";
+}
+
+function pulihkanDataDesa(input){
+    const file=input.files && input.files[0];
+    if(!file) return;
+
+    const pembaca=new FileReader();
+    pembaca.onload=function(){
+        let backup;
+        try{
+            backup=JSON.parse(String(pembaca.result || ""));
+        }catch(error){
+            alert("Berkas tidak dapat dibaca. Pilih berkas backup JSON Desa Roga yang benar.");
+            input.value="";
+            return;
+        }
+
+        if(!backup || backup.format!=="BACKUP_DESA_ROGA" || !backup.database ||
+           !Array.isArray(backup.database.kk) || !Array.isArray(backup.database.anggota) ||
+           !Array.isArray(backup.arsipSurat)){
+            alert("Isi berkas tidak sesuai format backup Desa Roga. Data saat ini tidak diubah.");
+            input.value="";
+            return;
+        }
+
+        if(!confirm("Pulihkan backup ini? Data KK, anggota, dan arsip surat yang sekarang akan diganti.")){
+            input.value="";
+            return;
+        }
+
+        const dbSebelumnya=localStorage.getItem(NAMA_DATABASE);
+        const arsipSebelumnya=localStorage.getItem("ARSIP_SURAT_DESA_ROGA");
+        try{
+            localStorage.setItem(NAMA_DATABASE,JSON.stringify(backup.database));
+            localStorage.setItem("ARSIP_SURAT_DESA_ROGA",JSON.stringify(backup.arsipSurat));
+            tampilkanTabelKK();
+            tampilkanTabelAnggota();
+            tampilkanLaporan();
+            const pesan=document.getElementById("pesanBackup");
+            pesan.textContent="Data KK, anggota, dan arsip surat berhasil dipulihkan.";
+            pesan.style.display="block";
+        }catch(error){
+            try{
+                if(dbSebelumnya===null) localStorage.removeItem(NAMA_DATABASE);
+                else localStorage.setItem(NAMA_DATABASE,dbSebelumnya);
+                if(arsipSebelumnya===null) localStorage.removeItem("ARSIP_SURAT_DESA_ROGA");
+                else localStorage.setItem("ARSIP_SURAT_DESA_ROGA",arsipSebelumnya);
+            }catch(pemulihanGagal){}
+            alert("Pemulihan gagal. Data sebelumnya dipertahankan jika ruang penyimpanan mengizinkan.");
+        }
+        input.value="";
+    };
+    pembaca.onerror=function(){
+        alert("Berkas backup tidak dapat dibuka.");
+        input.value="";
+    };
+    pembaca.readAsText(file);
+}
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHTML(value){
+
+    if(value === null ||
+       value === undefined){
+
+        return "";
+
+    }
+
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* =====================================================
+   ESCAPE JAVASCRIPT
+===================================================== */
+
+function escapeJS(value){
+
+    return String(value)
+        .replace(/\\/g,"\\\\")
+        .replace(/'/g,"\\'")
+        .replace(/"/g,'\\"');
+
+}
+
+
+/* =====================================================
+   SAAT HALAMAN DIBUKA
+===================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function(){
+
+        tampilkanTabelKK();
+
+        tampilkanTabelAnggota();
+
+    }
+);
+/* =====================================================
+   PAKSA FORMAT TANGGAL ANGGOTA
+   DD/MM/YYYY
+===================================================== */
+
+function paksaFormatTanggalAnggota(){
+
+    document.querySelectorAll(".f-tanggal")
+    .forEach(function(input){
+
+        /* Ubah dari date menjadi text */
+        input.type = "text";
+
+        input.placeholder = "DD/MM/YYYY";
+
+        input.maxLength = 10;
+
+        input.setAttribute(
+            "oninput",
+            "formatInputTanggal(this)"
+        );
+
+    });
+
+}
+paksaFormatTanggalAnggota();
+
+/* =====================================================
+   PANTAU FORM ANGGOTA BARU
+===================================================== */
+
+const pengawasTanggal =
+    new MutationObserver(function(){
+
+        paksaFormatTanggalAnggota();
+
+    });
+
+
+const areaAnggota =
+    document.getElementById("daftarAnggota");
+
+
+if(areaAnggota){
+
+    pengawasTanggal.observe(
+        areaAnggota,
+        {
+            childList: true,
+            subtree: true
+        }
+    );
+
+}
+
+</script>
+
+<script src="kunci_lokal_desaroga.js"></script></body>
+</html>
+
+

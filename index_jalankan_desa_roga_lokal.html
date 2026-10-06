@@ -1,0 +1,148 @@
+param([switch]$Serve,[switch]$Stop)
+$ErrorActionPreference = 'Stop'
+$port = 8765
+$base = "http://127.0.0.1:$port/"
+$shutdownKey = 'roga-local-stop-v1'
+$healthText = 'DESA_ROGA_LOCAL_SERVER_V1'
+
+function Test-RogaServer {
+    try {
+        $client = [System.Net.Sockets.TcpClient]::new()
+        $client.ReceiveTimeout = 1000
+        $client.SendTimeout = 1000
+        $client.Connect([System.Net.IPAddress]::Loopback, $port)
+        $stream = $client.GetStream()
+        $request = [System.Text.Encoding]::ASCII.GetBytes("GET /__health HTTP/1.1`r`nHost: 127.0.0.1`r`nConnection: close`r`n`r`n")
+        $stream.Write($request, 0, $request.Length)
+        $reader = [System.IO.StreamReader]::new($stream, [System.Text.Encoding]::ASCII)
+        $response = $reader.ReadToEnd()
+        $reader.Dispose(); $client.Dispose()
+        return $response.Contains($healthText)
+    } catch { return $false }
+}
+
+if ($Stop) {
+    try {
+        $client = [System.Net.Sockets.TcpClient]::new()
+        $client.Connect([System.Net.IPAddress]::Loopback, $port)
+        $stream = $client.GetStream()
+        $request = [System.Text.Encoding]::ASCII.GetBytes("GET /__shutdown?key=$shutdownKey HTTP/1.1`r`nHost: 127.0.0.1`r`nConnection: close`r`n`r`n")
+        $stream.Write($request, 0, $request.Length)
+        $client.Dispose()
+        Write-Host 'Server lokal Desa Roga dihentikan.'
+    } catch {
+        Write-Host 'Server lokal Desa Roga tidak sedang berjalan.'
+    }
+    exit
+}
+
+if ($Serve) {
+    $root = [System.IO.Path]::GetFullPath($PSScriptRoot)
+    $listener = [System.Net.Sockets.TcpListener]::new([System.Net.IPAddress]::Loopback, $port)
+    $listener.Start()
+    $running = $true
+    while ($running) {
+        $client = $listener.AcceptTcpClient()
+        try {
+            $client.ReceiveTimeout = 5000
+            $client.SendTimeout = 10000
+            $stream = $client.GetStream()
+            $memory = [System.IO.MemoryStream]::new()
+            $last = 0; $matched = 0; $limit = 16384
+            while ($memory.Length -lt $limit) {
+                $b = $stream.ReadByte()
+                if ($b -lt 0) { break }
+                $memory.WriteByte([byte]$b)
+                if (($matched -eq 0 -and $b -eq 13) -or ($matched -eq 2 -and $b -eq 13)) { $matched++ }
+                elseif (($matched -eq 1 -and $b -eq 10) -or ($matched -eq 3 -and $b -eq 10)) { $matched++ }
+                else { $matched = if ($b -eq 13) { 1 } else { 0 } }
+                if ($matched -eq 4) { break }
+            }
+            $header = [System.Text.Encoding]::ASCII.GetString($memory.ToArray())
+            $bodyBytes = [byte[]]@()
+            if ($header -match '(?im)^Content-Length:\s*(\d+)') {
+                $bodyLength = [int64]$Matches[1]
+                if ($bodyLength -gt 52428800) { throw 'Request body too large' }
+                if ($bodyLength -gt 0) {
+                    $bodyStream = [System.IO.MemoryStream]::new(); $buffer = [byte[]]::new(65536)
+                    while ($bodyStream.Length -lt $bodyLength) {
+                        $want = [int][Math]::Min($buffer.Length, $bodyLength - $bodyStream.Length)
+                        $read = $stream.Read($buffer, 0, $want)
+                        if ($read -le 0) { throw 'Incomplete request body' }
+                        $bodyStream.Write($buffer, 0, $read)
+                    }
+                    $bodyBytes = $bodyStream.ToArray(); $bodyStream.Dispose()
+                }
+            }
+            $line = ($header -split "`r`n", 2)[0]
+            $parts = $line -split ' ', 3
+            $status = '200 OK'; $contentType = 'text/html; charset=utf-8'; $bytes = [byte[]]@(); $stopAfter = $false
+            if ($parts.Count -lt 2 -or ($parts[0] -ne 'GET' -and $parts[0] -ne 'HEAD' -and $parts[0] -ne 'POST')) {
+                $status = '405 Method Not Allowed'; $bytes = [System.Text.Encoding]::UTF8.GetBytes('Method not allowed.')
+            } elseif ($parts[0] -eq 'POST' -and $parts[1] -eq '/__upload') {
+                $mimeMatch = [regex]::Match($header, '(?im)^Content-Type:\s*([^;\r\n]+)')
+                $mime = if ($mimeMatch.Success) { $mimeMatch.Groups[1].Value.Trim().ToLowerInvariant() } else { '' }
+                $extension = switch ($mime) { 'image/jpeg' {'.jpg'} 'image/png' {'.png'} 'image/webp' {'.webp'} 'image/gif' {'.gif'} 'video/mp4' {'.mp4'} 'video/webm' {'.webm'} default {''} }
+                if ($extension -eq '' -or $bodyBytes.Length -eq 0) { $status = '400 Bad Request'; $bytes = [System.Text.Encoding]::UTF8.GetBytes('{"error":"Jenis atau isi berkas tidak didukung."}'); $contentType = 'application/json; charset=utf-8' }
+                else {
+                    $mediaDir = [System.IO.Path]::Combine($root, 'media_upload'); [System.IO.Directory]::CreateDirectory($mediaDir) | Out-Null
+                    $fileName = [guid]::NewGuid().ToString('N') + $extension
+                    [System.IO.File]::WriteAllBytes([System.IO.Path]::Combine($mediaDir, $fileName), $bodyBytes)
+                    $nameHeader = [regex]::Match($header, '(?im)^X-File-Name:\s*([^\r\n]+)')
+                    $originalName = if ($nameHeader.Success) { [uri]::UnescapeDataString($nameHeader.Groups[1].Value.Trim()) } else { $fileName }
+                    $payload = @{id=$fileName;name=$originalName;type=$mime;url=('/media_upload/' + $fileName)} | ConvertTo-Json -Compress
+                    $bytes = [System.Text.Encoding]::UTF8.GetBytes($payload); $contentType = 'application/json; charset=utf-8'
+                }
+            } elseif ($parts[0] -eq 'POST' -and $parts[1] -match '^/__delete\?id=([a-fA-F0-9]{32}\.(jpg|png|webp|gif|mp4|webm))$') {
+                $fileName = $Matches[1]; $mediaDir = [System.IO.Path]::Combine($root, 'media_upload'); $targetMedia = [System.IO.Path]::Combine($mediaDir, $fileName)
+                if ([System.IO.File]::Exists($targetMedia)) { [System.IO.File]::Delete($targetMedia) }
+                $bytes = [System.Text.Encoding]::UTF8.GetBytes('{"ok":true}'); $contentType = 'application/json; charset=utf-8'
+            } elseif ($parts[1] -eq '/__health') {
+                $contentType = 'text/plain; charset=utf-8'; $bytes = [System.Text.Encoding]::UTF8.GetBytes($healthText)
+            } elseif ($parts[1] -like "/__shutdown?key=$shutdownKey*") {
+                $contentType = 'text/plain; charset=utf-8'; $bytes = [System.Text.Encoding]::UTF8.GetBytes('Stopped.'); $stopAfter = $true
+            } else {
+                try {
+                    $uri = [System.Uri]::new("http://127.0.0.1:$port$($parts[1])")
+                    $relative = [System.Uri]::UnescapeDataString($uri.AbsolutePath).TrimStart('/') -replace '/', '\'
+                    if ([string]::IsNullOrWhiteSpace($relative)) { $relative = 'index_beranda_desa_roga.html' }
+                    $target = [System.IO.Path]::GetFullPath([System.IO.Path]::Combine($root, $relative))
+                    $rootPrefix = $root.TrimEnd('\') + '\'
+                    if (-not $target.StartsWith($rootPrefix, [System.StringComparison]::OrdinalIgnoreCase)) { throw 'Invalid path' }
+                    if ([System.IO.Directory]::Exists($target)) { $target = [System.IO.Path]::Combine($target, 'index.html') }
+                    if (-not [System.IO.File]::Exists($target)) { $status = '404 Not Found'; $bytes = [System.Text.Encoding]::UTF8.GetBytes('File not found.') }
+                    else {
+                        $ext = [System.IO.Path]::GetExtension($target).ToLowerInvariant()
+                        $contentType = switch ($ext) { '.html' {'text/html; charset=utf-8'} '.css' {'text/css; charset=utf-8'} '.js' {'text/javascript; charset=utf-8'} '.json' {'application/json; charset=utf-8'} '.jpg' {'image/jpeg'} '.jpeg' {'image/jpeg'} '.png' {'image/png'} '.gif' {'image/gif'} '.svg' {'image/svg+xml'} '.webp' {'image/webp'} '.mp4' {'video/mp4'} '.webm' {'video/webm'} '.ico' {'image/x-icon'} default {'application/octet-stream'} }
+                        $bytes = [System.IO.File]::ReadAllBytes($target)
+                    }
+                } catch { $status = '403 Forbidden'; $bytes = [System.Text.Encoding]::UTF8.GetBytes('Forbidden.') }
+            }
+            if ($parts.Count -ge 2 -and $parts[0] -eq 'HEAD') { $bytes = [byte[]]@() }
+            $responseHeader = "HTTP/1.1 $status`r`nContent-Type: $contentType`r`nContent-Length: $($bytes.Length)`r`nCache-Control: no-store`r`nConnection: close`r`nX-Content-Type-Options: nosniff`r`n`r`n"
+            $headerBytes = [System.Text.Encoding]::ASCII.GetBytes($responseHeader)
+            $stream.Write($headerBytes, 0, $headerBytes.Length)
+            if ($bytes.Length -gt 0) { $stream.Write($bytes, 0, $bytes.Length) }
+            $stream.Flush()
+            if ($stopAfter) { $running = $false }
+        } catch { } finally { $client.Dispose() }
+    }
+    $listener.Stop()
+    exit
+}
+
+if (-not (Test-RogaServer)) {
+    $argLine = '-NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File "' + $PSCommandPath + '" -Serve'
+    Start-Process -FilePath 'powershell.exe' -ArgumentList $argLine -WindowStyle Hidden
+    $ready = $false
+    for ($i = 0; $i -lt 40; $i++) {
+        Start-Sleep -Milliseconds 250
+        if (Test-RogaServer) { $ready = $true; break }
+    }
+    if (-not $ready) {
+        Write-Host 'Server lokal tidak dapat dimulai. Periksa apakah port 8765 sedang digunakan.' -ForegroundColor Red
+        Read-Host 'Tekan Enter untuk menutup'
+        exit 1
+    }
+}
+Start-Process ($base + 'index_beranda_desa_roga.html')

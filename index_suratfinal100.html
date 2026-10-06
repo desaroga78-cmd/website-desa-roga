@@ -1,0 +1,3181 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Pelayanan Surat Desa Roga</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#eef3ee;
+    color:#222;
+}
+
+header{
+    background:linear-gradient(135deg,#126b36,#218c4b);
+    color:white;
+    text-align:center;
+    padding:25px 15px;
+}
+
+header h1{
+    margin:0;
+    font-size:28px;
+}
+
+header p{
+    margin:6px 0;
+}
+
+.container{
+    width:95%;
+    max-width:1200px;
+    margin:25px auto;
+}
+
+.card{
+    background:white;
+    padding:25px;
+    margin-bottom:25px;
+    border-radius:15px;
+    box-shadow:0 4px 15px rgba(0,0,0,.12);
+}
+
+.card h2{
+    color:#126b36;
+    margin-top:0;
+    border-bottom:2px solid #126b36;
+    padding-bottom:10px;
+}
+
+label{
+    display:block;
+    font-weight:bold;
+    margin-top:12px;
+    margin-bottom:5px;
+}
+
+input,
+select,
+textarea{
+    width:100%;
+    padding:11px;
+    border:1px solid #bbb;
+    border-radius:7px;
+    font-size:15px;
+}
+
+textarea{
+    min-height:100px;
+    resize:vertical;
+}
+
+button{
+    border:0;
+    border-radius:7px;
+    padding:11px 16px;
+    font-weight:bold;
+    cursor:pointer;
+    margin:6px 4px 0 0;
+}
+
+.btn-hijau{
+    background:#126b36;
+    color:white;
+}
+
+.btn-biru{
+    background:#1769aa;
+    color:white;
+}
+
+.btn-kuning{
+    background:#9a6800;
+    color:white;
+}
+
+.btn-merah{
+    background:#b3261e;
+    color:white;
+}
+
+.btn-abu{
+    background:#777;
+    color:white;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+
+.status{
+    display:none;
+    padding:12px;
+    margin-top:15px;
+    border-radius:7px;
+    background:#e8f5e9;
+    color:#145a2a;
+}
+
+.hasil{
+    overflow-x:auto;
+    margin-top:20px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:850px;
+}
+
+th,
+td{
+    border:1px solid #ccc;
+    padding:9px;
+    text-align:left;
+    vertical-align:top;
+}
+
+th{
+    background:#126b36;
+    color:white;
+}
+
+tr:nth-child(even){
+    background:#f7f7f7;
+}
+
+.data-terpilih{
+    display:none;
+    background:#f1f8f3;
+    border-left:5px solid #126b36;
+    padding:15px;
+    margin-top:20px;
+    border-radius:7px;
+}
+
+.readonly{
+    background:#eeeeee;
+}
+
+.deskripsi-surat{
+    background:#f3f7f4;
+    border-left:5px solid #126b36;
+    padding:15px;
+    margin-top:15px;
+    border-radius:7px;
+    line-height:1.6;
+}
+
+.preview{
+    display:none;
+}
+
+.surat-kertas{
+    max-width:850px;
+    margin:auto;
+    padding:35px;
+    background:white;
+    color:#000;
+    font-family:"Times New Roman",serif;
+    line-height:1.6;
+}
+
+style>
+
+/* =====================================================
+   KOP SURAT PROFESIONAL DESA ROGA
+   ===================================================== */
+
+.kop{
+    position:relative;
+    width:100%;
+    min-height:125px;
+    box-sizing:border-box;
+
+    /* TEKS KOP BENAR-BENAR DI TENGAH */
+    text-align:center;
+
+    border-bottom:3px solid #000;
+
+    /* ruang untuk logo kiri dan kanan */
+    padding-top:8px;
+    padding-bottom:12px;
+    padding-left:120px;
+    padding-right:120px;
+
+    margin-bottom:25px;
+
+}
+
+/* LOGO */
+.logo-kop{
+    position:absolute;
+    top:5px;
+
+    width:82px;
+    height:82px;
+
+    object-fit:contain;
+    object-position:center;
+
+    display:block;
+}
+
+/* LOGO DESA DI KIRI */
+.logo-kop-kiri{
+    left:15px;
+}
+
+/* LOGO KABUPATEN DI KANAN */
+.logo-kop-kanan{
+    right:15px;
+}
+
+
+/* TEKS KOP */
+.kop .kab{
+    display:block;
+    width:100%;
+
+    font-size:18px;
+    font-weight:bold;
+    line-height:1.35;
+
+    text-align:center;
+    margin:0;
+}
+
+.kop .desa{
+    display:block;
+    width:100%;
+
+    font-size:25px;
+    font-weight:bold;
+    line-height:1.35;
+    letter-spacing:1px;
+
+    text-align:center;
+    margin:0;
+}
+
+.kop .wilayah{
+    display:block;
+    width:100%;
+
+    font-size:15px;
+    line-height:1.35;
+
+    text-align:center;
+    margin-top:2px;
+}
+
+
+/* =====================================================
+   TAMPILAN HP
+   ===================================================== */
+
+@media(max-width:700px){
+
+    .kop{
+        min-height:105px;
+
+        padding-top:6px;
+        padding-bottom:10px;
+        padding-left:75px;
+        padding-right:75px;
+    }
+
+    .logo-kop{
+        width:60px;
+        height:60px;
+        top:5px;
+    }
+
+    .logo-kop-kiri{
+        left:5px;
+    }
+
+    .logo-kop-kanan{
+        right:5px;
+    }
+
+    .kop .kab{
+        font-size:14px;
+    }
+
+    .kop .desa{
+        font-size:19px;
+    }
+
+    .kop .wilayah{
+        font-size:12px;
+    }
+}
+
+/* =====================================================
+   JUDUL SURAT
+   ===================================================== */
+
+.judul-surat{
+    text-align:center;
+    font-size:20px;
+    font-weight:bold;
+    text-decoration:underline;
+    margin-top:5px;
+    margin-bottom:4px;
+}
+
+.nomor-surat{
+    text-align:center;
+    margin-top:4px;
+    margin-bottom:20px;
+}
+
+
+/* =====================================================
+   DATA SURAT
+   ===================================================== */
+
+.data-surat{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0;
+}
+
+.data-surat td{
+    border:0;
+    padding:3px 5px;
+    vertical-align:top;
+}
+
+.data-surat td:first-child{
+    width:190px;
+}
+
+
+/* =====================================================
+   TANDA TANGAN
+   ===================================================== */
+
+.ttd{
+    width:280px;
+    margin-left:auto;
+    text-align:center;
+    margin-top:35px;
+}
+
+.ttd .tanggal{
+    margin-bottom:5px;
+}
+
+.ttd .jabatan{
+    margin-top:0;
+    margin-bottom:0;
+}
+
+.ttd .nama{
+    margin-top:5px;
+}
+
+.ttd .nama u{
+    color:#000;
+    text-decoration-color:#000;
+    text-decoration-thickness:2px;
+    text-underline-offset:3px;
+}
+
+
+/* =====================================================
+   INFORMASI ARSIP
+   ===================================================== */
+
+.arsip-info{
+    background:#f3f7f4;
+    border-left:5px solid #126b36;
+    padding:15px;
+    margin-bottom:15px;
+}
+
+
+/* =====================================================
+   RESPONSIVE / HP
+   ===================================================== */
+
+@media(max-width:700px){
+
+    .kop{
+        min-height:105px;
+        padding-left:75px;
+        padding-right:75px;
+    }
+
+    .logo-kop{
+        width:60px;
+        height:60px;
+        top:5px;
+    }
+
+    .logo-kop-kiri{
+        left:5px;
+    }
+
+    .logo-kop-kanan{
+        right:5px;
+    }
+
+    .kop .kab{
+        font-size:14px;
+    }
+
+    .kop .desa{
+        font-size:19px;
+    }
+
+    .kop .wilayah{
+        font-size:12px;
+    }
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+    header h1{
+        font-size:22px;
+    }
+
+    .card{
+        padding:18px;
+    }
+
+    .data-surat td:first-child{
+        width:130px;
+    }
+
+}
+
+
+/* =====================================================
+   MODE CETAK
+   ===================================================== */
+
+@media print{
+
+    body{
+        background:white;
+    }
+
+    header,
+    .no-print,
+    footer{
+        display:none !important;
+    }
+
+    .container{
+        width:100%;
+        max-width:none;
+        margin:0;
+    }
+
+    .card{
+        box-shadow:none;
+        padding:0;
+        margin:0;
+    }
+
+    .preview{
+        display:block !important;
+    }
+
+    .surat-kertas{
+        width:100%;
+        max-width:none;
+        padding:20px;
+        box-sizing:border-box;
+    }
+
+}
+
+.garis-kop{
+    width:100%;
+    height:6px;
+    border-top:2px solid #000;
+    border-bottom:2px solid #000;
+    margin:8px 0 12px 0;
+    box-sizing:border-box;
+}
+.btn-beranda{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    margin-top:8px;
+    padding:10px 17px;
+    border:1px solid #e8cf70;
+    border-radius:999px;
+    background:#fff;
+    color:#075b2d;
+    font-weight:700;
+    text-decoration:none;
+    box-shadow:0 3px 10px #0002;
+    transition:transform .18s ease,box-shadow .18s ease,background .18s ease;
+}
+.btn-beranda:hover,.btn-beranda:focus{
+    background:#fff8df;
+    transform:translateY(-1px);
+    box-shadow:0 5px 14px #0003;
+    outline:2px solid #e8cf70;
+}
+@media print{.btn-beranda{display:none!important;}}.bantuan-pencarian{display:block;margin:6px 0 10px;color:#53645a;font-size:12px;line-height:1.4;}
+.status-sinkron{display:block;margin:10px 0;padding:11px 13px;border-radius:8px;background:#eaf5ed;border-left:4px solid #0b7b40;color:#174326;font-size:14px;line-height:1.5}.status-sinkron.peringatan{background:#fff4e5;border-left-color:#d68a15;color:#62420b}
+.cari-jenis-surat{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 12px}.cari-jenis-surat input{flex:1;min-width:220px;padding:10px 12px;border:1px solid #cbd9ce;border-radius:7px;font:inherit}.status-cari-jenis{display:block;margin:5px 0 10px;color:#53645a;font-size:13px}
+</style>
+<style>html.roga-lock-pending body>*:not(#roga-auth-overlay){visibility:hidden!important}.status-sinkron{display:block;margin:10px 0;padding:11px 13px;border-radius:8px;background:#eaf5ed;border-left:4px solid #0b7b40;color:#174326;font-size:14px;line-height:1.5}.status-sinkron.peringatan{background:#fff4e5;border-left-color:#d68a15;color:#62420b}
+.cari-jenis-surat{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 12px}.cari-jenis-surat input{flex:1;min-width:220px;padding:10px 12px;border:1px solid #cbd9ce;border-radius:7px;font:inherit}.status-cari-jenis{display:block;margin:5px 0 10px;color:#53645a;font-size:13px}
+</style><script>document.documentElement.classList.add("roga-lock-pending")</script><style id="compact-surat-roga">
+/* Form, tabel arsip, dan tombol dibuat lebih rapat tanpa mengubah fungsi. */
+.container{width:min(98%,1420px);margin:16px auto}
+.card{padding:16px;margin-bottom:16px;border-radius:12px}
+.card h2{font-size:19px;padding-bottom:7px;margin-bottom:10px}
+.grid{gap:10px}
+label{font-size:13px;margin-top:8px;margin-bottom:3px}
+input,select,textarea{padding:8px;font-size:13px;min-height:36px}
+textarea{min-height:76px}
+button{padding:9px 12px;font-size:13px;margin:4px 3px 0 0}
+.data-terpilih,.deskripsi-surat,.arsip-info{padding:11px;margin-top:12px}
+.hasil{margin-top:14px}
+table{min-width:780px}
+th,td{padding:6px 7px;font-size:12px}
+.cari-jenis-surat input{padding:8px 10px;font-size:13px}
+@media(max-width:700px){.container{width:96%;margin:10px auto}.card{padding:12px}.grid{gap:7px}}
+</style></head>
+
+<body>
+
+<header class="no-print">
+
+    <h1>PELAYANAN SURAT DESA ROGA</h1>
+
+    <p>
+        Pemerintah Desa Roga
+    </p>
+
+    <p>
+        Kecamatan Ndona Timur - Kabupaten Ende
+    </p>
+
+    <p>
+        Nusa Tenggara Timur
+    </p>
+
+    <a class="btn-beranda" href="index_beranda_desa_roga.html">🏠 KEMBALI KE BERANDA</a></header>
+
+
+<div class="container">
+
+
+<!-- =====================================================
+     1. CARI PENDUDUK
+     ===================================================== -->
+
+<div class="card no-print">
+
+    <h2>🔎 CARI DATA PENDUDUK</h2>
+    <div id="statusDatabasePenduduk" class="status-sinkron" role="status">Memeriksa koneksi database penduduk…</div>
+
+    <input
+        type="text"
+        id="kataPencarian"
+        placeholder="Masukkan Nama Lengkap, NIK, atau KK..."
+        oninput="cariPenduduk()"
+    >
+    <small class="bantuan-pencarian">Hasil warga muncul langsung saat mengetik, termasuk mulai dari satu angka NIK atau KK.</small>
+
+    <button
+        class="btn-hijau"
+        onclick="cariPenduduk()">
+        🔎 CARI
+    </button>
+
+    <button
+        class="btn-abu"
+        onclick="resetPencarian()">
+        ↺ RESET
+    </button>
+
+    <div id="pesanPencarian" class="status"></div>
+
+    <div id="hasilPencarian" class="hasil"></div>
+
+</div>
+
+
+<!-- =====================================================
+     2. DATA PENDUDUK TERPILIH
+     ===================================================== -->
+
+<div class="card no-print">
+
+    <h2>👤 DATA PENDUDUK TERPILIH</h2>
+
+    <div id="belumAdaPenduduk">
+
+        <p>
+            Belum ada penduduk yang dipilih.
+        </p>
+
+    </div>
+
+
+    <div
+        id="dataTerpilih"
+        class="data-terpilih">
+
+        <div class="grid">
+
+            <div>
+                <label>NIK</label>
+                <input id="suratNIK" class="readonly" readonly>
+            </div>
+
+            <div>
+                <label>Nomor KK</label>
+                <input id="suratKK" class="readonly" readonly>
+            </div>
+
+            <div>
+                <label>Nama Lengkap</label>
+                <input id="suratNama" class="readonly" readonly>
+            </div>
+
+            <div>
+                <label>Jenis Kelamin</label>
+                <input id="suratJK" class="readonly" readonly>
+            </div>
+
+            <div>
+                <label>Tempat Lahir</label>
+                <input id="suratTempatLahir" class="readonly" readonly>
+            </div>
+
+            <div>
+                <label>Tanggal Lahir</label>
+                <input id="suratTanggalLahir" class="readonly" readonly>
+            </div>
+
+            <div>
+                <label>Agama</label>
+                <input id="suratAgama" class="readonly" readonly>
+            </div>
+
+            <div>
+                <label>Pendidikan</label>
+                <input id="suratPendidikan" class="readonly" readonly>
+            </div>
+
+            <div>
+                <label>Pekerjaan</label>
+                <input id="suratPekerjaan" class="readonly" readonly>
+            </div>
+
+            <div>
+                <label>Status Perkawinan</label>
+                <input id="suratKawin" class="readonly" readonly>
+            </div>
+
+            <div>
+                <label>Hubungan Dalam Keluarga</label>
+                <input id="suratHubungan" class="readonly" readonly>
+            </div>
+
+            <div>
+                <label>Golongan Darah</label>
+                <input id="suratDarah" class="readonly" readonly>
+            </div>
+
+            <div>
+                <label>Nama Ayah</label>
+                <input id="suratAyah" class="readonly" readonly>
+            </div>
+
+            <div>
+                <label>Nama Ibu</label>
+                <input id="suratIbu" class="readonly" readonly>
+            </div>
+
+            <div>
+                <label>Status Penduduk</label>
+                <input id="suratStatusPenduduk" class="readonly" readonly>
+            </div>
+
+            <div>
+                <label>Alamat</label>
+                <input id="suratAlamat" class="readonly" readonly>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     3. PEMBUATAN SURAT
+     ===================================================== -->
+
+<div class="card no-print">
+
+    <h2>📄 PEMBUATAN SURAT</h2>
+
+
+    <label>Jenis Surat</label>
+    <div class="cari-jenis-surat">
+        <input type="search" id="kataCariJenisSurat" placeholder="Ketik kode atau nama surat..." onkeydown="if(event.key==='Enter'){event.preventDefault();cariJenisSurat();}">
+        <button type="button" class="btn-hijau" onclick="cariJenisSurat()">🔎 CARI JENIS SURAT</button>
+        <button type="button" class="btn-abu" onclick="resetCariJenisSurat()">TAMPILKAN SEMUA</button>
+    </div>
+    <small id="statusCariJenisSurat" class="status-cari-jenis" role="status">45 jenis surat tersedia.</small>
+
+    <select
+        id="jenisSurat"
+        onchange="tampilkanDeskripsiSurat()">
+
+        <option value="">
+            -- PILIH JENIS SURAT --
+        </option>
+
+        <option value="SKD">
+    SKD - Surat Keterangan Domisili
+</option>
+
+<option value="SKTM">
+    SKTM - Surat Keterangan Tidak Mampu
+</option>
+
+<option value="SKKL">
+    SKKL - Surat Keterangan Kelahiran
+</option>
+
+<option value="SKKM">
+    SKKM - Surat Keterangan Kematian
+</option>
+
+<option value="SKPD">
+    SKPD - Surat Keterangan Pindah Domisili
+</option>
+
+<option value="SKW">
+    SKW - Surat Keterangan Wali
+</option>
+
+<option value="SKU">
+    SKU - Surat Keterangan Usaha
+</option>
+
+<option value="SKK">
+    SKK - Surat Keterangan Umum
+</option>
+
+<option value="SKPEND">
+    SKPEND - Surat Keterangan Penduduk
+</option>
+
+<option value="SKBM">
+    SKBM - Surat Keterangan Belum Menikah
+</option>
+
+<option value="SKPH">
+    SKPH - Surat Keterangan Penghasilan
+</option>
+
+<option value="SKA">
+    SKA - Surat Keterangan Ahli Waris
+</option>
+
+<option value="SKT">
+    SKT - Surat Keterangan Tanah
+</option>
+
+<option value="SKRT">
+    SKRT - Surat Keterangan Riwayat Tanah
+</option>
+
+<option value="SKM">
+    SKM - Surat Keterangan Kepemilikan
+</option>
+
+<option value="SKJD">
+    SKJD - Surat Keterangan Janda/Duda
+</option>
+
+<option value="SP">
+    SP - Surat Pengantar
+</option>
+
+<option value="SKDOM">
+    SKDOM - Surat Keterangan Tempat Tinggal
+</option>
+
+<option value="SKP">
+    SKP - Surat Keterangan Perpindahan Penduduk
+</option>
+
+<option value="SKKEL">
+    SKKEL - Surat Keterangan Keluarga
+</option>
+
+<option value="SKIK">SKIK - Surat Keterangan Pengantar Izin Keramaian</option>
+<option value="SPCK">SPCK - Surat Pengantar Permohonan SKCK</option>
+<option value="SPN">SPN - Surat Pengantar Nikah</option>
+<option value="SPB">SPB - Surat Pengantar Beasiswa</option>
+<option value="SPS">SPS - Surat Pengantar Sekolah</option>
+<option value="SPJKN">SPJKN - Surat Pengantar Layanan JKN/BPJS</option>
+<option value="SKBR">SKBR - Surat Keterangan Belum Memiliki Rumah</option>
+<option value="SKTS">SKTS - Surat Keterangan Tidak Sengketa Tanah</option>
+<option value="SKPF">SKPF - Surat Keterangan Penguasaan Fisik Tanah</option>
+<option value="SKBN">SKBN - Surat Keterangan Beda Nama</option>
+<option value="SKSO">SKSO - Surat Keterangan Satu Orang yang Sama</option>
+<option value="SKTK">SKTK - Surat Keterangan Tanggungan Keluarga</option>
+<option value="SKKD">SKKD - Surat Keterangan Pindah Antar Dusun</option>
+<option value="SKHIL">SKHIL - Surat Keterangan Kehilangan</option>
+<option value="SKBENC">SKBENC - Surat Keterangan Dampak Bencana</option>
+<option value="SKUB">SKUB - Surat Keterangan Untuk Penguburan</option>
+<option value="SKASUH">SKASUH - Surat Keterangan Pengasuhan Anak</option>
+<option value="SKPO">SKPO - Surat Keterangan Penghasilan Orang Tua</option>
+<option value="SKJAM">SKJAM - Surat Keterangan Sosial untuk Jaminan Kesehatan</option>
+<option value="SKDT">SKDT - Surat Keterangan Datang/Tinggal Sementara</option>
+<option value="SKPERJ">SKPERJ - Surat Keterangan Perjalanan</option>
+<option value="SKKEG">SKKEG - Surat Keterangan Kegiatan Kemasyarakatan</option>
+<option value="SKLHN">SKLHN - Surat Keterangan Lahan Pertanian</option>
+<option value="SKPENS">SKPENS - Surat Keterangan Pensiun</option>
+<option value="SKPENG">SKPENG - Surat Pengantar Administrasi</option>
+    </select>
+    <div
+        id="deskripsiSurat"
+        class="deskripsi-surat"
+        style="display:none;">
+    </div>
+
+
+    <label>Nomor Surat</label>
+
+    <input
+        type="text"
+        id="nomorSurat"
+        class="readonly"
+        readonly
+        placeholder="Nomor otomatis setelah jenis surat dipilih"
+    >
+
+
+    <label>Tanggal Surat</label>
+
+    <input
+        type="text"
+        id="tanggalSurat"
+        class="readonly"
+        readonly
+    >
+
+
+    <label>Pejabat Penandatangan</label>
+
+    <select id="pejabatTtd" onchange="if(document.getElementById('suratNama').value && document.getElementById('jenisSurat').value) buatPreviewSurat()">
+        <option value="kepala">Kepala Desa Roga — Petrus Kanisius Leta</option>
+        <option value="sekdes">A/N Kepala Desa Roga — Sekretaris Desa, Rifaldus Tuka</option>
+        <option value="kasi">A/N Kepala Desa Roga — Kasi Pemerintahan, Karolus Dari</option>
+    </select>
+
+    <label>Keperluan Surat</label>
+
+    <textarea
+        id="keperluanSurat"
+        placeholder="Tuliskan keperluan surat jika diperlukan..."
+    ></textarea>
+
+
+    <br>
+
+    <button
+        class="btn-hijau"
+        onclick="buatPreviewSurat()">
+        👁️ PREVIEW SURAT
+    </button>
+
+    <button
+        class="btn-biru"
+        onclick="simpanSurat()">
+        💾 SIMPAN SURAT
+    </button>
+
+    <button
+        class="btn-kuning"
+        onclick="cetakSurat()">
+        🖨️ CETAK / SIMPAN PDF
+    </button>
+
+    <button
+        class="btn-abu"
+        onclick="resetFormSurat()">
+        ↺ RESET
+    </button>
+
+    <div
+        id="pesanSurat"
+        class="status">
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     4. PREVIEW SURAT
+     ===================================================== -->
+
+<div
+    id="previewSurat"
+    class="card preview">
+
+    <div
+        id="isiPreviewSurat">
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     5. ARSIP SURAT
+     ===================================================== -->
+
+<div class="card no-print">
+
+    <h2>🗂️ ARSIP SURAT DESA ROGA</h2>
+
+    <input
+        type="text"
+        id="cariArsip"
+        placeholder="Cari nomor surat, nama, NIK, atau jenis surat..."
+        oninput="tampilkanArsip()"
+    >
+
+    <button
+        class="btn-hijau"
+        onclick="tampilkanArsip()">
+        🔎 CARI ARSIP
+    </button>
+
+    <div
+        id="daftarArsip"
+        class="hasil">
+    </div>
+
+</div>
+
+
+</div>
+
+
+<footer class="no-print"
+style="
+    background:#126b36;
+    color:white;
+    text-align:center;
+    padding:20px;
+    margin-top:30px;
+">
+
+    <div>
+        © 2026 Pemerintah Desa Roga
+    </div>
+
+    <div style="margin-top:8px;">
+        WEBSITE INI TERJAWAB BERKAT KERJA SAMA
+        PEMDES ROGA DENGAN SOBAT CHAT JPT
+    </div>
+
+</footer>
+
+
+<script>
+
+/* =====================================================
+   NAMA DATABASE
+   ===================================================== */
+
+const NAMA_DATABASE =
+    "DATABASE_DESA_ROGA_UTAMA";
+
+
+const NAMA_ARSIP =
+    "ARSIP_SURAT_DESA_ROGA";
+
+
+/* =====================================================
+   DATABASE PENDUDUK
+   ===================================================== */
+
+function ambilDatabase(){
+
+    try{
+
+        const data =
+            localStorage.getItem(NAMA_DATABASE);
+
+        if(!data){
+
+            return {
+                kk:[],
+                anggota:[]
+            };
+
+        }
+
+        const database =
+            JSON.parse(data);
+
+        if(!database.kk){
+            database.kk = [];
+        }
+
+        if(!database.anggota){
+            database.anggota = [];
+        }
+
+        return database;
+
+    }catch(error){
+
+        console.error(error);
+
+        return {
+            kk:[],
+            anggota:[]
+        };
+
+    }
+
+}
+
+
+function tampilkanStatusDatabasePenduduk(){
+    const status=document.getElementById("statusDatabasePenduduk");
+    if(!status)return;
+    try{
+        const raw=localStorage.getItem(NAMA_DATABASE);
+        if(!raw){status.classList.add("peringatan");status.textContent="Database Data Penduduk belum terbaca. Buka Data Penduduk dan Surat Desa dari folder proyek yang sama, lalu muat ulang halaman Surat.";return;}
+        const db=JSON.parse(raw);
+        if(!db||!Array.isArray(db.kk)||!Array.isArray(db.anggota)){status.classList.add("peringatan");status.textContent="Database ditemukan, tetapi susunannya belum sesuai. Buka dan simpan kembali data melalui menu Data Penduduk.";return;}
+        status.classList.remove("peringatan");
+        status.textContent="TERHUBUNG — "+new Intl.NumberFormat("id-ID").format(db.anggota.length)+" penduduk dari "+new Intl.NumberFormat("id-ID").format(db.kk.length)+" KK terbaca. 45 jenis surat tersedia; cari warga dengan NIK, nama, atau Nomor KK.";
+    }catch(error){status.classList.add("peringatan");status.textContent="Database penduduk belum dapat dibaca oleh browser ini. Buka Data Penduduk dan Surat Desa dengan browser yang sama.";}
+}
+/* =====================================================
+   ARSIP
+   ===================================================== */
+
+function ambilArsip(){
+
+    try{
+
+        const data =
+            localStorage.getItem(NAMA_ARSIP);
+
+        if(!data){
+            return [];
+        }
+
+        const arsip =
+            JSON.parse(data);
+
+        return Array.isArray(arsip)
+            ? arsip
+            : [];
+
+    }catch(error){
+
+        return [];
+
+    }
+
+}
+
+
+function simpanArsip(arsip){
+
+    localStorage.setItem(
+        NAMA_ARSIP,
+        JSON.stringify(arsip)
+    );
+
+}
+
+
+/* =====================================================
+   TANGGAL
+   ===================================================== */
+
+function tanggalIndonesia() {
+
+    const sekarang = new Date();
+
+    const bulan = [
+        "Januari",
+        "Februari",
+        "Maret",
+        "April",
+        "Mei",
+        "Juni",
+        "Juli",
+        "Agustus",
+        "September",
+        "Oktober",
+        "November",
+        "Desember"
+    ];
+
+    return sekarang.getDate() + " " +
+           bulan[sekarang.getMonth()] + " " +
+           sekarang.getFullYear();
+}
+
+/* =====================================================
+   TANGGAL ISO
+   ===================================================== */
+
+function tanggalHariIni(){
+
+    const sekarang =
+        new Date();
+
+    const hari =
+        String(sekarang.getDate())
+        .padStart(2,"0");
+
+    const bulan =
+        String(sekarang.getMonth()+1)
+        .padStart(2,"0");
+
+    return (
+        hari +
+        "/" +
+        bulan +
+        "/" +
+        sekarang.getFullYear()
+    );
+
+}
+
+
+/* =====================================================
+   NOMOR SURAT OTOMATIS
+   ===================================================== */
+
+function buatNomorSurat(kode){
+
+    const arsip =
+        ambilArsip();
+
+    let nomorTerakhir = 0;
+
+
+    arsip.forEach(function(surat){
+
+        const nomor =
+            String(surat.nomor || "");
+
+        const bagian =
+            nomor.match(/\/(\d{3})\//);
+
+        if(bagian){
+
+            const angka =
+                parseInt(bagian[1]);
+
+            if(angka > nomorTerakhir){
+
+                nomorTerakhir = angka;
+
+            }
+
+        }
+
+    });
+
+
+    const nomorBaru =
+        String(nomorTerakhir + 1)
+        .padStart(3,"0");
+
+
+    const sekarang =
+        new Date();
+
+    const bulan =
+        String(sekarang.getMonth()+1)
+        .padStart(2,"0");
+
+
+    return (
+        "470/" +
+        nomorBaru +
+        "/DESA-ROGA/" +
+        bulan +
+        "/" +
+        sekarang.getFullYear()
+    );
+
+}
+
+
+/* =====================================================
+   DESKRIPSI DAN ISI SURAT
+   ===================================================== */
+
+const DATA_SURAT = {
+
+    /* =================================================
+       1. SURAT KETERANGAN DOMISILI
+       ================================================= */
+
+    SKD:{
+        nama:"SURAT KETERANGAN DOMISILI",
+
+        deskripsi:
+        "Menerangkan bahwa warga yang bersangkutan benar berdomisili di Desa Roga sesuai dengan alamat yang tercatat dalam administrasi Pemerintah Desa.",
+
+        isi:
+        "Berdasarkan data administrasi Pemerintah Desa Roga, dengan ini menerangkan bahwa warga tersebut di atas adalah benar warga Desa Roga dan berdomisili sesuai dengan alamat yang tercantum dalam surat ini. Surat keterangan ini dibuat untuk dipergunakan oleh yang bersangkutan dalam mengurus keperluan sebagaimana mestinya."
+    },
+
+
+    /* =================================================
+       2. SURAT KETERANGAN TIDAK MAMPU
+       ================================================= */
+
+    SKTM:{
+        nama:"SURAT KETERANGAN TIDAK MAMPU",
+
+        deskripsi:
+        "Menerangkan kondisi sosial ekonomi warga yang bersangkutan berdasarkan data administrasi dan keterangan yang tersedia di Pemerintah Desa Roga.",
+
+        isi:
+        "Berdasarkan data administrasi dan keterangan yang disampaikan kepada Pemerintah Desa Roga, warga tersebut di atas adalah benar warga Desa Roga yang keadaan sosial ekonominya memerlukan perhatian. Surat keterangan ini dibuat untuk digunakan sebagai kelengkapan administrasi sesuai dengan keperluan yang bersangkutan."
+    },
+
+
+    /* =================================================
+       3. SURAT KETERANGAN KELAHIRAN
+       ================================================= */
+
+    SKKL:{
+        nama:"SURAT KETERANGAN KELAHIRAN",
+
+        deskripsi:
+        "Menerangkan peristiwa kelahiran berdasarkan keterangan keluarga dan data yang disampaikan kepada Pemerintah Desa Roga.",
+
+        isi:
+        "Dengan ini menerangkan bahwa telah terjadi peristiwa kelahiran sebagaimana keterangan yang disampaikan kepada Pemerintah Desa Roga. Surat keterangan ini dibuat untuk digunakan sebagai kelengkapan administrasi kependudukan dan keperluan resmi lainnya."
+    },
+
+
+    /* =================================================
+       4. SURAT KETERANGAN KEMATIAN
+       ================================================= */
+
+    SKKM:{
+        nama:"SURAT KETERANGAN KEMATIAN",
+
+        deskripsi:
+        "Menerangkan peristiwa kematian berdasarkan laporan keluarga dan keterangan yang disampaikan kepada Pemerintah Desa Roga.",
+
+        isi:
+        "Dengan ini menerangkan bahwa telah terjadi peristiwa kematian sebagaimana keterangan yang disampaikan oleh keluarga kepada Pemerintah Desa Roga. Surat keterangan ini dibuat untuk digunakan sebagai kelengkapan administrasi kependudukan dan keperluan resmi lainnya."
+    },
+
+
+    /* =================================================
+       5. PINDAH DOMISILI
+       ================================================= */
+
+    SKPD:{
+        nama:"SURAT KETERANGAN PINDAH DOMISILI",
+
+        deskripsi:
+        "Menerangkan bahwa warga yang bersangkutan tercatat sebagai warga Desa Roga dan mengajukan perpindahan domisili.",
+
+        isi:
+        "Berdasarkan data administrasi Pemerintah Desa Roga, warga tersebut di atas adalah benar warga Desa Roga. Yang bersangkutan mengajukan perpindahan domisili sesuai dengan keperluan administrasi yang disampaikan kepada Pemerintah Desa Roga. Surat ini dibuat untuk dipergunakan sebagaimana mestinya."
+    },
+
+
+    /* =================================================
+       6. SURAT KETERANGAN WALI
+       ================================================= */
+
+    SKW:{
+        nama:"SURAT KETERANGAN WALI",
+
+        deskripsi:
+        "Menerangkan keterangan mengenai wali berdasarkan data dan dokumen pendukung yang disampaikan kepada Pemerintah Desa Roga.",
+
+        isi:
+        "Berdasarkan data administrasi dan keterangan yang disampaikan kepada Pemerintah Desa Roga, dengan ini menerangkan mengenai wali sebagaimana dimaksud oleh yang bersangkutan. Surat keterangan ini dibuat untuk dipergunakan dalam mengurus keperluan sebagaimana mestinya."
+    },
+
+
+    /* =================================================
+       7. SURAT KETERANGAN USAHA
+       ================================================= */
+
+    SKU:{
+        nama:"SURAT KETERANGAN USAHA",
+
+        deskripsi:
+        "Menerangkan bahwa warga yang bersangkutan mempunyai atau menjalankan kegiatan usaha berdasarkan keterangan yang disampaikan kepada Pemerintah Desa Roga.",
+
+        isi:
+        "Berdasarkan keterangan yang disampaikan kepada Pemerintah Desa Roga, warga tersebut di atas adalah benar warga Desa Roga dan menjalankan kegiatan usaha sebagaimana keterangan yang disampaikan. Surat keterangan ini dibuat untuk dipergunakan sebagai kelengkapan administrasi usaha dan keperluan resmi lainnya."
+    },
+
+
+    /* =================================================
+       8. SURAT KETERANGAN UMUM
+       ================================================= */
+
+    SKK:{
+        nama:"SURAT KETERANGAN UMUM",
+
+        deskripsi:
+        "Menerangkan suatu keadaan atau keterangan mengenai warga Desa Roga berdasarkan data administrasi dan keterangan yang disampaikan kepada Pemerintah Desa.",
+
+        isi:
+        "Berdasarkan data administrasi Pemerintah Desa Roga dan keterangan yang disampaikan oleh yang bersangkutan, dengan ini menerangkan bahwa warga tersebut di atas adalah benar warga Desa Roga. Surat keterangan ini dibuat untuk dipergunakan sesuai dengan keperluan yang bersangkutan."
+    },
+
+
+    /* =================================================
+       9. SURAT KETERANGAN PENDUDUK
+       ================================================= */
+
+    SKPEND:{
+        nama:"SURAT KETERANGAN PENDUDUK",
+
+        deskripsi:
+        "Menerangkan bahwa seseorang tercatat sebagai penduduk Desa Roga berdasarkan data administrasi kependudukan yang tersedia.",
+
+        isi:
+        "Berdasarkan data administrasi kependudukan Pemerintah Desa Roga, dengan ini menerangkan bahwa warga tersebut di atas adalah benar tercatat sebagai penduduk Desa Roga. Surat keterangan ini dibuat untuk dipergunakan sesuai dengan keperluan yang bersangkutan."
+    },
+
+
+    /* =================================================
+       10. BELUM MENIKAH
+       ================================================= */
+
+    SKBM:{
+        nama:"SURAT KETERANGAN BELUM MENIKAH",
+
+        deskripsi:
+        "Menerangkan status perkawinan warga berdasarkan data administrasi dan keterangan yang tersedia di Pemerintah Desa Roga.",
+
+        isi:
+        "Berdasarkan data administrasi Pemerintah Desa Roga dan keterangan yang disampaikan oleh yang bersangkutan, dengan ini menerangkan bahwa warga tersebut di atas tercatat dengan status belum menikah. Surat keterangan ini dibuat untuk dipergunakan sebagai kelengkapan administrasi sesuai keperluan."
+    },
+
+
+    /* =================================================
+       11. SURAT KETERANGAN PENGHASILAN
+       ================================================= */
+
+    SKPH:{
+        nama:"SURAT KETERANGAN PENGHASILAN",
+
+        deskripsi:
+        "Menerangkan penghasilan warga berdasarkan keterangan yang disampaikan dan diketahui oleh Pemerintah Desa Roga.",
+
+        isi:
+        "Berdasarkan keterangan yang disampaikan oleh yang bersangkutan kepada Pemerintah Desa Roga, dengan ini menerangkan mengenai penghasilan warga tersebut di atas sesuai dengan keterangan yang diberikan. Surat ini dibuat untuk dipergunakan sebagai kelengkapan administrasi sesuai keperluan."
+    },
+
+
+    /* =================================================
+       12. SURAT KETERANGAN AHLI WARIS
+       ================================================= */
+
+    SKA:{
+        nama:"SURAT KETERANGAN AHLI WARIS",
+
+        deskripsi:
+        "Menerangkan keterangan mengenai ahli waris berdasarkan dokumen, hubungan keluarga, dan keterangan yang disampaikan kepada Pemerintah Desa.",
+
+        isi:
+        "Berdasarkan dokumen dan keterangan yang disampaikan kepada Pemerintah Desa Roga, dengan ini menerangkan mengenai hubungan keluarga dan keterangan ahli waris sebagaimana yang diajukan oleh pihak yang bersangkutan. Surat ini dibuat untuk dipergunakan sesuai dengan keperluan administrasi."
+    },
+
+
+    /* =================================================
+       13. SURAT KETERANGAN TANAH
+       ================================================= */
+
+    SKT:{
+        nama:"SURAT KETERANGAN TANAH",
+
+        deskripsi:
+        "Menerangkan keterangan mengenai sebidang tanah berdasarkan dokumen dan informasi yang disampaikan kepada Pemerintah Desa Roga.",
+
+        isi:
+        "Berdasarkan data, dokumen, dan keterangan yang disampaikan kepada Pemerintah Desa Roga, dengan ini menerangkan keterangan mengenai tanah sebagaimana yang diajukan oleh pihak yang bersangkutan. Surat ini dibuat untuk dipergunakan sesuai dengan keperluan administrasi."
+    },
+
+
+    /* =================================================
+       14. RIWAYAT TANAH
+       ================================================= */
+
+    SKRT:{
+        nama:"SURAT KETERANGAN RIWAYAT TANAH",
+
+        deskripsi:
+        "Menerangkan riwayat atau keterangan mengenai penguasaan tanah berdasarkan data dan dokumen yang tersedia.",
+
+        isi:
+        "Berdasarkan keterangan, dokumen, dan data yang disampaikan kepada Pemerintah Desa Roga, dengan ini menerangkan riwayat tanah sebagaimana keterangan yang diajukan oleh pihak yang bersangkutan. Surat ini dibuat untuk dipergunakan sesuai dengan keperluan administrasi."
+    },
+
+
+    /* =================================================
+       15. SURAT KETERANGAN KEPEMILIKAN
+       ================================================= */
+
+    SKM:{
+        nama:"SURAT KETERANGAN KEPEMILIKAN",
+
+        deskripsi:
+        "Menerangkan keterangan kepemilikan suatu barang atau aset berdasarkan bukti dan keterangan yang disampaikan kepada Pemerintah Desa.",
+
+        isi:
+        "Berdasarkan keterangan dan dokumen yang disampaikan kepada Pemerintah Desa Roga, dengan ini menerangkan mengenai kepemilikan sebagaimana keterangan yang diajukan oleh pihak yang bersangkutan. Surat ini dibuat untuk dipergunakan sesuai dengan keperluan administrasi."
+    },
+
+
+    /* =================================================
+       16. JANDA / DUDA
+       ================================================= */
+
+    SKJD:{
+        nama:"SURAT KETERANGAN JANDA / DUDA",
+
+        deskripsi:
+        "Menerangkan status perkawinan warga sebagai janda atau duda berdasarkan data dan dokumen pendukung yang tersedia.",
+
+        isi:
+        "Berdasarkan data administrasi dan dokumen pendukung yang disampaikan kepada Pemerintah Desa Roga, dengan ini menerangkan mengenai status perkawinan warga tersebut di atas. Surat keterangan ini dibuat untuk dipergunakan sesuai dengan keperluan administrasi yang bersangkutan."
+    },
+
+
+    /* =================================================
+       17. SURAT PENGANTAR
+       ================================================= */
+
+    SP:{
+        nama:"SURAT PENGANTAR",
+
+        deskripsi:
+        "Surat pengantar dari Pemerintah Desa Roga untuk membantu warga dalam mengurus keperluan administrasi pada instansi terkait.",
+
+        isi:
+        "Dengan ini Pemerintah Desa Roga menerangkan bahwa warga tersebut di atas adalah benar warga Desa Roga. Surat pengantar ini diberikan kepada yang bersangkutan untuk digunakan dalam mengurus keperluan administrasi sebagaimana mestinya."
+    },
+
+
+    /* =================================================
+       18. TEMPAT TINGGAL
+       ================================================= */
+
+    SKDOM:{
+        nama:"SURAT KETERANGAN TEMPAT TINGGAL",
+
+        deskripsi:
+        "Menerangkan tempat tinggal warga yang bersangkutan di wilayah Desa Roga berdasarkan data administrasi yang tersedia.",
+
+        isi:
+        "Berdasarkan data administrasi Pemerintah Desa Roga, dengan ini menerangkan bahwa warga tersebut di atas bertempat tinggal di wilayah Desa Roga sesuai dengan alamat yang tercantum dalam surat ini. Surat keterangan ini dibuat untuk dipergunakan sesuai dengan keperluan yang bersangkutan."
+    },
+
+
+    /* =================================================
+       19. PERPINDAHAN PENDUDUK
+       ================================================= */
+
+    SKP:{
+        nama:"SURAT KETERANGAN PERPINDAHAN PENDUDUK",
+
+        deskripsi:
+        "Menerangkan keterangan administrasi mengenai perpindahan penduduk dari wilayah Desa Roga berdasarkan pengajuan warga yang bersangkutan.",
+
+        isi:
+        "Berdasarkan data administrasi Pemerintah Desa Roga, warga tersebut di atas adalah benar tercatat sebagai penduduk Desa Roga dan mengajukan perpindahan penduduk sesuai dengan keterangan yang disampaikan. Surat ini dibuat untuk dipergunakan dalam proses administrasi sebagaimana mestinya."
+    },
+
+
+    /* =================================================
+       20. SURAT KETERANGAN KELUARGA
+       ================================================= */
+
+    SKKEL:{
+        nama:"SURAT KETERANGAN KELUARGA",
+
+        deskripsi:
+        "Menerangkan susunan atau hubungan keluarga berdasarkan data Kartu Keluarga dan data administrasi kependudukan Desa Roga.",
+
+        isi:
+        "Berdasarkan data administrasi kependudukan Pemerintah Desa Roga, dengan ini menerangkan keterangan mengenai keluarga warga tersebut di atas sesuai dengan data yang tercatat dalam administrasi Desa. Surat keterangan ini dibuat untuk dipergunakan sesuai dengan keperluan yang bersangkutan."
+    },
+
+    SKIK:{nama:"SURAT PENGANTAR PERMOHONAN IZIN KERAMAIAN",deskripsi:"Surat pengantar bagi warga yang mengadakan kegiatan/keramaian. Cantumkan nama kegiatan, penanggung jawab, lokasi, tanggal dan waktu, serta perkiraan peserta pada kolom keperluan. Surat desa bukan izin keramaian dari kepolisian atau instansi berwenang; pemohon tetap mengurus persetujuan yang diwajibkan.",isi:"Berdasarkan permohonan dan keterangan yang disampaikan kepada Pemerintah Desa Roga, warga tersebut di atas bermaksud menyelenggarakan kegiatan sebagaimana tujuan dan keterangan yang dicantumkan dalam permohonan. Surat ini merupakan pengantar administrasi dari Pemerintah Desa untuk disampaikan kepada instansi berwenang. Surat ini tidak menggantikan izin atau persetujuan dari kepolisian maupun instansi lain yang dipersyaratkan."},
+    SPCK:{nama:"SURAT PENGANTAR PERMOHONAN SKCK",deskripsi:"Pengantar administrasi desa untuk warga yang akan mengajukan SKCK kepada kepolisian; bukan SKCK dan tidak menjamin penerbitannya.",isi:"Berdasarkan permohonan yang bersangkutan, Pemerintah Desa Roga menerangkan bahwa warga tersebut tercatat sebagai penduduk Desa Roga. Surat pengantar ini diberikan untuk melengkapi pengajuan SKCK kepada kepolisian sesuai persyaratan dan pemeriksaan instansi berwenang."},
+    SPN:{nama:"SURAT PENGANTAR NIKAH",deskripsi:"Pengantar awal administrasi rencana perkawinan untuk diproses melalui KUA atau instansi pencatatan perkawinan sesuai ketentuan; lengkapi data dan dokumen calon pasangan.",isi:"Berdasarkan permohonan dan data administrasi yang disampaikan, surat ini diberikan sebagai pengantar untuk mengurus pencatatan rencana perkawinan pada KUA atau instansi pencatatan perkawinan yang berwenang. Kelengkapan dan kebenaran dokumen tetap diperiksa oleh instansi tersebut."},
+    SPB:{nama:"SURAT PENGANTAR PERMOHONAN BEASISWA",deskripsi:"Pengantar untuk melengkapi pengajuan beasiswa atau bantuan pendidikan; keputusan dan persyaratan mengikuti penyelenggara program.",isi:"Surat pengantar ini diberikan kepada warga yang bersangkutan untuk melengkapi permohonan beasiswa atau bantuan pendidikan sesuai program yang dituju. Kebenaran data dan penetapan penerima menjadi kewenangan penyelenggara program."},
+    SPS:{nama:"SURAT PENGANTAR SEKOLAH",deskripsi:"Pengantar administrasi pendidikan untuk kebutuhan pendaftaran, pendataan, atau keperluan sekolah yang disebutkan pemohon.",isi:"Berdasarkan keterangan yang disampaikan, warga tersebut mengajukan keperluan administrasi pendidikan sebagaimana dicantumkan dalam permohonan. Surat pengantar ini dibuat untuk disampaikan kepada satuan pendidikan atau instansi terkait."},
+    SPJKN:{nama:"SURAT PENGANTAR LAYANAN JKN / BPJS KESEHATAN",deskripsi:"Pengantar untuk membantu pengurusan administrasi kepesertaan atau layanan JKN/BPJS Kesehatan; bukan bukti kepesertaan atau jaminan pembiayaan.",isi:"Surat pengantar ini diberikan untuk membantu yang bersangkutan mengurus administrasi layanan JKN/BPJS Kesehatan. Verifikasi kepesertaan, kelayakan, dan pelayanan sepenuhnya mengikuti ketentuan BPJS Kesehatan dan instansi terkait."},
+    SKBR:{nama:"SURAT KETERANGAN BELUM MEMILIKI RUMAH",deskripsi:"Keterangan berdasarkan pernyataan pemohon dan data yang tersedia untuk melengkapi permohonan bantuan atau program perumahan; bukan hasil pemeriksaan kepemilikan nasional.",isi:"Berdasarkan pernyataan pemohon dan keterangan yang disampaikan kepada Pemerintah Desa Roga, yang bersangkutan menerangkan belum memiliki rumah untuk keperluan yang disebutkan dalam permohonan. Surat ini dibuat sebagai keterangan administratif dan tidak menggantikan verifikasi oleh penyelenggara program."},
+    SKTS:{nama:"SURAT KETERANGAN TIDAK ADA SENGKETA TANAH",deskripsi:"Keterangan administratif berdasar dokumen dan keterangan pihak terkait untuk kebutuhan layanan pertanahan; bukan penetapan hak atau putusan sengketa.",isi:"Berdasarkan dokumen dan keterangan yang disampaikan kepada Pemerintah Desa Roga, bidang tanah sebagaimana disebutkan dalam permohonan dinyatakan oleh pemohon tidak sedang dalam sengketa yang diketahuinya. Surat ini bukan penetapan hak atas tanah dan tidak mengesampingkan pemeriksaan atau keputusan instansi pertanahan maupun pengadilan."},
+    SKPF:{nama:"SURAT KETERANGAN PENGUASAAN FISIK TANAH",deskripsi:"Mencatat keterangan pemohon mengenai penguasaan fisik tanah beserta lokasi, luas, batas, dan dasar penguasaan; tidak menetapkan hak milik.",isi:"Berdasarkan permohonan, dokumen, dan keterangan yang disampaikan, surat ini mencatat keterangan mengenai penguasaan fisik bidang tanah sebagaimana diuraikan pemohon. Surat ini tidak merupakan sertifikat, bukti penetapan hak, atau pengganti proses pendaftaran dan pemeriksaan oleh instansi pertanahan."},
+    SKBN:{nama:"SURAT KETERANGAN PERBEDAAN NAMA",deskripsi:"Menerangkan perbedaan penulisan nama pada dokumen berdasarkan dokumen asli yang diperlihatkan; bukan perubahan data resmi.",isi:"Berdasarkan dokumen yang diperlihatkan kepada Pemerintah Desa Roga, terdapat perbedaan penulisan nama sebagaimana dicantumkan dalam permohonan. Surat ini menerangkan keterangan administratif pemohon untuk keperluan verifikasi lebih lanjut oleh instansi penerbit dokumen."},
+    SKSO:{nama:"SURAT KETERANGAN SATU ORANG YANG SAMA",deskripsi:"Keterangan administratif bahwa beberapa variasi identitas diduga merujuk pada satu warga berdasarkan dokumen pendukung; instansi penerima tetap melakukan verifikasi.",isi:"Berdasarkan dokumen dan keterangan yang disampaikan kepada Pemerintah Desa Roga, pemohon menerangkan bahwa identitas dengan penulisan sebagaimana disebutkan dalam permohonan merujuk kepada orang yang sama. Surat ini dibuat untuk membantu proses verifikasi pada instansi yang memerlukan."},
+    SKTK:{nama:"SURAT KETERANGAN TANGGUNGAN KELUARGA",deskripsi:"Menerangkan anggota keluarga yang menjadi tanggungan berdasarkan data KK dan keterangan pemohon untuk keperluan administrasi yang disebutkan.",isi:"Berdasarkan data administrasi kependudukan dan keterangan yang disampaikan, surat ini menerangkan susunan tanggungan keluarga sebagaimana dicantumkan dalam permohonan. Surat dibuat untuk melengkapi keperluan administrasi yang disebutkan dan dapat diverifikasi oleh instansi penerima."},
+    SKKD:{nama:"SURAT KETERANGAN PINDAH ANTAR DUSUN",deskripsi:"Mencatat permohonan perpindahan tempat tinggal antar dusun di Desa Roga; bukan pengganti pencatatan perpindahan resmi jika diwajibkan.",isi:"Berdasarkan permohonan warga, yang bersangkutan mengajukan perpindahan tempat tinggal dari alamat asal ke alamat tujuan sebagaimana dicantumkan dalam permohonan di wilayah Desa Roga. Surat ini dibuat untuk pembaruan administrasi desa dan proses lanjutan sesuai ketentuan kependudukan."},
+    SKHIL:{nama:"SURAT KETERANGAN KEHILANGAN",deskripsi:"Mencatat laporan kehilangan dokumen atau barang untuk membantu pengurusan lanjutan; pelaporan resmi kehilangan dilakukan kepada kepolisian bila dipersyaratkan.",isi:"Berdasarkan laporan dan keterangan pemohon kepada Pemerintah Desa Roga, telah disampaikan kehilangan barang atau dokumen sebagaimana diuraikan dalam permohonan. Surat ini merupakan keterangan berdasarkan laporan pemohon dan bukan pengganti laporan kepolisian atau bukti kepemilikan."},
+    SKBENC:{nama:"SURAT KETERANGAN DAMPAK BENCANA",deskripsi:"Mencatat laporan dampak bencana yang dialami warga untuk pendataan dan pengajuan bantuan; jumlah kerusakan atau bantuan perlu diverifikasi petugas.",isi:"Berdasarkan laporan warga dan pendataan awal yang tersedia, pemohon menyampaikan mengalami dampak kejadian sebagaimana dijelaskan pada permohonan. Surat ini digunakan sebagai keterangan awal untuk pendataan dan proses verifikasi oleh petugas atau instansi terkait."},
+    SKUB:{nama:"SURAT KETERANGAN UNTUK PENGUBURAN",deskripsi:"Pengantar administratif untuk kebutuhan pemakaman berdasarkan laporan keluarga; tidak menggantikan dokumen medis atau pencatatan kematian yang diwajibkan.",isi:"Berdasarkan keterangan keluarga yang disampaikan kepada Pemerintah Desa Roga, surat ini diberikan untuk membantu keperluan administrasi pemakaman sebagaimana disebutkan. Pencatatan peristiwa kematian dan dokumen dari fasilitas kesehatan tetap mengikuti ketentuan instansi yang berwenang."},
+    SKASUH:{nama:"SURAT KETERANGAN PENGASUHAN ANAK",deskripsi:"Menerangkan keterangan pengasuhan anak berdasarkan pernyataan orang tua/wali dan dokumen; bukan penetapan hak asuh atau pengangkatan anak.",isi:"Berdasarkan keterangan orang tua atau wali serta dokumen pendukung yang disampaikan, surat ini menerangkan keadaan pengasuhan anak sebagaimana permohonan. Surat ini tidak menetapkan hak asuh, perwalian hukum, atau pengangkatan anak yang memerlukan proses pada instansi berwenang."},
+    SKPO:{nama:"SURAT KETERANGAN PENGHASILAN ORANG TUA",deskripsi:"Keterangan penghasilan orang tua berdasarkan pernyataan dan bukti yang diberikan pemohon untuk keperluan pendidikan atau administrasi lainnya.",isi:"Berdasarkan keterangan dan bukti pendukung yang disampaikan oleh pemohon, surat ini menerangkan perkiraan penghasilan orang tua sebagaimana dicantumkan dalam permohonan. Keterangan ini dibuat untuk keperluan administrasi yang disebutkan dan dapat diperiksa oleh instansi penerima."},
+    SKJAM:{nama:"SURAT KETERANGAN SOSIAL UNTUK PENGAJUAN JAMINAN KESEHATAN",deskripsi:"Keterangan sosial untuk melengkapi permohonan kepesertaan atau bantuan jaminan kesehatan; bukan penetapan kelayakan maupun jaminan layanan.",isi:"Berdasarkan data dan keterangan yang disampaikan kepada Pemerintah Desa Roga, surat ini diberikan untuk melengkapi pengajuan layanan atau bantuan jaminan kesehatan. Penilaian kelayakan, kepesertaan, dan manfaat ditetapkan oleh instansi penyelenggara sesuai ketentuan."},
+    SKDT:{nama:"SURAT KETERANGAN DATANG / TINGGAL SEMENTARA",deskripsi:"Mencatat keterangan warga yang datang atau tinggal sementara di wilayah desa untuk kebutuhan administrasi lokal dan pelaporan sesuai ketentuan.",isi:"Berdasarkan keterangan yang disampaikan, warga tersebut datang atau tinggal sementara di wilayah Desa Roga sebagaimana alamat dan jangka waktu dalam permohonan. Surat ini dibuat untuk pendataan administrasi desa dan tidak menggantikan pelaporan kependudukan yang diwajibkan."},
+    SKPERJ:{nama:"SURAT KETERANGAN PERJALANAN",deskripsi:"Keterangan identitas dan tujuan perjalanan untuk keperluan administratif yang disebutkan pemohon; bukan dokumen perjalanan resmi.",isi:"Berdasarkan permohonan yang bersangkutan, surat ini menerangkan keterangan perjalanan sebagaimana tujuan dan waktu yang dicantumkan dalam permohonan. Surat ini bukan paspor, izin perjalanan khusus, atau pengganti dokumen yang diterbitkan instansi berwenang."},
+    SKKEG:{nama:"SURAT KETERANGAN KEGIATAN KEMASYARAKATAN",deskripsi:"Pengantar atau keterangan kegiatan warga/kelompok untuk koordinasi dengan pihak terkait; cantumkan penyelenggara, waktu, tempat, dan maksud.",isi:"Berdasarkan pemberitahuan dan keterangan penyelenggara, kegiatan kemasyarakatan sebagaimana dicantumkan dalam permohonan direncanakan berlangsung di wilayah Desa Roga. Surat ini dibuat untuk keperluan koordinasi dan tidak menggantikan izin yang diwajibkan oleh peraturan."},
+    SKLHN:{nama:"SURAT KETERANGAN LAHAN PERTANIAN",deskripsi:"Menerangkan keterangan lahan yang digunakan untuk kegiatan pertanian berdasarkan dokumen dan keterangan pemohon; bukan bukti hak atas tanah.",isi:"Berdasarkan dokumen dan keterangan yang disampaikan, surat ini menerangkan penggunaan bidang lahan untuk kegiatan pertanian sebagaimana permohonan. Surat ini tidak menetapkan kepemilikan atau hak atas tanah dan tidak menggantikan dokumen pertanahan."},
+    SKPENS:{nama:"SURAT KETERANGAN PENSIUN",deskripsi:"Menerangkan keterangan domisili atau data warga untuk melengkapi pengurusan administrasi pensiun; status dan manfaat ditetapkan instansi pemberi pensiun.",isi:"Surat ini diberikan untuk membantu warga yang bersangkutan melengkapi administrasi pengurusan pensiun sesuai keterangan dan dokumen yang disampaikan. Penetapan status, masa kerja, dan manfaat pensiun merupakan kewenangan instansi atau lembaga terkait."},
+    SKPENG:{nama:"SURAT PENGANTAR ADMINISTRASI",deskripsi:"Surat pengantar umum ke instansi tujuan sesuai keperluan yang dicantumkan; tuliskan nama instansi, urusan yang diajukan, dan dokumen pendukung.",isi:"Pemerintah Desa Roga menerangkan bahwa warga tersebut di atas mengajukan keperluan administrasi sebagaimana dicantumkan dalam permohonan. Surat pengantar ini diberikan untuk disampaikan kepada instansi tujuan dan tidak menggantikan persyaratan atau keputusan instansi tersebut."}
+};
+
+/* =====================================================
+   DESKRIPSI SURAT
+   ===================================================== */
+
+function cariJenisSurat(){
+    const kata=document.getElementById("kataCariJenisSurat").value.trim().toLocaleLowerCase("id-ID");
+    const pilihan=document.getElementById("jenisSurat");
+    let jumlah=0;
+    Array.from(pilihan.options).forEach(function(option){
+        if(!option.value){option.hidden=false;return;}
+        const cocok=!kata||option.textContent.toLocaleLowerCase("id-ID").includes(kata);
+        option.hidden=!cocok && option.value!==pilihan.value;
+        if(cocok)jumlah++;
+    });
+    const status=document.getElementById("statusCariJenisSurat");
+    status.textContent=jumlah?jumlah+" jenis surat ditemukan. Pilih surat pada daftar di bawah.":"Jenis surat tidak ditemukan. Coba kata atau kode lain.";
+    pilihan.focus();
+}
+
+function resetCariJenisSurat(){
+    document.getElementById("kataCariJenisSurat").value="";
+    const pilihan=document.getElementById("jenisSurat");
+    Array.from(pilihan.options).forEach(function(option){option.hidden=false;});
+    document.getElementById("statusCariJenisSurat").textContent="45 jenis surat tersedia.";
+    document.getElementById("kataCariJenisSurat").focus();
+}
+function tampilkanDeskripsiSurat(){
+
+    const kode =
+        document.getElementById("jenisSurat").value;
+
+    const kotak =
+        document.getElementById("deskripsiSurat");
+
+    const nomor =
+        document.getElementById("nomorSurat");
+
+
+    if(!kode){
+
+        kotak.style.display =
+            "none";
+
+        kotak.innerHTML =
+            "";
+
+        nomor.value =
+            "";
+
+        return;
+
+    }
+
+
+    const surat =
+        DATA_SURAT[kode];
+
+
+    kotak.innerHTML =
+        "<b>" +
+        aman(surat.nama) +
+        "</b><br><br>" +
+        aman(surat.deskripsi);
+
+
+    kotak.style.display =
+        "block";
+
+
+    nomor.value =
+        buatNomorSurat(kode);
+
+
+    document.getElementById("tanggalSurat").value =
+        tanggalHariIni();
+
+}
+
+
+/* =====================================================
+   CARI PENDUDUK
+   ===================================================== */
+
+function cariPenduduk(){
+    tampilkanStatusDatabasePenduduk();
+
+    const kata =
+        document
+        .getElementById("kataPencarian")
+        .value
+        .trim()
+        .toLowerCase();
+
+    const hasil =
+        document
+        .getElementById("hasilPencarian");
+
+
+    if(kata === ""){
+
+        hasil.innerHTML =
+            "";
+
+        return;
+
+    }
+
+
+    let dataMentah;
+    try{
+        dataMentah = localStorage.getItem(NAMA_DATABASE);
+    }catch(error){
+        hasil.innerHTML = "<p><b>Penyimpanan data penduduk tidak dapat dibaca oleh browser ini.</b> Buka Data Penduduk dan Surat Desa pada browser serta alamat website yang sama.</p>";
+        return;
+    }
+
+    if(!dataMentah){
+        hasil.innerHTML = "<p><b>Database penduduk belum terbaca di halaman Surat.</b> Pastikan Data Penduduk dan Surat Desa dibuka di browser dan alamat website yang sama. Jika dibuka sebagai file lokal, browser dapat memisahkan penyimpanannya.</p>";
+        return;
+    }
+
+    const database =
+        ambilDatabase();
+
+    if(!Array.isArray(database.anggota) || database.anggota.length === 0){
+        hasil.innerHTML = "<p><b>Belum ada data warga yang terbaca.</b> Periksa database pada menu Data Penduduk, lalu coba cari kembali.</p>";
+        return;
+    }
+
+    const data =
+        database.anggota.filter(function(a){
+
+            const nik =
+                String(a.nik || "")
+                .toLowerCase();
+
+            const nama =
+                String(a.nama || "")
+                .toLowerCase();
+
+            const kk =
+                String(a.nomorKK || "")
+                .toLowerCase();
+
+            return (
+                nik.includes(kata) ||
+                nama.includes(kata) ||
+                kk.includes(kata)
+            );
+
+        });
+
+
+    if(data.length === 0){
+
+        hasil.innerHTML =
+            "<p><b>Data penduduk tidak ditemukan.</b></p>";
+
+        return;
+
+    }
+
+
+    let html =
+        "<table>";
+
+    html +=
+        "<tr>" +
+        "<th>No</th>" +
+        "<th>NIK</th>" +
+        "<th>Nama</th>" +
+        "<th>Jenis Kelamin</th>" +
+        "<th>Nomor KK</th>" +
+        "<th>Aksi</th>" +
+        "</tr>";
+
+
+    data.forEach(function(a,index){
+
+        html +=
+            "<tr>";
+
+        html +=
+            "<td>" +
+            (index+1) +
+            "</td>";
+
+        html +=
+            "<td>" +
+            aman(a.nik) +
+            "</td>";
+
+        html +=
+            "<td>" +
+            aman(a.nama) +
+            "</td>";
+
+        html +=
+            "<td>" +
+            aman(a.jk) +
+            "</td>";
+
+        html +=
+            "<td>" +
+            aman(a.nomorKK) +
+            "</td>";
+
+        html +=
+            "<td>" +
+
+            "<button class='btn-biru' " +
+            "onclick=\"pilihPenduduk('" +
+            amanJS(a.id) +
+            "')\">" +
+
+            "✓ PILIH" +
+
+            "</button>" +
+
+            "</td>";
+
+        html +=
+            "</tr>";
+
+    });
+
+
+    html +=
+        "</table>";
+
+
+    hasil.innerHTML =
+        html;
+
+}
+
+
+/* =====================================================
+   PILIH PENDUDUK
+   ===================================================== */
+
+function pilihPenduduk(id){
+
+    const database =
+        ambilDatabase();
+
+
+    const p =
+        database.anggota.find(function(a){
+
+            return String(a.id) ===
+                   String(id);
+
+        });
+
+
+    if(!p){
+
+        alert(
+            "Data penduduk tidak ditemukan."
+        );
+
+        return;
+
+    }
+
+
+    const kk =
+        database.kk.find(function(k){
+
+            return String(k.nomorKK) ===
+                   String(p.nomorKK);
+
+        });
+
+
+    isi("suratNIK",p.nik);
+    isi("suratKK",p.nomorKK);
+    isi("suratNama",p.nama);
+    isi("suratJK",p.jk);
+    isi("suratTempatLahir",p.tempat);
+    isi("suratTanggalLahir",p.tanggal);
+    isi("suratAgama",p.agama);
+    isi("suratPendidikan",p.pendidikan);
+    isi("suratPekerjaan",p.pekerjaan);
+    isi("suratKawin",p.kawin);
+    isi("suratHubungan",p.hubungan);
+    isi("suratDarah",p.darah);
+    isi("suratAyah",p.ayah);
+    isi("suratIbu",p.ibu);
+    isi("suratStatusPenduduk",p.statuspenduduk);
+
+
+    let alamat = "";
+
+    if(kk){
+
+        alamat =
+            kk.alamat || "";
+
+        if(kk.rt){
+
+            alamat +=
+                " RT " +
+                kk.rt;
+
+        }
+
+        if(kk.rw){
+
+            alamat +=
+                " RW " +
+                kk.rw;
+
+        }
+
+        if(kk.desa){
+
+            alamat +=
+                ", Desa " +
+                kk.desa;
+
+        }
+
+        if(kk.kecamatan){
+
+            alamat +=
+                ", Kecamatan " +
+                kk.kecamatan;
+
+        }
+
+        if(kk.kabupaten){
+
+            alamat +=
+                ", Kabupaten " +
+                kk.kabupaten;
+
+        }
+
+    }
+
+
+    isi(
+        "suratAlamat",
+        alamat
+    );
+
+
+    document
+    .getElementById("dataTerpilih")
+    .style.display =
+        "block";
+
+
+    document
+    .getElementById("belumAdaPenduduk")
+    .style.display =
+        "none";
+
+
+    const tujuanForm = document.getElementById("jenisSurat");
+    const pesan = document.getElementById("pesanSurat");
+
+    if(pesan){
+        pesan.textContent = "Penduduk dipilih. Silakan pilih jenis surat.";
+        pesan.style.display = "block";
+    }
+
+    tujuanForm.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+    });
+
+    setTimeout(function(){
+        tujuanForm.focus();
+    }, 300);
+
+}
+
+
+/* =====================================================
+   ISI INPUT
+   ===================================================== */
+
+function isi(id,nilai){
+
+    const el =
+        document.getElementById(id);
+
+    if(el){
+
+        el.value =
+            nilai || "";
+
+    }
+
+}
+
+
+/* =====================================================
+   BUAT PREVIEW
+   ===================================================== */
+
+function buatPreviewSurat(){
+
+    if(!validasiSurat()){
+        return;
+    }
+
+
+    const kode =
+        document.getElementById("jenisSurat").value;
+
+    const surat =
+        DATA_SURAT[kode];
+
+
+    const nomor =
+        document.getElementById("nomorSurat").value;
+
+    const tanggal =
+        document.getElementById("tanggalSurat").value;
+
+
+    const nama =
+        document.getElementById("suratNama").value;
+
+    const nik =
+        document.getElementById("suratNIK").value;
+
+    const kk =
+        document.getElementById("suratKK").value;
+
+    const jk =
+        document.getElementById("suratJK").value;
+
+    const tempat =
+        document.getElementById("suratTempatLahir").value;
+
+    const tglLahir =
+        document.getElementById("suratTanggalLahir").value;
+
+    const agama =
+        document.getElementById("suratAgama").value;
+
+    const pekerjaan =
+        document.getElementById("suratPekerjaan").value;
+
+    const alamat =
+        document.getElementById("suratAlamat").value;
+
+    const keperluan =
+        document.getElementById("keperluanSurat").value;
+
+
+    const pilihanPejabat = document.getElementById("pejabatTtd").value || "kepala";
+    const daftarPejabat = {
+        kepala: {jabatan: "KEPALA DESA ROGA", peran: "", nama: "PETRUS KANISIUS LETA"},
+        sekdes: {jabatan: "A/N KEPALA DESA ROGA", peran: "SEKRETARIS DESA", nama: "RIFALDUS TUKA"},
+        kasi: {jabatan: "A/N KEPALA DESA ROGA", peran: "KASI PEMERINTAHAN", nama: "KAROLUS DARI"}
+    };
+    const pejabatTtd = daftarPejabat[pilihanPejabat] || daftarPejabat.kepala;
+
+    const dataSurat = {
+        nik: {label: "NIK", value: nik},
+        nama: {label: "Nama Lengkap", value: nama},
+        kk: {label: "Nomor KK", value: kk},
+        lahir: {
+            label: "Tempat/Tanggal Lahir",
+            value: [tempat, tglLahir].filter(Boolean).join(", ")
+        },
+        jk: {label: "Jenis Kelamin", value: jk},
+        agama: {label: "Agama", value: agama},
+        pendidikan: {
+            label: "Pendidikan",
+            value: document.getElementById("suratPendidikan").value
+        },
+        pekerjaan: {label: "Pekerjaan", value: pekerjaan},
+        kawin: {
+            label: "Status Perkawinan",
+            value: document.getElementById("suratKawin").value
+        },
+        hubungan: {
+            label: "Hubungan Dalam Keluarga",
+            value: document.getElementById("suratHubungan").value
+        },
+        ayah: {
+            label: "Nama Ayah",
+            value: document.getElementById("suratAyah").value
+        },
+        ibu: {
+            label: "Nama Ibu",
+            value: document.getElementById("suratIbu").value
+        },
+        alamat: {label: "Alamat", value: alamat}
+    };
+
+    const fieldPerJenisSurat = Object.keys(DATA_SURAT).reduce(function(hasil,kodeSurat){
+        hasil[kodeSurat] = ["nama", "kk", "nik", "lahir", "pekerjaan", "alamat"];
+        return hasil;
+    }, {});
+
+    const barisData = (fieldPerJenisSurat[kode] || ["nama", "kk", "nik", "lahir", "pekerjaan", "alamat"])
+        .map(function(kunci){
+            return dataSurat[kunci];
+        })
+        .filter(function(item){
+            return item && String(item.value || "").trim() !== "";
+        })
+        .map(function(item){
+            return "<tr><td>" + aman(item.label) +
+                "</td><td>: " + aman(item.value) + "</td></tr>";
+        })
+        .join("");
+    let paragraf =
+        surat.isi;
+
+
+    if(keperluan){
+
+        paragraf +=
+            " Adapun surat ini digunakan untuk keperluan: " +
+            keperluan +
+            ".";
+
+    }
+
+
+    const html = `
+
+    <div class="surat-kertas">
+
+      <div class="kop">
+
+    <img
+        src="logo_ende.jpg"
+        class="logo-kop logo-kop-kiri"
+        alt="Logo Desa Roga"
+        onerror="this.style.display='none';"
+    >
+
+    <img
+        src="logo_desaroga.jpg"
+        class="logo-kop logo-kop-kanan"
+        alt="Logo Kabupaten Ende"
+        onerror="this.style.display='none';"
+    >
+
+    <div class="kab">
+        PEMERINTAH KABUPATEN ENDE
+    </div>
+
+    <div class="kab">
+        KECAMATAN NDONA TIMUR
+    </div>
+
+    <div class="desa">
+        DESA ROGA
+    </div>
+
+    <div class
+        RT/RW.001/001 DUSUN AEGOMO
+    </div>
+
+</div>
+	<div class="garis-kop"></div>
+
+        <div class="judul-surat">
+            ${aman(surat.nama)}
+        </div>
+
+
+        <div class="nomor-surat">
+            Nomor: ${aman(nomor)}
+        </div>
+
+
+        <p>
+            Yang bertanda tangan di bawah ini menerangkan
+            bahwa:
+        </p>
+
+
+        <table class="data-surat">
+            ${barisData}
+        </table>
+
+
+        <p style="text-align:justify;">
+            ${aman(paragraf)}
+        </p>
+
+
+        <p style="text-align:justify;">
+            Demikian surat keterangan ini dibuat dengan
+            sebenar-benarnya untuk dapat dipergunakan
+            sebagaimana mestinya.
+        </p>
+
+
+       <div class="ttd">
+
+    <div class="tanggal">
+        Roga, ${aman(tanggalIndonesia())}
+    </div>
+
+    <div class="jabatan">
+        <b>${aman(pejabatTtd.jabatan)}</b>
+    </div>
+
+    ${pejabatTtd.peran ? "<div>" + aman(pejabatTtd.peran) + "</div>" : ""}
+
+    <div style="height:55px;"></div>
+
+    <div class="nama">
+        <b><u>${aman(pejabatTtd.nama)}</u></b>
+    </div>
+
+</div>
+    `;
+
+
+    document
+    .getElementById("isiPreviewSurat")
+    .innerHTML =
+        html;
+
+
+    document
+    .getElementById("previewSurat")
+    .style.display =
+        "block";
+
+
+    document
+    .getElementById("previewSurat")
+    .scrollIntoView({
+        behavior:"smooth"
+    });
+
+}
+
+
+/* =====================================================
+   VALIDASI
+   ===================================================== */
+
+function validasiSurat(){
+
+    const nama =
+        document.getElementById("suratNama").value;
+
+    const nik =
+        document.getElementById("suratNIK").value;
+
+    const jenis =
+        document.getElementById("jenisSurat").value;
+
+
+    if(!nama || !nik){
+
+        alert(
+            "Silakan cari dan pilih data penduduk terlebih dahulu."
+        );
+
+        return false;
+
+    }
+
+
+    if(!jenis){
+
+        alert(
+            "Silakan pilih jenis surat."
+        );
+
+        return false;
+
+    }
+
+
+    return true;
+
+}
+
+
+/* =====================================================
+   SIMPAN SURAT
+   ===================================================== */
+
+function simpanSurat(){
+
+    if(!validasiSurat()){
+        return;
+    }
+
+
+    const kode =
+        document.getElementById("jenisSurat").value;
+
+    const surat =
+        DATA_SURAT[kode];
+
+
+    if(!surat){
+
+        alert("Jenis surat tidak ditemukan.");
+
+        return;
+
+    }
+
+
+    /*
+       =================================================
+       BUAT NOMOR BARU SETIAP KALI SURAT DISIMPAN
+       =================================================
+    */
+
+    const nomorBaru =
+        buatNomorSurat(kode);
+
+
+    /*
+       Tampilkan nomor terbaru pada form
+    */
+
+    document
+    .getElementById("nomorSurat")
+    .value =
+        nomorBaru;
+
+
+    /*
+       Pastikan tanggal tersedia
+    */
+
+    const tanggal =
+        document
+        .getElementById("tanggalSurat")
+        .value ||
+        tanggalHariIni();
+
+
+    document
+    .getElementById("tanggalSurat")
+    .value =
+        tanggal;
+
+
+    /*
+       Ambil arsip terbaru
+    */
+
+    const arsip =
+        ambilArsip();
+
+
+    /*
+       Cek keamanan nomor
+       agar tidak terjadi nomor ganda
+    */
+
+    const sudahAda =
+        arsip.some(function(item){
+
+            return String(item.nomor) ===
+                   String(nomorBaru);
+
+        });
+
+
+    if(sudahAda){
+
+        /*
+           Jika ternyata nomor sudah ada,
+           buat nomor berikutnya.
+        */
+
+        const nomorBerikutnya =
+            buatNomorSurat(kode);
+
+        document
+        .getElementById("nomorSurat")
+        .value =
+            nomorBerikutnya;
+
+    }
+
+
+    const nomorFinal =
+        document
+        .getElementById("nomorSurat")
+        .value;
+
+
+    /*
+       =================================================
+       DATA SURAT
+       =================================================
+    */
+
+
+    const dataSurat = {
+
+        id:
+            "SURAT-" +
+            Date.now(),
+
+        nomor:
+            nomorFinal,
+
+        kode:
+            kode,
+
+        jenis:
+            surat.nama,
+
+        tanggal:
+            tanggal,
+
+        nik:
+            document
+            .getElementById("suratNIK")
+            .value,
+
+        nomorKK:
+            document
+            .getElementById("suratKK")
+            .value,
+
+        nama:
+            document
+            .getElementById("suratNama")
+            .value,
+
+        jenisKelamin:
+            document
+            .getElementById("suratJK")
+            .value,
+
+        tempatLahir:
+            document
+            .getElementById("suratTempatLahir")
+            .value,
+
+        tanggalLahir:
+            document
+            .getElementById("suratTanggalLahir")
+            .value,
+
+        agama:
+            document
+            .getElementById("suratAgama")
+            .value,
+
+        pekerjaan:
+            document
+            .getElementById("suratPekerjaan")
+            .value,
+
+        alamat:
+            document
+            .getElementById("suratAlamat")
+            .value,
+
+        keperluan:
+            document
+            .getElementById("keperluanSurat")
+            .value,
+
+        pejabatTtd:
+            document.getElementById("pejabatTtd").value || "kepala",
+
+        deskripsi:
+            surat.deskripsi,
+
+        isi:
+            surat.isi,
+
+        dibuat:
+            new Date().toISOString()
+
+    };
+
+
+    /*
+       =================================================
+       SIMPAN KE ARSIP
+       =================================================
+    */
+
+    arsip.unshift(
+        dataSurat
+    );
+
+
+    simpanArsip(
+        arsip
+    );
+
+
+    /*
+       Tampilkan arsip terbaru
+    */
+
+    tampilkanArsip();
+
+
+    /*
+       Buat preview surat
+    */
+
+    buatPreviewSurat();
+
+
+    /*
+       Pesan berhasil
+    */
+
+    document
+    .getElementById("pesanSurat")
+    .innerHTML =
+        "✅ SURAT BERHASIL DISIMPAN KE ARSIP DESA ROGA.<br>" +
+        "Nomor Surat: <b>" +
+        aman(nomorFinal) +
+        "</b>";
+
+
+    document
+    .getElementById("pesanSurat")
+    .style.display =
+        "block";
+
+
+    alert(
+        "SURAT BERHASIL DISIMPAN.\n\n" +
+        "Nomor: " +
+        nomorFinal +
+        "\nNama: " +
+        dataSurat.nama +
+        "\n\nSurat telah masuk ke ARSIP DESA ROGA."
+    );
+
+
+    /*
+       =================================================
+       SIAP UNTUK SURAT BERIKUTNYA
+       =================================================
+    */
+
+    document
+    .getElementById("nomorSurat")
+    .value =
+        buatNomorSurat(kode);
+
+}
+
+/* =====================================================
+   CETAK / PDF
+   ===================================================== */
+
+function cetakSurat(){
+
+    if(!validasiSurat()){
+        return;
+    }
+
+
+    buatPreviewSurat();
+
+
+    setTimeout(function(){
+
+        window.print();
+
+    },300);
+
+}
+
+
+/* =====================================================
+   TAMPILKAN ARSIP
+   ===================================================== */
+
+function tampilkanArsip(){
+
+    const kata =
+        document
+        .getElementById("cariArsip")
+        .value
+        .trim()
+        .toLowerCase();
+
+
+    const arsip =
+        ambilArsip();
+
+
+    const hasil =
+        arsip.filter(function(surat){
+
+            if(!kata){
+                return true;
+            }
+
+            return (
+
+                String(surat.nomor || "")
+                .toLowerCase()
+                .includes(kata)
+
+                ||
+
+                String(surat.nama || "")
+                .toLowerCase()
+                .includes(kata)
+
+                ||
+
+                String(surat.nik || "")
+                .toLowerCase()
+                .includes(kata)
+
+                ||
+
+                String(surat.jenis || "")
+                .toLowerCase()
+                .includes(kata)
+
+            );
+
+        });
+
+
+    const div =
+        document.getElementById("daftarArsip");
+
+
+    if(hasil.length === 0){
+
+        div.innerHTML =
+            "<p><b>Belum ada arsip surat.</b></p>";
+
+        return;
+
+    }
+
+
+    let html =
+        "<table>";
+
+    html +=
+        "<tr>" +
+        "<th>No</th>" +
+        "<th>Nomor Surat</th>" +
+        "<th>Jenis Surat</th>" +
+        "<th>Nama</th>" +
+        "<th>NIK</th>" +
+        "<th>Tanggal</th>" +
+        "<th>Aksi</th>" +
+        "</tr>";
+
+
+    hasil.forEach(function(surat,index){
+
+        html +=
+            "<tr>";
+
+        html +=
+            "<td>" +
+            (index+1) +
+            "</td>";
+
+        html +=
+            "<td>" +
+            aman(surat.nomor) +
+            "</td>";
+
+        html +=
+            "<td>" +
+            aman(surat.jenis) +
+            "</td>";
+
+        html +=
+            "<td>" +
+            aman(surat.nama) +
+            "</td>";
+
+        html +=
+            "<td>" +
+            aman(surat.nik) +
+            "</td>";
+
+        html +=
+            "<td>" +
+            aman(surat.tanggal) +
+            "</td>";
+
+        html +=
+            "<td>" +
+
+            "<button class='btn-biru' " +
+            "onclick=\"bukaArsip('" +
+            amanJS(surat.id) +
+            "')\">" +
+            "👁️ BUKA" +
+            "</button>" +
+
+            "<button class='btn-kuning' " +
+            "onclick=\"cetakArsip('" +
+            amanJS(surat.id) +
+            "')\">" +
+            "🖨️ CETAK" +
+            "</button>" +
+
+            "<button class='btn-merah' " +
+            "onclick=\"hapusArsip('" +
+            amanJS(surat.id) +
+            "')\">" +
+            "🗑️ HAPUS" +
+            "</button>" +
+
+            "</td>";
+
+        html +=
+            "</tr>";
+
+    });
+
+
+    html +=
+        "</table>";
+
+
+    div.innerHTML =
+        html;
+
+}
+
+
+/* =====================================================
+   BUKA ARSIP
+   ===================================================== */
+
+function bukaArsip(id){
+
+    const arsip =
+        ambilArsip();
+
+
+    const surat =
+        arsip.find(function(item){
+
+            return String(item.id) ===
+                   String(id);
+
+        });
+
+
+    if(!surat){
+
+        alert(
+            "Arsip surat tidak ditemukan."
+        );
+
+        return;
+
+    }
+
+
+    isi(
+        "suratNIK",
+        surat.nik
+    );
+
+    isi(
+        "suratKK",
+        surat.nomorKK
+    );
+
+    isi(
+        "suratNama",
+        surat.nama
+    );
+
+    isi(
+        "suratJK",
+        surat.jenisKelamin
+    );
+
+    isi(
+        "suratTempatLahir",
+        surat.tempatLahir
+    );
+
+    isi(
+        "suratTanggalLahir",
+        surat.tanggalLahir
+    );
+
+    isi(
+        "suratAgama",
+        surat.agama
+    );
+
+    isi(
+        "suratPekerjaan",
+        surat.pekerjaan
+    );
+
+    isi(
+        "suratAlamat",
+        surat.alamat
+    );
+
+    isi(
+        "nomorSurat",
+        surat.nomor
+    );
+
+    isi(
+        "tanggalSurat",
+        surat.tanggal
+    );
+
+    isi(
+        "keperluanSurat",
+        surat.keperluan
+    );
+
+
+    document
+    .getElementById("jenisSurat")
+    .value =
+        surat.kode;
+
+
+    tampilkanDeskripsiSurat();
+
+
+    /*
+       Kembalikan nomor dan tanggal
+       dari arsip karena fungsi
+       deskripsi membuat nomor baru.
+    */
+
+    isi(
+        "nomorSurat",
+        surat.nomor
+    );
+
+    isi(
+        "tanggalSurat",
+        surat.tanggal
+    );
+
+
+    document
+    .getElementById("dataTerpilih")
+    .style.display =
+        "block";
+
+
+    document
+    .getElementById("belumAdaPenduduk")
+    .style.display =
+        "none";
+
+
+    buatPreviewSurat();
+
+
+    alert(
+        "ARSIP SURAT BERHASIL DIBUKA.\n\n" +
+        "Nomor: " +
+        surat.nomor
+    );
+
+}
+
+
+/* =====================================================
+   CETAK ARSIP
+   ===================================================== */
+
+function cetakArsip(id){
+
+    bukaArsipTanpaAlert(id);
+
+
+    setTimeout(function(){
+
+        window.print();
+
+    },300);
+
+}
+
+
+/* =====================================================
+   BUKA ARSIP TANPA ALERT
+   ===================================================== */
+
+function bukaArsipTanpaAlert(id){
+
+    const arsip =
+        ambilArsip();
+
+
+    const surat =
+        arsip.find(function(item){
+
+            return String(item.id) ===
+                   String(id);
+
+        });
+
+
+    if(!surat){
+
+        return;
+
+    }
+
+
+    isi("suratNIK",surat.nik);
+    isi("suratKK",surat.nomorKK);
+    isi("suratNama",surat.nama);
+    isi("suratJK",surat.jenisKelamin);
+    isi("suratTempatLahir",surat.tempatLahir);
+    isi("suratTanggalLahir",surat.tanggalLahir);
+    isi("suratAgama",surat.agama);
+    isi("suratPekerjaan",surat.pekerjaan);
+    isi("suratAlamat",surat.alamat);
+    isi("nomorSurat",surat.nomor);
+    isi("tanggalSurat",surat.tanggal);
+    isi("keperluanSurat",surat.keperluan);
+    isi("pejabatTtd",surat.pejabatTtd || "kepala");
+
+
+    document
+    .getElementById("jenisSurat")
+    .value =
+        surat.kode;
+
+
+    document
+    .getElementById("dataTerpilih")
+    .style.display =
+        "block";
+
+
+    document
+    .getElementById("belumAdaPenduduk")
+    .style.display =
+        "none";
+
+
+    buatPreviewSurat();
+
+}
+
+
+/* =====================================================
+   HAPUS ARSIP
+   ===================================================== */
+
+function hapusArsip(id){
+
+    const arsip =
+        ambilArsip();
+
+
+    const surat =
+        arsip.find(function(item){
+
+            return String(item.id) ===
+                   String(id);
+
+        });
+
+
+    if(!surat){
+
+        alert(
+            "Arsip tidak ditemukan."
+        );
+
+        return;
+
+    }
+
+
+    const yakin =
+        confirm(
+            "Hapus arsip surat berikut?\n\n" +
+            surat.nomor +
+            "\n" +
+            surat.nama
+        );
+
+
+    if(!yakin){
+        return;
+    }
+
+
+    const arsipBaru =
+        arsip.filter(function(item){
+
+            return String(item.id) !==
+                   String(id);
+
+        });
+
+
+    simpanArsip(
+        arsipBaru
+    );
+
+
+    tampilkanArsip();
+
+
+    alert(
+        "ARSIP SURAT BERHASIL DIHAPUS."
+    );
+
+}
+
+
+/* =====================================================
+   RESET
+   ===================================================== */
+
+function resetPencarian(){
+
+    document
+    .getElementById("kataPencarian")
+    .value = "";
+
+    document
+    .getElementById("hasilPencarian")
+    .innerHTML = "";
+
+}
+
+
+/* =====================================================
+   RESET FORM SURAT
+   ===================================================== */
+
+function resetFormSurat(){
+
+    const ids = [
+
+        "suratNIK",
+        "suratKK",
+        "suratNama",
+        "suratJK",
+        "suratTempatLahir",
+        "suratTanggalLahir",
+        "suratAgama",
+        "suratPendidikan",
+        "suratPekerjaan",
+        "suratKawin",
+        "suratHubungan",
+        "suratDarah",
+        "suratAyah",
+        "suratIbu",
+        "suratStatusPenduduk",
+        "suratAlamat",
+        "nomorSurat",
+        "tanggalSurat",
+        "keperluanSurat"
+
+    ];
+
+    document.getElementById("pejabatTtd").value = "kepala";
+
+
+    ids.forEach(function(id){
+
+        const el =
+            document.getElementById(id);
+
+        if(el){
+
+            el.value = "";
+
+        }
+
+    });
+
+
+    document
+    .getElementById("jenisSurat")
+    .value = "";
+
+
+    document
+    .getElementById("deskripsiSurat")
+    .style.display =
+        "none";
+
+
+    document
+    .getElementById("dataTerpilih")
+    .style.display =
+        "none";
+
+
+    document
+    .getElementById("belumAdaPenduduk")
+    .style.display =
+        "block";
+
+
+    document
+    .getElementById("previewSurat")
+    .style.display =
+        "none";
+
+}
+
+
+/* =====================================================
+   AMAN HTML
+   ===================================================== */
+
+function aman(value){
+
+    return String(value || "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* =====================================================
+   AMAN JAVASCRIPT
+   ===================================================== */
+
+function amanJS(value){
+
+    return String(value || "")
+        .replace(/\\/g,"\\\\")
+        .replace(/'/g,"\\'")
+        .replace(/"/g,'\\"');
+
+}
+
+
+/* =====================================================
+   SAAT HALAMAN DIBUKA
+   ===================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function(){
+
+        document
+        .getElementById("tanggalSurat")
+        .value =
+            tanggalHariIni();
+
+
+        tampilkanStatusDatabasePenduduk();
+
+        tampilkanArsip();
+
+
+        console.log(
+            "Database penduduk:",
+            ambilDatabase()
+        );
+
+
+        console.log(
+            "Jumlah arsip surat:",
+            ambilArsip().length
+        );
+
+    }
+);
+
+</script>
+
+<script src="kunci_lokal_desaroga.js"></script>
+
+		<!-- Baris penyambung otomatis ke Buku Agenda Surat -->
+	<script src="script_integrasi.js"></script>
+	<script>
+ 	 // DAFTARKAN FUNGSI INI PADA TOMBOL "SIMPAN" ATAU "CETAK" DI FILE ANDA:
+  	// Cukup panggil fungsi: integrasikanSuratKeluar(nomorSurat, perihal, tujuanDusun, keterangan);
+ 	 // Contoh penempatan pada fungsi simpan/cetak surat Anda saat ini:
+ 	 // integrasikanSuratKeluar("005/01/DR/2026", "Surat Pengantar KTP an. Budi", "Dusun Aegomo", "Selesai Cetak");
+	</script>
+
+</body>
+</html>
+
+
+
+
