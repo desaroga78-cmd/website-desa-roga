@@ -2,52 +2,48 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
 <title>Desa Roga</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:#0b3d1f;font-family:Poppins,Arial;overflow-x:hidden}
-.container{position:relative;width:100%;max-width:100vw}
-.container img{
-  width:100vw;
-  height:100vh;
-  object-fit:cover;
-  object-position:center top;
-  display:block;
-}
-.tombol{
-  position:absolute;left:50%;transform:translateX(-50%);
-  bottom:5%;z-index:10;
-  background:linear-gradient(#1db35a,#0b7b40);color:#fff;
-  padding:clamp(12px, 2vw, 18px) clamp(20px, 4vw, 36px);
-  border-radius:999px;font-weight:900;
-  font-size:clamp(14px, 2.2vw, 19px);
-  text-decoration:none;border:3px solid #ffd700;
-  box-shadow:0 8px 24px rgba(0,0,0,.5);
-  white-space:nowrap
-}
-/* HP KECIL */
-@media(max-width:768px){
-  .container img{
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:100%;overflow-x:hidden;background:#0b3d1f}
+  .hero{position:relative;width:100%;height:100dvh;background:#0b3d1f;display:flex;align-items:center;justify-content:center}
+  .hero img{
     width:100%;
-    height:auto;
-    min-height:92vh;
-    object-fit:contain;
-    object-position:top center;
-    background:#e8f0e8
+    height:100%;
+    object-fit:cover;
+    object-position:center center;
+    display:block;
   }
-  .tombol{bottom:3%}
-}
-/* LAPTOP BESAR - TETAP GAGAH */
-@media(min-width:1200px){
-  .container img{object-fit:cover;height:100vh}
-}
+  .btn-utama{
+    position:absolute;bottom:6%;left:50%;transform:translateX(-50%);
+    background:linear-gradient(180deg,#22c55e,#0b7b40);color:#fff;
+    padding:14px 28px;border-radius:999px;font-weight:900;
+    font-size:16px;text-decoration:none;border:3px solid #ffd700;
+    box-shadow:0 10px 25px rgba(0,0,0,.6);white-space:nowrap;z-index:5
+  }
+  /* HP ANDROID - BIAR PAS TIDAK LEBAR & TIDAK KEPOTONG */
+  @media (max-width: 768px){
+    .hero{height:auto;min-height:100dvh;background:#dfe9df}
+    .hero img{
+      width:100%;
+      height:auto;
+      max-width:100vw;
+      object-fit:contain;
+      object-position:top center;
+    }
+  }
+  /* LAPTOP - TETAP FULL GAGAH */
+  @media (min-width: 769px){
+    .hero img{object-fit:cover;object-position:center top}
+    .btn-utama{font-size:18px;padding:16px 36px;bottom:5%}
+  }
 </style>
 </head>
 <body>
-<div class="container">
-  <img src="BANNER_WEBSITE_DESA_ROGA_BARU.jpg.jpg" alt="Desa Roga">
-  <a class="tombol" href="index_beranda_desa_roga.html">Masuk ke Layanan Digital Desa Roga</a>
-</div>
+  <div class="hero">
+    <img src="BANNER_WEBSITE_DESA_ROGA_BARU.jpg.jpg?v=final" alt="Selamat Datang di Desa Roga">
+    <a class="btn-utama" href="index_beranda_desa_roga.html">Masuk ke Layanan Digital Desa Roga</a>
+  </div>
 </body>
 </html>
