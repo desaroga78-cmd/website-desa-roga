@@ -1,114 +1,220 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Layanan Digital Desa Roga</title>
-<style>
-*{box-sizing:border-box;font-family:Segoe UI,Arial}body{margin:0;background:#eef3f0}
-.top{background:#0e1827;color:#fff;text-align:center;padding:14px;border-bottom:4px solid #f4c40a}
-.top h1{margin:0;font-size:19px;letter-spacing:.5px}.top h2{margin:2px;font-size:11px;font-weight:400;opacity:.8}.top h3{margin:2px;color:#f4c40a;font-size:15px}
-.top small{font-size:9px;opacity:.6}
-.wrap{padding:12px}
-.judul{text-align:center;margin:10px 0 6px}.judul b{font-size:20px;color:#111827}.judul p{font-size:12px;color:#6b7280;margin:2px}
-.ring{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:12px 0}
-@media(max-width:800px){.ring{grid-template-columns:repeat(2,1fr)}}
-.r-card{background:#fff;border-radius:10px;padding:12px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,.08);border-bottom:3px solid #cbd5e1;cursor:pointer}
-.r-card:hover{transform:translateY(-2px)}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-@media(max-width:900px){.grid{grid-template-columns:1fr}}
-.card{background:#fff;border-radius:10px;padding:12px;box-shadow:0 1px 5px rgba(0,0,0,.07);border-left:4px solid #cbd5e1;position:relative}
-.card h4{margin:0 0 4px;font-size:12px;color:#0f172a;display:flex;gap:6px}
-.card p{margin:0;font-size:11px;color:#6b7280;min-height:30px}
-.btn{margin-top:8px;padding:7px 10px;border:0;border-radius:6px;color:#fff;font-size:11px;font-weight:700;cursor:pointer}
-.g{background:#15803d}.b{background:#2563eb}.o{background:#d97706}.u{background:#7c3aed}.m{background:#b91c1c}.ab{background:#9ca3af}
-.badge{position:absolute;top:6px;right:6px;font-size:8px;padding:2px 6px;border-radius:10px;color:#fff;font-weight:800}
-#spanduk{position:fixed;top:85px;left:50%;transform:translateX(-50%);background:#0f172a;color:#fff;padding:16px 20px;border-radius:12px;display:none;z-index:999;width:92%;max-width:500px;text-align:center;border-left:6px solid #f4c40a;box-shadow:0 10px 25px rgba(0,0,0,.4)}
-#loginbox{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:1000}
-.login{background:#fff;padding:20px;border-radius:14px;width:90%;max-width:320px;text-align:center}
-.login input{width:100%;padding:10px;margin:6px 0;border:1px solid #ccc;border-radius:8px}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Beranda Digital Desa Roga</title>
+<style>:root{--hijau:#075b2d;--hijau2:#0b7b40;--emas:#e7bf54;--latar:#f3f7f3;--teks:#193323;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--latar);color:var(--teks);font-family:Arial,Helvetica,sans-serif;}
+header{background:linear-gradient(135deg,rgba(4,65,34,.84),rgba(8,105,52,.76)),url("banner_desa_roga.jpg") center 46%/cover no-repeat;color:#fff;padding:25px 18px 28px;text-align:center;}
+.kop{max-width:1080px;margin:auto;display:grid;grid-template-columns:104px 1fr 104px;align-items:center;gap:20px;padding:0 0 18px;border-bottom:3px double var(--emas);}
+.logo{width:92px;height:92px;object-fit:contain;background:#fff;border:2px solid var(--emas);border-radius:50%;padding:5px;box-shadow:0 5px 15px #002b1740;}
+.judul-kop h1{margin:0 0 6px;font-size:clamp(20px,3.6vw,30px);letter-spacing:1.2px;}
+.judul-kop p{margin:4px 0;}.judul-kop .wilayah{font-size:14px;font-weight:bold;letter-spacing:.6px;}.judul-kop .desa{font-size:22px;font-weight:800;letter-spacing:1.5px;margin-top:3px;}
+.alamat-kantor{margin:13px auto 0;max-width:760px;font-size:14px;line-height:1.55;color:#f2f8f3;text-shadow:0 1px 4px #002b17;}
+main{width:min(1080px,94%);margin:30px auto 48px;}
+.sambutan{text-align:center;margin-bottom:24px;}.sambutan h2{color:var(--hijau);font-size:clamp(22px,3vw,30px);margin:0 0 8px;}.sambutan p{margin:0;color:#506456;line-height:1.6;}
+.menu-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;}
+.menu-card{--card-accent:#0b7b40;--card-tint:#eef8f0;display:flex;gap:12px;align-items:flex-start;height:100%;background:linear-gradient(145deg,#fff 0%,var(--card-tint) 100%);border:1px solid #e0e9e1;border-top:4px solid var(--card-accent);border-radius:12px;padding:15px;box-shadow:0 3px 12px #163c2110;transition:transform .16s,box-shadow .16s;}
+.menu-card:nth-child(10n+2){--card-accent:#1768a5;--card-tint:#eef6fc}.menu-card:nth-child(10n+3){--card-accent:#7546a5;--card-tint:#f6f1fb}.menu-card:nth-child(10n+4){--card-accent:#c27a0d;--card-tint:#fff8e8}.menu-card:nth-child(10n+5){--card-accent:#13877d;--card-tint:#ebf8f6}.menu-card:nth-child(10n+6){--card-accent:#b84b58;--card-tint:#fff1f2}.menu-card:nth-child(10n+7){--card-accent:#3d69b1;--card-tint:#eff4ff}.menu-card:nth-child(10n+8){--card-accent:#647b24;--card-tint:#f4f8e9}.menu-card:nth-child(10n+9){--card-accent:#c45c24;--card-tint:#fff4eb}.menu-card:nth-child(10n+10){--card-accent:#306d86;--card-tint:#eef8fb}
+.menu-card:hover{transform:translateY(-2px);box-shadow:0 7px 18px #163c211b}.menu-card>div:last-child{min-width:0;flex:1;}.ikon{flex:0 0 42px;width:42px;height:42px;display:grid;place-items:center;border-radius:10px;background:var(--card-tint);color:var(--card-accent);box-shadow:inset 0 0 0 1px #163c2110;font-size:23px;}
+.menu-card h3{margin:1px 0 6px;color:var(--card-accent);font-size:16px;line-height:1.3;}.menu-card p{margin:0 0 9px;color:#53645a;line-height:1.4;font-size:12.5px;}
+.menu-card a{display:inline-flex;align-items:center;justify-content:center;min-height:38px;background:var(--card-accent);color:#fff;text-decoration:none;text-align:center;font-weight:bold;font-size:12px;line-height:1.25;padding:8px 10px;border-radius:7px;margin:2px 4px 2px 0;box-shadow:0 2px 5px #163c2118;}.menu-card a.secondary{background:#65766b;box-shadow:none;}.menu-card a:hover,.menu-card a:focus{filter:brightness(.9);outline:3px solid #bce0c4;}.menu-card a.secondary:hover,.menu-card a.secondary:focus{background:#4e5d53;filter:none;}
+.catatan{margin-top:22px;background:#fff8e7;border-left:5px solid var(--emas);border-radius:7px;padding:14px 16px;color:#514621;line-height:1.5;}
+footer{background:#064b26;color:#fff;text-align:center;padding:18px;font-size:14px;line-height:1.6;}
+.ringkasan-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin:0 0 24px;}
+.ringkasan-item{--stat-accent:#16834b;--stat-tint:#edf8f0;position:relative;overflow:hidden;isolation:isolate;background:linear-gradient(145deg,#fff 0%,var(--stat-tint) 100%);border:1px solid #dfe9e1;border-bottom:4px solid var(--stat-accent);border-radius:14px;padding:15px 13px;text-align:center;box-shadow:0 4px 14px #163c2110;transition:transform .16s,box-shadow .16s;}
+.ringkasan-item:nth-child(2){--stat-accent:#2166a8;--stat-tint:#edf5ff}.ringkasan-item:nth-child(3){--stat-accent:#784aa6;--stat-tint:#f5effa}.ringkasan-item:nth-child(4){--stat-accent:#c47716;--stat-tint:#fff6e7}.ringkasan-item:nth-child(5){--stat-accent:#187c80;--stat-tint:#eaf7f6}
+.ringkasan-item:hover{transform:translateY(-2px);box-shadow:0 8px 20px #163c211a;}.ringkasan-item span{display:block;color:var(--stat-accent);font-size:13px;line-height:1.4;font-weight:bold;}.ringkasan-item span::before{display:block;font-size:23px;margin:0 0 5px;}.ringkasan-item:nth-child(1) span::before{content:"👪"}.ringkasan-item:nth-child(2) span::before{content:"👥"}.ringkasan-item:nth-child(3) span::before{content:"👨"}.ringkasan-item:nth-child(4) span::before{content:"👩"}.ringkasan-item:nth-child(5) span::before{content:"📄"}
+.ringkasan-item strong{display:block;color:var(--stat-accent);font-size:clamp(23px,3vw,32px);margin-top:5px;}.status-koneksi{text-align:center;color:#53645a;font-size:13px;margin:-8px 0 22px;line-height:1.5;}
+@media(max-width:800px){.ringkasan-grid{grid-template-columns:repeat(3,minmax(0,1fr));}.menu-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
+@media(max-width:650px){.kop{grid-template-columns:56px 1fr 56px;gap:8px}.logo{width:52px;height:52px}.judul-kop .wilayah{font-size:11px}.judul-kop .desa{font-size:18px}.alamat-kantor{font-size:12px}.ringkasan-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.ringkasan-item{padding:13px 9px}.ringkasan-item span{font-size:12px}.menu-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.menu-card{display:block;padding:12px}.ikon{width:38px;height:38px;font-size:21px;margin-bottom:8px}.menu-card h3{font-size:15px}.menu-card p{font-size:12px;margin-bottom:7px}.menu-card a{display:flex;width:100%;margin:5px 0 0;padding:8px 7px}.sambutan{margin-bottom:18px}}
+@media(max-width:370px){.menu-grid{grid-template-columns:1fr}.menu-card{display:flex}.ikon{margin-bottom:0}}
+@media print{header,main,footer{print-color-adjust:exact;-webkit-print-color-adjust:exact}}/* Penyegaran Beranda: KOP ringkas, kartu mudah dipindai, latar hangat */
+body{min-height:100vh;background:radial-gradient(ellipse at 8% 18%,rgba(255,220,148,.32),transparent 27%),radial-gradient(ellipse at 92% 32%,rgba(130,207,170,.26),transparent 30%),linear-gradient(150deg,#f7faf2 0%,#edf6ef 48%,#fff8eb 100%);background-attachment:fixed;}
+header{padding:9px 16px 10px;background-image:linear-gradient(135deg,rgba(4,65,34,.75),rgba(8,105,52,.62)),url("banner_desa_roga.jpg");background-position:center 46%;}
+.kop{max-width:1180px;grid-template-columns:54px 1fr 54px;gap:14px;padding:0 0 7px;border-bottom-width:2px;}
+.logo{width:48px;height:48px;padding:3px;border-width:1px;}
+.judul-kop h1{font-size:clamp(15px,2vw,21px);letter-spacing:.7px;margin-bottom:1px;}
+.judul-kop p{margin:1px 0;}.judul-kop .wilayah{font-size:11px;letter-spacing:.4px}.judul-kop .desa{font-size:16px;letter-spacing:1px;margin-top:0}
+.alamat-kantor{margin:5px auto 0;font-size:11px;line-height:1.3}
+main{width:min(1600px,96%);margin:13px auto 25px;}
+.sambutan{margin-bottom:11px}.sambutan h2{font-size:clamp(19px,2.2vw,25px);margin-bottom:2px}.sambutan p{font-size:13px;line-height:1.35}
+.ringkasan-grid{gap:8px;margin-bottom:8px}.ringkasan-item{padding:8px 7px;border-radius:11px;border-bottom-width:3px}.ringkasan-item span{font-size:11px;line-height:1.2}.ringkasan-item span::before{font-size:18px;margin-bottom:2px}.ringkasan-item strong{font-size:clamp(19px,2vw,25px);margin-top:3px}
+.status-koneksi{font-size:11px;margin:0 0 10px;line-height:1.3}
+.menu-grid{grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;}
+.menu-card{gap:7px;padding:9px 8px;border-radius:11px;border-top-width:3px;box-shadow:0 4px 14px rgba(30,75,48,.08);transition:transform .18s ease,box-shadow .18s ease,background .18s ease;}
+.menu-card:hover{transform:translateY(-3px);box-shadow:0 9px 20px rgba(30,75,48,.15)}
+.ikon{flex-basis:32px;width:32px;height:32px;border-radius:9px;font-size:18px;}
+.menu-card h3{font-size:13px;line-height:1.22;margin:0 0 4px}.menu-card p{font-size:10.5px;line-height:1.3;margin:0 0 5px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;}
+.menu-card a{min-height:30px;font-size:10.5px;line-height:1.18;padding:6px 7px;margin:2px 2px 1px 0;border-radius:7px;}
+.catatan{margin-top:13px;padding:10px 13px;font-size:12px;line-height:1.4;border-radius:9px}
+footer{padding:12px;font-size:12px;line-height:1.45}
+@media(max-width:1250px){.menu-grid{grid-template-columns:repeat(5,minmax(0,1fr))}}
+@media(max-width:980px){.menu-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.ringkasan-grid{gap:6px}.ringkasan-item{padding:8px 4px}}
+@media(max-width:720px){header{padding:8px 10px}.kop{grid-template-columns:44px 1fr 44px;gap:7px}.logo{width:40px;height:40px}.alamat-kantor{font-size:10px}main{width:94%;margin:12px auto 22px}.ringkasan-grid{grid-template-columns:repeat(3,minmax(0,1fr));}.menu-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.menu-card{display:block;padding:9px}.ikon{width:30px;height:30px;font-size:17px;margin:0 0 5px}.menu-card h3{font-size:12px}.menu-card p{font-size:10px}.menu-card a{display:flex;width:100%;margin:4px 0 0;padding:6px 5px}}
+@media(max-width:500px){.ringkasan-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.menu-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.judul-kop h1{font-size:14px}.judul-kop .wilayah{font-size:9px}.judul-kop .desa{font-size:15px}.alamat-kantor{font-size:9px}}
+@media(max-width:370px){.menu-grid{grid-template-columns:1fr}.menu-card{display:flex}.ikon{margin-bottom:0}}
+@media(prefers-reduced-motion:reduce){.menu-card,.ringkasan-item{transition:none}.menu-card:hover,.ringkasan-item:hover{transform:none}}
 </style>
-</head>
+<style>html.roga-lock-pending body>*:not(#roga-auth-overlay){visibility:hidden!important}</style><script>document.documentElement.classList.add("roga-lock-pending")</script></head>
 <body>
-<div class="top">
-<h1>PEMERINTAH KABUPATEN ENDE</h1><h2>KECAMATAN NDONA TIMUR</h2><h3>DESA ROGA</h3>
-<small>Alamat Kantor Desa: RT/RW 001/001, Dusun Aegomo<br>Jalan Jurusan Roga-Ende KM 45</small>
-<div style="position:absolute;right:10px;top:10px"><button id="bL" onclick="bukaLogin()" style="background:#f4c40a;border:0;padding:5px 10px;border-radius:8px;font-weight:800;cursor:pointer;font-size:11px">Login Admin</button><button id="bO" onclick="logout()" style="display:none;background:#ef4444;color:#fff;border:0;padding:5px 10px;border-radius:8px;font-weight:800;cursor:pointer;font-size:11px">Logout</button></div>
-<div id="mode" style="font-size:10px;color:#f4c40a;margin-top:6px;font-weight:700">Mode: WARGA</div>
-</div>
+<header>
+  <div class="kop">
+    <img class="logo" src="logo_desaroga.jpg" alt="Logo Desa Roga">
+    <div class="judul-kop">
+      <h1>PEMERINTAH KABUPATEN ENDE</h1>
+      <p class="wilayah">KECAMATAN NDONA TIMUR</p>
+      <p class="desa">DESA ROGA</p>
+    </div>
+    <img class="logo" src="logo_ende.jpg" alt="Logo Kabupaten Ende">
+  </div>
+  <div class="alamat-kantor"><strong>Alamat Kantor Desa:</strong> RT/RW 001/001, Dusun Aegomo<br>Jalan Jurusan Roga–Ende KM 45</div>
+</header>
+<main>
+  <section class="sambutan" aria-labelledby="judul-menu">
+    <h2 id="judul-menu">Layanan Digital Desa Roga</h2>
+    <p>Pilih menu administrasi yang ingin dibuka.</p>
+  </section>
+  <section class="ringkasan-grid" aria-label="Ringkasan data desa">
+    <div class="ringkasan-item"><span>Jumlah Kartu Keluarga</span><strong id="angkaKK">—</strong></div>
+    <div class="ringkasan-item"><span>Jumlah Penduduk</span><strong id="angkaPenduduk">—</strong></div>
+    <div class="ringkasan-item"><span>Penduduk Laki-laki</span><strong id="angkaLaki">—</strong></div>
+    <div class="ringkasan-item"><span>Penduduk Perempuan</span><strong id="angkaPerempuan">—</strong></div>
+    <div class="ringkasan-item"><span>Surat Tersimpan</span><strong id="angkaSurat">—</strong></div>
+  </section>
+  <p id="statusKoneksi" class="status-koneksi" role="status">Membaca ringkasan dari penyimpanan aplikasi…</p>
+  <section class="menu-grid" aria-label="Menu utama">
+    <article class="menu-card">
+      <div class="ikon" aria-hidden="true">ℹ️</div>
+      <div><h3>Informasi Desa dan Profil</h3><p>Lihat profil Desa Roga, perangkat desa, wilayah dusun, dan panduan layanan.</p><a href="index_informasi_desa.html">Buka Informasi Desa</a></div>
+    </article>
+    <article class="menu-card">
+      <div class="ikon" aria-hidden="true">👨‍👩‍👧‍👦</div>
+      <div><h3>Data Penduduk</h3><p>Kelola data Kartu Keluarga dan anggota keluarga.</p><a href="index_jptdatapenduduk100.html">Buka Data Penduduk</a></div>
+    </article>
+    <article class="menu-card">
+      <div class="ikon" aria-hidden="true">📄</div>
+      <div><h3>Surat-Surat Desa</h3><p>Pilih penduduk, buat surat, simpan arsip, dan cetak surat.</p><a href="index_suratfinal100.html">Buka Surat Desa</a></div>
+    </article>
 
-<div id="spanduk"><b id="sJ">🔒 Terkunci</b><br><small id="sI" style="font-size:11px">Fitur ini khusus Admin Desa</small><br><button onclick="tutupSpanduk()" style="margin-top:10px;background:#f4c40a;border:0;padding:7px 14px;border-radius:8px;font-weight:800;cursor:pointer">Mengerti, Kembali ke Daftar Kartu</button></div>
+	<article class="menu-card">
+	<div class="ikon" aria-hidden="true">📄</div>
+      <div><h3>Pengajuan Surat Dari Rumah</h3><p>Pilih, buat surat, simpan arsip, dan cetak surat.</p><a href="index_darirumah.html">Buka Pengajuan Dari Rumah</a></div>
+    </article>
 
-<div class="wrap">
-<div class="judul"><b>Layanan Digital Desa Roga</b><p>Pilih menu administrasi yang ingin dibuka.</p><p id="info" style="font-size:10px;color:#15803d;font-weight:700"></p></div>
-<div class="ring" id="ring"></div>
-<div class="grid" id="grid"></div>
-</div>
 
-<div id="loginbox"><div class="login"><h3>🔒 Login Admin</h3><input type="password" id="pass" placeholder="Password"><button onclick="login()" style="width:100%;padding:10px;background:#0e1827;color:#fff;border:0;border-radius:8px;font-weight:800;cursor:pointer;margin-top:6px">Masuk</button><button onclick="tutupLogin()" style="width:100%;padding:8px;background:#e5e7eb;border:0;border-radius:8px;margin-top:6px;cursor:pointer">Batal</button><p id="pesan" style="color:red;font-size:11px;margin-top:6px"></p></div></div>
-
+    <article class="menu-card">
+      <div class="ikon" aria-hidden="true">🗓️</div>
+      <div><h3>Peristiwa Penduduk</h3><p>Catat kelahiran, kematian, pindah masuk, dan pindah keluar.</p><a href="index_peristiwa_penduduk.html">Buka Peristiwa Penduduk</a></div>
+    </article>
+    <article class="menu-card">
+      <div class="ikon" aria-hidden="true">📢</div>
+      <div><h3>Pengumuman dan Agenda</h3><p>Kelola pengumuman desa dan jadwal kegiatan.</p><a href="index_pengumuman_agenda.html">Buka Pengumuman dan Agenda</a></div>
+    </article>
+    <article class="menu-card">
+      <div class="ikon" aria-hidden="true">📰</div>
+      <div><h3>Berita dan Informasi Desa</h3><p>Baca dan kelola kabar kegiatan serta informasi penting untuk warga Desa Roga.</p><a href="index_berita_informasi_desa.html">Buka Berita dan Informasi</a><a class="secondary" href="index_berita_informasi_desa.html#daftar">Lihat Informasi dan Berita Tersimpan</a></div>
+    </article>
+    <article class="menu-card">
+      <div class="ikon" aria-hidden="true">📊</div>
+      <div><h3>Laporan dan Rekap</h3><p>Lihat rekap jumlah KK dan penduduk berdasarkan wilayah serta kategori data.</p><a href="index_jptdatapenduduk100.html#bagianLaporan">Buka Laporan</a></div>
+    </article>
+    <article class="menu-card">
+      <div class="ikon" aria-hidden="true">📨</div>
+      <div><h3>Pengisian Data RT/RW/Kadus</h3><p>Isi data KK dan warga secara offline, tinjau tabel sementara, lalu kirim batch ke Admin Desa melalui WhatsApp atau email.</p><a href="index_pengisian_data_rt_rw_kadus.html">Buka Form Pengiriman Data</a></div>
+    </article>
+    <article class="menu-card">
+      <div class="ikon" aria-hidden="true">🏛️</div>
+      <div><h3>Inventaris Aset Desa</h3><p>Catat aset, jumlah, tahun perolehan, kondisi, serta lokasinya.</p><a href="index_inventaris_aset.html">Buka Inventaris Aset</a></div>
+    </article>    <article class="menu-card">
+      <div class="ikon" aria-hidden="true">💾</div>
+      <div><h3>Backup dan Pemulihan</h3><p>Simpan salinan data KK, anggota, dan arsip surat, atau pulihkan dari berkas backup.</p><a href="index_jptdatapenduduk100.html#bagianBackup">Buka Backup Data</a></div>
+    </article>
+    <article class="menu-card">
+      <div class="ikon" aria-hidden="true">🧭</div>
+      <div><h3>Peta GPS Desa Roga</h3><p>Bantu pengunjung mencari lokasi desa dan membuka petunjuk arah dari GPS perangkat.</p><a href="index_peta_gps_desa_roga.html">Buka Peta GPS</a></div>
+    </article>    <article class="menu-card">
+      <div class="ikon" aria-hidden="true">💰</div>
+      <div><h3>APBDes Desa Roga</h3><p>Kelola anggaran tahunan, lihat rincian pendapatan dan belanja, serta cetak ringkasannya.</p><a href="index_apbdes_desa_roga.html">Buka Kartu APBDes</a></div>
+    </article>    <article class="menu-card">
+      <div class="ikon" aria-hidden="true">🌍</div>
+      <div><h3>Kartu SDGs Desa</h3><p>Pantau 18 tujuan pembangunan desa, kegiatan, target, capaian, status, dan anggaran.</p><a href="index_sdgs_desa_roga.html">Buka Kartu SDGs Desa</a></div>
+    </article>    <article class="menu-card">
+      <div class="ikon" aria-hidden="true">📋</div>
+      <div><h3>Indeks Desa Terbaru</h3><p>Pantau 6 dimensi, 13 subdimensi, dan 48 indikator Indeks Desa terbaru, serta siapkan data untuk koordinasi dengan dinas.</p><a href="index_indeks_desa_terbaru.html">Buka Kartu Indeks Desa Terbaru</a></div>
+    </article>    <article class="menu-card">
+      <div class="ikon" aria-hidden="true">📣</div>
+      <div><h3>Aspirasi dan Pengaduan Warga</h3><p>Sampaikan usulan atau pengaduan dan pantau nomor laporan, status, serta tindak lanjutnya.</p><a href="index_aspirasi_pengaduan_desa_roga.html">Buka Aspirasi dan Pengaduan</a></div>
+    </article>    <article class="menu-card">
+      <div class="ikon" aria-hidden="true">☎️</div>
+      <div><h3>Kontak dan Nomor Penting</h3><p>Hubungi aparat desa, polisi, ambulans, pemadam kebakaran, dan layanan darurat; lihat daftar laporan warga.</p><a href="index_kontak_penting_desa_roga.html">Buka Kontak Penting</a></div>
+    </article>    <article class="menu-card">
+      <div class="ikon" aria-hidden="true">🏷️</div>
+      <div><h3>Inventaris Aset Desa</h3><p>Catat nilai, sumber perolehan, kondisi, lokasi, penanggung jawab, dokumen, dan pemeliharaan aset desa.</p><a href="index_inventaris_aset_desa_roga.html">Buka Inventaris Aset</a></div>
+    </article>    <article class="menu-card">
+      <div class="ikon" aria-hidden="true">📈</div>
+      <div><h3>Pemantauan Program dan Kegiatan Desa</h3><p>Pantau jadwal, target, progres fisik, realisasi anggaran, kendala, dan tindak lanjut kegiatan desa.</p><a href="index_pemantauan_program_desa_roga.html">Buka Pemantauan Program</a></div>
+    </article>    <article class="menu-card" style="--card-accent:#1768a5;--card-tint:#eef6fc">
+      <div class="ikon">📚</div>
+      <div><h3>Layanan Informasi Publik / PPID</h3><p>Kelola Daftar Informasi Publik, catat permohonan warga, status telaah PPID, dan tindak lanjut layanan.</p><a href="index_layanan_informasi_publik_ppid_desa_roga.html">Buka Layanan PPID</a></div>
+    </article>    <article class="menu-card" style="--card-accent:#13877d;--card-tint:#ebf8f6">
+      <div class="ikon">🛡️</div>
+      <div><h3>Standar Pelayanan & Privasi</h3><p>Kelola persyaratan, alur, waktu, biaya, hasil layanan, kanal pengaduan, dan panduan pelindungan data.</p><a href="index_standar_pelayanan_desa_roga.html">Buka Standar Pelayanan</a></div>
+    </article>    <article class="menu-card" style="--card-accent:#647b24;--card-tint:#f4f8e9">
+      <div class="ikon">🌿</div>
+      <div><h3>Desa Wisata Roga</h3><p>Promosikan daya tarik, hasil bumi, produk lokal, adat dan budaya, agenda, fasilitas, akses, serta panduan keselamatan.</p><a href="index_desa_wisata_roga.html">Jelajahi Desa Wisata</a></div>
+    </article>    <article class="menu-card" style="--card-accent:#c27a0d;--card-tint:#fff8e8"><div class="ikon">🛍️</div><div><h3>BUMDes & UMKM Desa</h3><p>Promosikan usaha, hasil bumi, produk unggulan, harga, lokasi umum, dan kontak pemesanan yang disetujui pemilik.</p><a href="index_layanan_potensi_desa_roga.html#umkm">Buka Direktori UMKM</a></div></article>
+    <article class="menu-card" style="--card-accent:#1768a5;--card-tint:#eef6fc"><div class="ikon">📍</div><div><h3>Direktori Fasilitas Umum</h3><p>Temukan fasilitas publik, layanan, jam operasional, aksesibilitas, dan petunjuk lokasi.</p><a href="index_layanan_potensi_desa_roga.html#fasilitas">Buka Direktori Fasilitas</a></div></article>
+    <article class="menu-card" style="--card-accent:#7546a5;--card-tint:#f6f1fb"><div class="ikon">📄</div><div><h3>Dokumen Publik Desa</h3><p>Akses dokumen yang sudah diverifikasi dan disetujui untuk dibagikan kepada warga.</p><a href="index_layanan_potensi_desa_roga.html#dokumen">Buka Dokumen Publik</a></div></article>
+    <article class="menu-card" style="--card-accent:#13877d;--card-tint:#ebf8f6"><div class="ikon">🗓️</div><div><h3>Peminjaman Fasilitas Desa</h3><p>Kelola permohonan pemakaian fasilitas dan tampilkan jadwal yang sudah disetujui tanpa membuka identitas pemohon.</p><a href="index_layanan_potensi_desa_roga.html#peminjaman">Buka Peminjaman Fasilitas</a></div></article>  </section>
+  <aside class="catatan">Layanan ini membantu petugas desa mengelola administrasi dengan lebih teratur. Rekap publik hanya menampilkan data agregat. Data rinci penduduk dan surat harus dibatasi untuk petugas berwenang. STATUS: Aplikasi saat ini masih prototipe lokal tanpa autentikasi server. Jangan unggah modul pengelolaan data pribadi atau cadangan penduduk sebagai situs publik. Penyimpanan browser tidak tersinkron lintas pengguna. Akses publik dan data internal harus dipisahkan di server dengan hak akses yang diperiksa server; kata sandi di HTML saja tidak aman. Semua menu tetap dapat dibuka dari Beranda ini.</aside>
+</main>
+<footer>© 2026 Pemerintah Desa Roga<br>Pelayanan administrasi desa yang mudah, tertib, dan transparan.</footer>
 <script>
-const PASS = "AdminRoga2026";
-let isAdmin = localStorage.getItem("isAdminRoga")==="true";
-const ringData = [
-{j:"Jumlah Kartu Keluarga",e:"👨‍👩‍👧‍👦",f:"jumlah_kk.html"},
-{j:"Jumlah Penduduk",e:"👥",f:"jumlah_penduduk.html"},
-{j:"Penduduk Laki-laki",e:"👨",f:"laki_laki.html"},
-{j:"Penduduk Perempuan",e:"👩",f:"perempuan.html"},
-{j:"Surat Tersimpan",e:"📄",f:"surat_tersimpan.html"},
-];
-const data = [
-{j:"Informasi Desa dan Profil",d:"Lihat profil Desa Roga, perangkat desa, wilayah dusun, dan panduan...",t:"umum",c:"g",f:"informasi_desa.html",i:"ℹ️",btn:"Buka Informasi Desa"},
-{j:"Data Penduduk",d:"Kelola data Kartu Keluarga dan anggota keluarga.",t:"private",c:"b",f:"data_penduduk.html",i:"👥",btn:"Buka Data Penduduk"},
-{j:"Surat-Surat Desa",d:"Pilih penduduk, buat surat, simpan arsip, dan cetak surat.",t:"private",c:"u",f:"surat_desa.html",i:"📄",btn:"Buka Surat Desa"},
-{j:"Pengajuan Surat Dari Rumah",d:"Pilih, buat surat, simpan arsip, dan cetak surat.",t:"warga",c:"o",f:"pengajuan_surat.html",i:"🏠",btn:"Buka Pengajuan Dari Rumah"},
-{j:"Peristiwa Penduduk",d:"Catat kelahiran, kematian, pindah masuk, dan pindah keluar.",t:"private",c:"b",f:"peristiwa.html",i:"🗓️",btn:"Buka Peristiwa Penduduk"},
-{j:"Pengumuman dan Agenda",d:"Kelola pengumuman desa dan kegiatan.",t:"private",c:"m",f:"pengumuman.html",i:"📢",btn:"Buka Pengumuman & Agenda"},
-{j:"Berita dan Informasi Desa",d:"Baca dan kelola kabar kegiatan serta informasi penting untuk warga Desa...",t:"umum",c:"b",f:"berita.html",i:"📰",btn:"Buka Berita dan Informasi"},
-{j:"Laporan dan Rekap",d:"Lihat rekap jumlah KK dan penduduk berdasarkan wilayah serta kategori...",t:"private",c:"g",f:"laporan.html",i:"📊",btn:"Buka Laporan"},
-{j:"Pengisian Data RT/RW/Kadus",d:"Isi data KK dan warga secara offline, tinjau tabel sementara, lalu kirim batch...",t:"private",c:"o",f:"rt_rw.html",i:"📝",btn:"Buka Form Pengiriman Data"},
-{j:"Inventaris Aset Desa",d:"Catat aset, jumlah, tahun perolehan, kondisi, serta lokasinya.",t:"private",c:"b",f:"inventaris.html",i:"🏛️",btn:"Buka Inventaris Aset"},
-{j:"Backup dan Pemulihan",d:"Simpan salinan data KK, anggota, dan arsip surat, atau pulihkan dari berkas...",t:"private",c:"g",f:"backup.html",i:"💾",btn:"Buka Backup Data"},
-{j:"Peta GPS Desa Roga",d:"Bantu pengunjung mencari lokasi dan membuka petunjuk arah.",t:"umum",c:"b",f:"peta.html",i:"🗺️",btn:"Buka Peta GPS"},
-{j:"APBDes Desa Roga",d:"Kelola rincian APBDes, lihat rincian pendapatan dan belanja, serta cetak...",t:"umum",c:"u",f:"apbdes.html",i:"💰",btn:"Buka Kartu APBDes"},
-{j:"Kartu SDGs Desa",d:"Pantau 18 tujuan pembangunan desa, kegiatan, target, capaian, status, dan...",t:"umum",c:"o",f:"sdgs.html",i:"🎯",btn:"Buka Kartu SDGs Desa"},
-{j:"Indeks Desa Terbaru",d:"Pantau 6 dimensi, 13 subdimensi, dan 48 indikator Indeks Desa terbaru, ser...",t:"umum",c:"b",f:"indeks.html",i:"📈",btn:"Buka Kartu Indeks Desa Terbaru"},
-{j:"Aspirasi dan Pengaduan Warga",d:"Sampaikan usulan atau pengaduan dan pantau nomor laporan, status, serta...",t:"warga",c:"m",f:"pengaduan.html",i:"💬",btn:"Buka Aspirasi dan Pengaduan"},
-{j:"Kontak dan Nomor Penting",d:"Hubungi aparat desa, polisi, ambulans, pemadam kebakaran, dan layanan...",t:"umum",c:"b",f:"kontak.html",i:"📞",btn:"Buka Kontak Penting"},
-{j:"Inventaris Aset Desa",d:"Catat nilai, sumber perolehan, lokasi, penanggung jawab, dan...",t:"private",c:"g",f:"inventaris2.html",i:"📦",btn:"Buka Inventaris Aset"},
-{j:"Layanan Informasi Publik / PPID",d:"Layanan informasi publik desa",t:"umum",c:"g",f:"ppid.html",i:"📚",btn:"Buka PPID"},
-];
-
-function render(){
-document.getElementById("mode").innerText=isAdmin?"Mode: ADMIN DESA (Full Akses)":"Mode: WARGA (Lihat & Lapor)";
-document.getElementById("info").innerText=isAdmin?"✅ Admin aktif - Semua tombol Buka & Kelola":"👁️ Warga: Klik kartu biru/oranye untuk isi, yang merah terkunci akan kembali ke daftar";
-document.getElementById("bL").style.display=isAdmin?"none":"inline-block";
-document.getElementById("bO").style.display=isAdmin?"inline-block":"none";
-let r=document.getElementById("ring");r.innerHTML="";
-ringData.forEach(k=>{r.innerHTML+=`<div class="r-card" onclick="buka('${k.f}')"><div>${k.e}</div><b style="font-size:11px">${k.j}</b><div style="height:3px;background:#22c55e;margin-top:6px;border-radius:10px;width:30px;margin-left:auto;margin-right:auto"></div></div>`;});
-let g=document.getElementById("grid");g.innerHTML="";
-data.forEach((k,i)=>{
-let locked=k.t=="private"&&!isAdmin;
-let badge = k.t=="private"?"<span class='badge' style='background:#ef4444'>ADMIN SAJA</span>":k.t=="warga"?"<span class='badge' style='background:#3b82f6'>WARGA BOLEH</span>":"";
-g.innerHTML+=`<div class="card">${badge}<h4>${k.i} ${k.j}</h4><p>${k.d}</p><button class="btn ${locked?'ab':k.c}" onclick="bukaKartu(${i})">${locked?'🔒 Terkunci - Login Admin':k.btn}</button></div>`;
-});
+function isiAngka(id,jumlah){
+    document.getElementById(id).textContent = new Intl.NumberFormat("id-ID").format(jumlah);
 }
-function buka(f){window.location.href=f;}
-function bukaKartu(i){
-let k=data[i];
-if(k.t=="private"&&!isAdmin){
-document.getElementById("sJ").innerText="🔒 "+k.j+" - Terkunci";
-document.getElementById("sI").innerText="Fitur '"+k.j+"' khusus Admin Desa Roga. Ini data rahasia. Silakan Login Admin di atas. Anda tetap di halaman daftar kartu depan.";
-document.getElementById("spanduk").style.display="block";
-return;
+function tampilkanRingkasanBeranda(){
+    const status=document.getElementById("statusKoneksi");
+    try{
+        const rawDatabase=localStorage.getItem("DATABASE_DESA_ROGA_UTAMA");
+        const rawArsip=localStorage.getItem("ARSIP_SURAT_DESA_ROGA");
+        let database=null;
+        let arsip=[];
+        if(rawDatabase){
+            database=JSON.parse(rawDatabase);
+            if(!database || !Array.isArray(database.kk) || !Array.isArray(database.anggota)){
+                throw new Error("Format database penduduk tidak sesuai.");
+            }
+        }
+        if(rawArsip){
+            const parsed=JSON.parse(rawArsip);
+            if(Array.isArray(parsed)) arsip=parsed;
+        }
+        if(!database){
+            ["angkaKK","angkaPenduduk","angkaLaki","angkaPerempuan"].forEach(function(id){document.getElementById(id).textContent="—";});
+        }else{
+            const anggota=database.anggota;
+            isiAngka("angkaKK",database.kk.length);
+            isiAngka("angkaPenduduk",anggota.length);
+            isiAngka("angkaLaki",anggota.filter(function(a){return String(a.jk||"").trim().toLocaleLowerCase("id-ID")==="laki-laki";}).length);
+            isiAngka("angkaPerempuan",anggota.filter(function(a){return String(a.jk||"").trim().toLocaleLowerCase("id-ID")==="perempuan";}).length);
+        }
+        if(rawArsip===null){document.getElementById("angkaSurat").textContent="—";}
+        else{isiAngka("angkaSurat",arsip.length);}
+        if(!rawDatabase && !rawArsip){
+            status.textContent="Data belum ditemukan pada alamat website ini. Semua menu harus dibuka dari alamat yang sama (file:/// dan http://127.0.0.1:8765 memiliki penyimpanan berbeda). Jika berpindah alamat, pulihkan backup melalui menu Data Penduduk.";
+        }else if(!rawDatabase){
+            status.textContent="Arsip surat terbaca, tetapi database penduduk belum ditemukan pada alamat ini. Buka menu Data Penduduk pada alamat yang sama atau pulihkan backup.";
+        }else{
+            status.textContent="Ringkasan diperbarui otomatis dari database dan arsip yang tersimpan di browser ini.";
+        }
+    }catch(error){
+        status.textContent="Ringkasan belum dapat dibaca. Buka menu Data Penduduk untuk melihat rekap lengkap.";
+    }
 }
-buka(k.f);
-}
-function tutupSpanduk(){document.getElementById("spanduk").style.display="none";window.scrollTo({top:0,behavior:'smooth'});}
-function bukaLogin(){document.getElementById("loginbox").style.display="flex";document.getElementById("pesan").innerText="";}
-function tutupLogin(){document.getElementById("loginbox").style.display="none";}
-function login(){let p=document.getElementById("pass").value;if(p===PASS){isAdmin=true;localStorage.setItem("isAdminRoga","true");tutupLogin();tutupSpanduk();render();alert("Login berhasil! Semua fitur terbuka.");}else{document.getElementById("pesan").innerText="Password salah! Gunakan: "+PASS;}}
-function logout(){isAdmin=false;localStorage.removeItem("isAdminRoga");render();tutupSpanduk();}
-render();
-</script>
-</body>
+window.addEventListener("pageshow",tampilkanRingkasanBeranda);`r`nwindow.addEventListener("storage",tampilkanRingkasanBeranda);`r`nwindow.addEventListener("focus",tampilkanRingkasanBeranda);
+</script><script src="kunci_lokal_desaroga.js"></script></body>
 </html>
