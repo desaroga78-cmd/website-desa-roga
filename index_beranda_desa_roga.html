@@ -1,141 +1,121 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Layanan Digital Desa Roga</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:Arial;background:#f0fdf4}
-header{background:#0b3d1f;color:white;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10}
-.btn-login{background:gold;color:#0b3d1f;border:none;padding:8px 14px;border-radius:999px;font-weight:900;cursor:pointer}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;padding:16px}
-.card{background:white;border-radius:14px;padding:14px;box-shadow:0 4px 12px rgba(0,0,0,.08);border-left:5px solid #22c55e;position:relative}
-.card.private{border-left-color:#dc2626}
-.card.warga-aktif{border-left-color:#3b82f6;border-left-width:7px}
-.card h3{font-size:14px} .card p{font-size:11px;color:#666;margin:6px 0 10px;line-height:1.3}
-.card button{width:100%;padding:11px;border:none;border-radius:8px;font-weight:800;cursor:pointer;color:white}
-.b-umum{background:#0b7b40} .b-priv{background:#dc2626} .b-lock{background:#6b7280} .b-warga-aktif{background:#2563eb}
-.badge{position:absolute;top:8px;right:8px;font-size:9px;padding:3px 7px;border-radius:999px;color:white;font-weight:900}
-.badge-umum{background:#22c55e} .badge-priv{background:#dc2626} .badge-warga{background:#2563eb}
-.info{font-size:10px;margin-top:6px;font-weight:700}
-.info-umum{color:#0b7b40} .info-priv{color:#dc2626} .info-warga{color:#2563eb}
-#loginBox{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;z-index:99}
-.login-form{background:white;padding:24px;border-radius:16px;width:90%;max-width:360px;text-align:center}
-.login-form input{width:100%;padding:12px;margin:10px 0;border:2px solid #0b7b40;border-radius:8px}
-.login-form button{width:100%;padding:12px;background:#0b7b40;color:white;border:none;border-radius:8px;font-weight:900}
+*{box-sizing:border-box;font-family:'Segoe UI',Arial}body{margin:0;background:#eef2f7}
+header{background:linear-gradient(90deg,#0f172a,#1e3a8a);color:#fff;padding:18px 20px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10}
+header b{font-size:18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;padding:18px}
+.card{background:#fff;border-radius:16px;padding:0;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,.08);border:1px solid #e5e7eb;transition:.2s;position:relative}
+.card:hover{transform:translateY(-4px);box-shadow:0 8px 20px rgba(0,0,0,.12)}
+.card-head{padding:14px;display:flex;align-items:center;gap:12px}
+.iconbox{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;color:#fff}
+.card.umum.iconbox{background:linear-gradient(135deg,#22c55e,#16a34a)}
+.card.private.iconbox{background:linear-gradient(135deg,#ef4444,#b91c1c)}
+.card.warga.iconbox{background:linear-gradient(135deg,#3b82f6,#1d4ed8)}
+.badge{position:absolute;top:10px;right:10px;font-size:10px;padding:4px 8px;border-radius:20px;font-weight:800;color:#fff}
+.badge.umum{background:#22c55e}.badge.private{background:#ef4444}.badge.warga{background:#3b82f6;animation:pulse 1.5s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(59,130,246,.7)}70%{box-shadow:0 0 0 10px rgba(59,130,246,0)}100%{box-shadow:0 0 0 0 rgba(59,130,246,0)}}
+.card-body{padding:0 14px 14px 14px}
+.card-body h3{margin:6px 0 2px 0;font-size:15px;color:#0f172a}
+.card-body p{margin:0;font-size:12px;color:#64748b;min-height:28px}
+.btn{margin-top:12px;width:100%;padding:10px;border:0;border-radius:10px;font-weight:800;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn.umum{background:#16a34a}.btn.private{background:#dc2626}.btn.warga{background:#2563eb}
+.btn.locked{background:#9ca3af!important;cursor:pointer!important}
+.foot{font-size:10px;color:#94a3b8;margin-top:8px;display:flex;gap:4px;align-items:center}
+#spanduk{position:fixed;top:70px;left:50%;transform:translateX(-50%);background:#0f172a;color:#fff;padding:14px 20px;border-radius:12px;box-shadow:0 8px 20px rgba(0,0,0,.3);display:none;z-index:100;width:90%;max-width:500px;text-align:center;border-left:6px solid #facc15}
+#loginbox{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:99}
+.login-form{background:#fff;padding:22px;border-radius:16px;width:90%;max-width:340px;text-align:center}
+.login-form input{width:100%;padding:11px;margin:8px 0;border:1px solid #ccc;border-radius:10px}
 </style>
 </head>
 <body>
 <header>
-  <div>
-    <h1>Layanan Digital Desa Roga</h1>
-    <small id="statusMode" style="color:gold">Mode: WARGA</small>
-  </div>
-  <button class="btn-login" id="btnLogin">Login Admin</button>
+<div><b><i class="fa-solid fa-house-chimney"></i> Layanan Digital Desa Roga</b><br><small id="modeText" style="color:#fde047">Mode: WARGA - Lihat Saja</small></div>
+<div><button id="btnLogin" onclick="bukaLogin()" style="padding:9px 14px;border-radius:10px;border:0;background:#facc15;font-weight:800;cursor:pointer"><i class="fa-solid fa-right-to-bracket"></i> Login Admin</button>
+<button id="btnLogout" onclick="logout()" style="display:none;padding:9px 14px;border-radius:10px;border:0;background:#ef4444;color:#fff;font-weight:800;cursor:pointer"><i class="fa-solid fa-right-from-bracket"></i> Logout</button></div>
 </header>
+
+<div id="spanduk"><i class="fa-solid fa-lock"></i> <b id="spandukJudul">Fitur Terkunci</b><br><small id="spandukIsi">Ini khusus Admin Desa Roga. Silakan login admin untuk membuka.</small><br><button onclick="tutupSpanduk()" style="margin-top:10px;padding:6px 12px;border-radius:8px;border:0;background:#facc15;font-weight:700;cursor:pointer">Mengerti, Kembali ke Daftar</button></div>
+
 <div class="grid" id="grid"></div>
 
-<div id="loginBox">
-  <div class="login-form">
-    <h3>🔒 Login Admin Desa Roga</h3>
-    <input type="password" id="passInput" placeholder="Password Admin">
-    <button onclick="prosesLogin()">Masuk</button>
-    <button onclick="tutupLogin()" style="background:#ccc;color:#333;margin-top:8px">Batal</button>
-    <p id="pesanLogin" style="font-size:12px;color:red;margin-top:8px"></p>
-  </div>
-</div>
+<div id="loginbox"><div class="login-form">
+<h3>🔒 Login Admin Desa Roga</h3><input type="password" id="passInput" placeholder="Password Admin"><button onclick="prosesLogin()" style="width:100%;padding:11px;margin-top:6px;border:0;border-radius:10px;font-weight:800;background:#0f172a;color:#fff;cursor:pointer">Masuk</button><button onclick="tutupLogin()" style="width:100%;padding:9px;margin-top:8px;border:0;border-radius:10px;background:#e5e7eb;cursor:pointer">Batal</button><p id="pesanLogin" style="font-size:12px;color:red;margin-top:8px"></p></div></div>
 
 <script>
-// ============ GANTI PASSWORD DISINI SESUKA SOBAT ============
-const PASSWORD_ADMIN = "AdminRoga2026"; // GANTI INI YA SOBAT!
-// ===========================================================
+const PASSWORD_ADMIN = "AdminRoga2026"; // GANTI PASSWORD DISINI SOBAT
+let isAdmin = localStorage.getItem("isAdminRoga")==="true";
 
 const kartu = [
-  {j:"Jumlah KK", d:"Ringkasan KK", t:"umum"},
-  {j:"Jumlah Penduduk", d:"Ringkasan penduduk", t:"umum"},
-  {j:"Laki-laki", d:"Ringkasan", t:"umum"},
-  {j:"Perempuan", d:"Ringkasan", t:"umum"},
-  {j:"Surat Tersimpan", d:"Arsip", t:"umum"},
-  {j:"Informasi Desa dan Profil", d:"Profil Desa Roga", t:"umum"},
-  {j:"Data Penduduk", d:"Kelola KK & NIK (RAHASIA)", t:"private"},
-  {j:"Surat-Surat Desa", d:"Buat surat & arsip (ADMIN)", t:"private"},
-  // 2 KARTU KHUSUS WARGA BOLEH ISI - SUDAH SAYA BUKA AKSESNYA
-  {j:"Pengajuan Surat Dari Rumah", d:"Warga bisa urus surat dari rumah, Admin proses", t:"warga_aktif"},
-  {j:"Peristiwa Penduduk", d:"Lahir, mati, pindah (ADMIN)", t:"private"},
-  {j:"Pengumuman dan Agenda", d:"Kelola pengumuman", t:"private"},
-  {j:"Berita dan Informasi Desa", d:"Kabar kegiatan", t:"umum"},
-  {j:"Laporan dan Rekap", d:"Rekap KK & penduduk (ADMIN)", t:"private"},
-  {j:"Pengisian Data RT/RW/Kadus", d:"Isi data offline (ADMIN)", t:"private"},
-  {j:"Inventaris Aset Desa", d:"Aset desa", t:"private"},
-  {j:"Backup dan Pemulihan", d:"Backup data penting", t:"private"},
-  {j:"Peta GPS Desa Roga", d:"Lokasi desa", t:"umum"},
-  {j:"APBDes Desa Roga", d:"Anggaran", t:"umum"},
-  {j:"Kartu SDGs Desa", d:"18 tujuan desa", t:"umum"},
-  {j:"Indeks Desa Terbaru", d:"Indeks desa", t:"umum"},
-  {j:"Aspirasi dan Pengaduan Warga", d:"Warga lapor masalah lapangan, pelayanan desa ke PemDes", t:"warga_aktif"},
-  {j:"Kontak dan Nomor Penting", d:"Kontak aparat", t:"umum"},
-  {j:"Inventaris Aset Desa", d:"Aset", t:"private"},
-  {j:"Pemantauan Program dan Kegiatan Desa", d:"Program desa", t:"umum"},
-  {j:"Layanan Informasi Publik / PPID", d:"Informasi publik", t:"umum"},
-  {j:"Standar Pelayanan & Privasi", d:"Alur pelayanan", t:"umum"},
-  {j:"Desa Wisata Roga", d:"Wisata desa", t:"umum"},
-  {j:"BUMDes & UMKM Desa", d:"Usaha desa", t:"umum"},
-  {j:"Direktori Fasilitas Umum", d:"Fasilitas umum", t:"umum"},
-  {j:"Dokumen Publik Desa", d:"Dokumen publik", t:"umum"},
-  {j:"Peminjaman Fasilitas Desa", d:"Peminjam fasilitas", t:"umum"},
+{j:"Jumlah KK",d:"Ringkasan data KK Desa Roga",t:"umum",f:"jumlah_kk.html",i:"fa-users"},
+{j:"Jumlah Penduduk",d:"Ringkasan penduduk",t:"umum",f:"jumlah_penduduk.html",i:"fa-people-group"},
+{j:"Laki-laki",d:"Ringkasan laki-laki",t:"umum",f:"laki_laki.html",i:"fa-mars"},
+{j:"Perempuan",d:"Ringkasan perempuan",t:"umum",f:"perempuan.html",i:"fa-venus"},
+{j:"Surat Tersimpan",d:"Arsip surat",t:"umum",f:"surat_tersimpan.html",i:"fa-box-archive"},
+{j:"Informasi Desa dan Profil",d:"Profil Desa Roga",t:"umum",f:"informasi_desa.html",i:"fa-circle-info"},
+{j:"Data Penduduk",d:"Kelola KK & NIK (RAHASIA)",t:"private",f:"data_penduduk.html",i:"fa-database"},
+{j:"Surat-Surat Desa",d:"Buat surat & arsip (ADMIN)",t:"private",f:"surat_desa.html",i:"fa-envelope-open-text"},
+{j:"Pengajuan Surat Dari Rumah",d:"Warga bisa urus surat dari rumah, Admin proses",t:"warga",f:"pengajuan_surat.html",i:"fa-laptop-file"},
+{j:"Peristiwa Penduduk",d:"Lahir, mati, pindah (ADMIN)",t:"private",f:"peristiwa.html",i:"fa-person-circle-plus"},
+{j:"Pengumuman dan Agenda",d:"Kelola pengumuman",t:"private",f:"pengumuman.html",i:"fa-bullhorn"},
+{j:"Berita dan Informasi Desa",d:"Kabar kegiatan",t:"umum",f:"berita.html",i:"fa-newspaper"},
+{j:"Laporan dan Rekap",d:"Rekap KK & penduduk (ADMIN)",t:"private",f:"laporan.html",i:"fa-chart-bar"},
+{j:"Pengisian Data RT/RW/Kadus",d:"Isi data offline (ADMIN)",t:"private",f:"rt_rw.html",i:"fa-network-wired"},
+{j:"Inventaris Aset Desa",d:"Aset desa",t:"private",f:"inventaris.html",i:"fa-warehouse"},
+{j:"Backup dan Pemulihan",d:"Backup data penting",t:"private",f:"backup.html",i:"fa-cloud-arrow-up"},
+{j:"Peta GPS Desa Roga",d:"Lokasi desa",t:"umum",f:"peta.html",i:"fa-map-location-dot"},
+{j:"APBDes Desa Roga",d:"Anggaran desa",t:"umum",f:"apbdes.html",i:"fa-sack-dollar"},
+{j:"Kartu SDGs Desa",d:"18 tujuan desa",t:"umum",f:"sdgs.html",i:"fa-bullseye"},
+{j:"Indeks Desa Terbaru",d:"Indeks desa",t:"umum",f:"indeks.html",i:"fa-arrow-trend-up"},
+{j:"Aspirasi dan Pengaduan",d:"Warga lapor masalah lapangan",t:"warga",f:"pengaduan.html",i:"fa-comments"},
+{j:"Kontak dan Nomor Penting",d:"Kontak aparat",t:"umum",f:"kontak.html",i:"fa-address-book"},
+{j:"Inventaris Aset Desa",d:"Aset tambahan",t:"private",f:"inventaris2.html",i:"fa-boxes-stacked"},
+{j:"Pemantauan Program dan Kegiatan Desa",d:"Program desa",t:"umum",f:"program.html",i:"fa-list-check"},
+{j:"Layanan Informasi Publik / PPID",d:"Informasi publik",t:"umum",f:"ppid.html",i:"fa-scale-balanced"},
 ];
 
 function render(){
-  const isAdmin = localStorage.getItem('isAdminRoga')==='true';
-  document.getElementById('statusMode').innerText = isAdmin ? 'Mode: ADMIN DESA (Full Akses)' : 'Mode: WARGA';
-  const btn = document.getElementById('btnLogin');
-  btn.innerText = isAdmin ? 'Logout Admin' : 'Login Admin';
-  btn.onclick = isAdmin ? logout : bukaLogin;
+const g=document.getElementById("grid");g.innerHTML="";
+kartu.forEach((k,i)=>{
+let badge = k.t=="private"?"ADMIN SAJA":k.t=="warga"?"WARGA BOLEH ISI":"LIHAT SAJA";
+let btnLabel = isAdmin? '<i class="fa-solid fa-folder-open"></i> Buka & Kelola' : (k.t=="private"? '<i class="fa-solid fa-lock"></i> Terkunci - Admin Saja' : k.t=="warga"? '<i class="fa-solid fa-pen-to-square"></i> Buat Pengajuan / Lapor' : '<i class="fa-solid fa-eye"></i> Lihat Laporan Saja');
+let btnClass = k.t + (isAdmin? "":"") + (k.t=="private"&&!isAdmin?" locked":"");
+let ket = k.t=="private"?"🔒 Rahasia, hanya admin":k.t=="warga"?"✅ Warga bisa isi dari rumah": "👁️ Warga hanya lihat";
+g.innerHTML+=`<div class="card ${k.t}"><span class="badge ${k.t}">${badge}</span><div class="card-head"><div class="iconbox"><i class="fa-solid ${k.i}"></i></div></div><div class="card-body"><h3>${k.j}</h3><p>${k.d}</p><button class="btn ${k.t} ${k.t=='private'&&!isAdmin?'locked':''}" onclick="bukaKartu(${i})">${btnLabel}</button><div class="foot"><i class="fa-solid fa-circle-info"></i> ${ket}</div></div></div>`;
+});
+document.getElementById("modeText").innerText = isAdmin? "Mode: ADMIN DESA (Full Akses)":"Mode: WARGA (Lihat & Lapor)";
+document.getElementById("btnLogin").style.display=isAdmin?"none":"block";
+document.getElementById("btnLogout").style.display=isAdmin?"block":"none";
+}
 
-  const grid = document.getElementById('grid');
-  grid.innerHTML='';
-  kartu.forEach(k=>{
-    let badge='', btnClass='', btnText='', info='';
-    if(k.t==='private'){
-      badge='<span class="badge badge-priv">ADMIN SAJA</span>';
-      btnClass = isAdmin ? 'b-priv' : 'b-lock';
-      btnText = isAdmin ? 'Buka & Kelola' : '🔒 Terkunci - Admin Saja';
-      info = '<div class="info info-priv">🔒 Rahasia, hanya admin</div>';
-    }else if(k.t==='warga_aktif'){
-      badge='<span class="badge badge-warga">WARGA BOLEH ISI</span>';
-      btnClass='b-warga-aktif';
-      btnText = isAdmin ? 'Buka & Proses (Admin)' : '✍️ Buat Pengajuan / Lapor (Warga)';
-      info = '<div class="info info-warga">✅ Warga bisa isi dari rumah, Admin proses</div>';
-    }else{
-      badge='<span class="badge badge-umum">LIHAT SAJA</span>';
-      btnClass='b-umum';
-      btnText = isAdmin ? 'Buka & Kelola' : '👁️ Lihat Laporan Saja';
-      info = '<div class="info info-umum">👁️ Warga hanya lihat, tidak bisa edit/tambah</div>';
-    }
-    grid.innerHTML+=`<div class="card ${k.t==='private'?'private':''} ${k.t==='warga_aktif'?'warga-aktif':''}">${badge}<h3>${k.j}</h3><p>${k.d}</p><button class="${btnClass}" onclick="klik('${k.j}','${k.t}')">${btnText}</button>${info}</div>`;
-  });
+function bukaKartu(i){
+const k=kartu[i];
+if(k.t=="private"&&!isAdmin){
+// TAMPIL SPANDUK DEPAN LALU KEMBALI KE DAFTAR
+document.getElementById("spandukJudul").innerText = k.j + " - Terkunci";
+document.getElementById("spandukIsi").innerText = "Fitur '"+k.j+"' khusus Admin Desa. Silakan klik Login Admin di pojok kanan atas untuk membuka. Warga tidak bisa mengakses data rahasia ini.";
+document.getElementById("spanduk").style.display="block";
+setTimeout(()=>{bukaLogin();},800);
+return;
 }
-function klik(judul,tipe){
-  const isAdmin = localStorage.getItem('isAdminRoga')==='true';
-  if(tipe==='private' && !isAdmin){ bukaLogin(); return; }
-  if(tipe==='warga_aktif'){
-    if(isAdmin){ alert('ADMIN: Memproses '+judul+' dari warga'); }
-    else{ alert('WARGA: Membuka form '+judul+'\\n\\nWarga bisa isi form disini, nanti masuk ke Admin untuk diproses.'); }
-  }else if(tipe==='umum'){
-    if(isAdmin){ alert('ADMIN: Kelola '+judul); }else{ alert('WARGA: Melihat laporan '+judul+' (hanya lihat, tidak bisa edit)'); }
-  }else{
-    alert('ADMIN: Membuka '+judul);
-  }
+// Untuk umum dan warga, langsung buka
+window.location.href=k.f;
 }
-function bukaLogin(){ document.getElementById('loginBox').style.display='flex'; }
-function tutupLogin(){ document.getElementById('loginBox').style.display='none'; }
+
+function tutupSpanduk(){document.getElementById("spanduk").style.display="none"; window.scrollTo({top:0,behavior:'smooth'});}
+
+function bukaLogin(){document.getElementById("loginbox").style.display="flex";document.getElementById("pesanLogin").innerText="";}
+function tutupLogin(){document.getElementById("loginbox").style.display="none";}
 function prosesLogin(){
-  if(document.getElementById('passInput').value===PASSWORD_ADMIN){
-    localStorage.setItem('isAdminRoga','true'); tutupLogin(); render();
-  }else{ document.getElementById('pesanLogin').innerText='Password salah!'; }
+const p=document.getElementById("passInput").value;
+if(p===PASSWORD_ADMIN){isAdmin=true;localStorage.setItem("isAdminRoga","true");tutupLogin();tutupSpanduk();render();alert("Login berhasil! Semua tombol aktif!");}
+else{document.getElementById("pesanLogin").innerText="Password salah! Password saat ini: "+PASSWORD_ADMIN;}
 }
-function logout(){ localStorage.removeItem('isAdminRoga'); render(); }
+function logout(){isAdmin=false;localStorage.removeItem("isAdminRoga");render();window.scrollTo({top:0,behavior:'smooth'});}
 render();
 </script>
 </body>
