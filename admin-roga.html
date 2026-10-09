@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admin Desa Roga - Rahasia</title>
+<style>
+body{font-family:Arial;background:#0b3d1f;display:flex;align-items:center;justify-content:center;height:100vh}
+.box{background:white;padding:30px;border-radius:16px;width:90%;max-width:360px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.3)}
+input{width:100%;padding:12px;margin:10px 0;border:2px solid #0b7b40;border-radius:8px}
+button{width:100%;padding:12px;background:#0b7b40;color:white;border:none;border-radius:8px;font-weight:900;cursor:pointer}
+#konten-rahasia{display:none;margin-top:20px;text-align:left}
+a.menu-admin{display:block;padding:12px;background:#f0f0f0;margin:8px 0;border-radius:8px;text-decoration:none;color:#0b3d1f;font-weight:bold}
+</style>
+</head>
+<body>
+<div class="box">
+  <h3>🔒 Login Admin Desa Roga</h3>
+  <p style="font-size:13px;color:gray">Hanya untuk perangkat Desa</p>
+  <input type="password" id="pass" placeholder="Masukkan Password Admin">
+  <button onclick="cek()">Masuk</button>
+  <p id="pesan" style="color:red;font-size:13px"></p>
+
+  <div id="konten-rahasia">
+    <hr>
+    <h4>Menu Internal Desa:</h4>
+    <a class="menu-admin" href="#">📊 Data Kas Desa Lengkap</a>
+    <a class="menu-admin" href="#">👥 Data Penduduk Detail (NIK)</a>
+    <a class="menu-admin" href="#">📄 Arsip Surat Rahasia</a>
+    <a class="menu-admin" href="#">💰 Laporan Keuangan Internal</a>
+    <a class="menu-admin" href="index_beranda_desa_roga.html">Kembali ke Beranda</a>
+  </div>
+</div>
+
+<script>
+function cek(){
+  var p = document.getElementById('pass').value;
+  // GANTI PASSWORD DI BAWAH INI SESUAI KEINGINAN SOBAT
+  if(p === "Roga2026Admin!"){
+    document.getElementById('konten-rahasia').style.display='block';
+    document.getElementById('pesan').innerHTML = "Berhasil masuk!";
+    document.getElementById('pesan').style.color='green';
+  }else{
+    document.getElementById('pesan').innerHTML = "Password salah!";
+  }
+}
+</script>
+</body>
+</html>
