@@ -216,28 +216,31 @@ function tampilkanRingkasanBeranda(){
     }
 }
 window.addEventListener("pageshow",tampilkanRingkasanBeranda);`r`nwindow.addEventListener("storage",tampilkanRingkasanBeranda);`r`nwindow.addEventListener("focus",tampilkanRingkasanBeranda);
-</script><script src="kunci_lokal_desaroga.js"></script> <!-- === TAMBAHAN KUNCI ADMIN DESA ROGA - TANPA MERUSAK TAMPILAN ASLI === -->
+</script><script src="kunci_lokal_desaroga.js"></script> <!-- === TAMBAHAN KUNCI TOTAL V2 - AMAN === -->
 <style>
-#spandukRoga{position:fixed;top:90px;left:50%;transform:translateX(-50%);background:#0f172a;color:#fff;padding:18px 22px;border-radius:14px;display:none;z-index:9999;width:92%;max-width:520px;text-align:center;border-left:6px solid #facc15;box-shadow:0 10px 30px rgba(0,0,0,.5)}
-#loginRoga{position:fixed;inset:0;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;z-index:10000}
+#spandukRoga{position:fixed;top:90px;left:50%;transform:translateX(-50%);background:#0f172a;color:#fff;padding:18px 22px;border-radius:14px;display:none;z-index:99999;width:92%;max-width:520px;text-align:center;border-left:6px solid #facc15;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+#loginRoga{position:fixed;inset:0;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;z-index:100000}
 .loginBoxRoga{background:#fff;padding:20px;border-radius:14px;width:90%;max-width:320px;text-align:center}
-#badgeModeRoga{position:fixed;top:8px;right:10px;z-index:9998;background:#facc15;color:#000;padding:6px 12px;border-radius:20px;font-size:11px;font-weight:800;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+#badgeModeRoga{position:fixed;top:8px;right:10px;z-index:9998;background:#facc15;color:#000;padding:6px 12px;border-radius:20px;font-size:11px;font-weight:800}
 #btnLoginRoga{position:fixed;top:8px;left:10px;z-index:9998;background:#facc15;border:0;padding:6px 12px;border-radius:8px;font-weight:800;cursor:pointer;font-size:11px}
 #btnLogoutRoga{position:fixed;top:8px;left:10px;z-index:9998;background:#ef4444;color:#fff;border:0;padding:6px 12px;border-radius:8px;font-weight:800;cursor:pointer;font-size:11px;display:none}
+.kunci-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.05);cursor:not-allowed;z-index:10;display:none}
+.card-terkunci{position:relative!important;border-left:5px solid #ef4444!important;}
+.card-terkunci button{background:#9ca3af!important;}
 </style>
 
-<div id="badgeModeRoga">Mode: WARGA</div>
+<div id="badgeModeRoga">WARGA</div>
 <button id="btnLoginRoga" onclick="bukaLoginRoga()">🔑 Login Admin</button>
-<button id="btnLogoutRoga" onclick="logoutRoga()">Logout Admin</button>
+<button id="btnLogoutRoga" onclick="logoutRoga()">Logout</button>
 
 <div id="spandukRoga">
-<b id="sJudulRoga" style="font-size:15px">🔒 Fitur Terkunci</b><br>
-<small id="sIsiRoga" style="font-size:12px">Ini khusus Admin Desa</small><br>
+<b id="sJudulRoga">🔒 Terkunci</b><br>
+<small id="sIsiRoga" style="font-size:12px">Khusus Admin Desa Roga. Silakan login.</small><br>
 <button onclick="tutupSpandukRoga()" style="margin-top:12px;background:#facc15;border:0;padding:8px 16px;border-radius:8px;font-weight:800;cursor:pointer">Mengerti, Kembali ke Daftar Kartu</button>
 </div>
 
 <div id="loginRoga"><div class="loginBoxRoga">
-<h3>🔒 Login Admin Desa Roga</h3>
+<h3>🔒 Login Admin</h3>
 <input type="password" id="passRoga" placeholder="Password: AdminRoga2026" style="width:100%;padding:10px;margin:8px 0;border:1px solid #ccc;border-radius:8px">
 <button onclick="loginRoga()" style="width:100%;padding:10px;background:#0f172a;color:#fff;border:0;border-radius:8px;font-weight:800;cursor:pointer">Masuk</button>
 <button onclick="tutupLoginRoga()" style="width:100%;padding:8px;background:#e5e7eb;border:0;border-radius:8px;margin-top:6px;cursor:pointer">Batal</button>
@@ -245,17 +248,13 @@ window.addEventListener("pageshow",tampilkanRingkasanBeranda);`r`nwindow.addEven
 </div></div>
 
 <script>
-// === PENGATURAN ===
 const PASS_ROGA = "AdminRoga2026";
 let isAdminRoga = localStorage.getItem("isAdminRoga")==="true";
-
-// Daftar yang ADMIN SAJA (rahasia)
-const privateKeywords = ["Data Penduduk","Surat Desa","Peristiwa Penduduk","Pengumuman dan Agenda","Laporan","Form Pengiriman Data","Inventaris Aset","Backup Data"];
-// Daftar yang WARGA BOLEH ISI
-const wargaKeywords = ["Pengajuan Dari Rumah","Aspirasi dan Pengaduan"];
+const PRIVATE = ["Data Penduduk","Surat-Surat Desa","Surat Desa","Peristiwa Penduduk","Pengumuman dan Agenda","Laporan dan Rekap","Laporan","Pengisian Data RT","Form Pengiriman Data","Inventaris Aset","Backup dan Pemulihan","Backup Data"];
+const WARGA = ["Pengajuan Surat Dari Rumah","Aspirasi dan Pengaduan"];
 
 function renderModeRoga(){
-document.getElementById("badgeModeRoga").innerText = isAdminRoga? "ADMIN DESA" : "WARGA";
+document.getElementById("badgeModeRoga").innerText = isAdminRoga? "ADMIN DESA" : "MODE: WARGA";
 document.getElementById("badgeModeRoga").style.background = isAdminRoga? "#22c55e" : "#facc15";
 document.getElementById("btnLoginRoga").style.display = isAdminRoga? "none" : "block";
 document.getElementById("btnLogoutRoga").style.display = isAdminRoga? "block" : "none";
@@ -263,56 +262,86 @@ document.getElementById("btnLogoutRoga").style.display = isAdminRoga? "block" : 
 function bukaLoginRoga(){document.getElementById("loginRoga").style.display="flex";document.getElementById("pesanRoga").innerText="";}
 function tutupLoginRoga(){document.getElementById("loginRoga").style.display="none";}
 function tutupSpandukRoga(){document.getElementById("spandukRoga").style.display="none";window.scrollTo({top:0,behavior:'smooth'});}
-function loginRoga(){
-let p=document.getElementById("passRoga").value;
-if(p===PASS_ROGA){isAdminRoga=true;localStorage.setItem("isAdminRoga","true");tutupLoginRoga();tutupSpandukRoga();renderModeRoga();alert("Login Admin berhasil! Semua tombol sekarang aktif & bisa dibuka!");}
-else{document.getElementById("pesanRoga").innerText="Password salah! Password: "+PASS_ROGA;}
+function loginRoga(){let p=document.getElementById("passRoga").value;if(p===PASS_ROGA){isAdminRoga=true;localStorage.setItem("isAdminRoga","true");tutupLoginRoga();tutupSpandukRoga();renderModeRoga();location.reload();}else{document.getElementById("pesanRoga").innerText="Salah! Password: "+PASS_ROGA;}}
+function logoutRoga(){isAdminRoga=false;localStorage.removeItem("isAdminRoga");renderModeRoga();location.reload();}
+
+function cekTerkunci(teks){
+ if(WARGA.some(k=>teks.includes(k))) return false;
+ return PRIVATE.some(k=>teks.includes(k));
 }
-function logoutRoga(){isAdminRoga=false;localStorage.removeItem("isAdminRoga");renderModeRoga();tutupSpandukRoga();alert("Logout berhasil. Kembali ke Mode Warga.");}
 
-// Pasang kunci di semua tombol
-function pasangKunciRoga(){
-document.querySelectorAll("button").forEach(btn=>{
-let txt = btn.innerText;
-let isPrivate = privateKeywords.some(k=> txt.includes(k) || (btn.parentElement && btn.parentElement.innerText.includes(k) && privateKeywords.some(pk=>btn.parentElement.innerText.includes(pk) && txt.includes("Buka"))));
- // Deteksi berdasarkan teks tombol dan judul kartu
- let card = btn.closest("div");
- let cardText = card? card.innerText : "";
- let privateMatch = privateKeywords.some(k=> cardText.includes(k));
- let wargaMatch = wargaKeywords.some(k=> cardText.includes(k));
-
- if(privateMatch &&!wargaMatch){
+function pasangKunciTotal(){
+// Cari semua kartu / div yang ada tombol Buka
+let semuaElemen = document.querySelectorAll("div, section, article");
+semuaElemen.forEach(el=>{
+ let teks = el.innerText || "";
+ if(teks.length>500) return; // skip container besar
+ if(cekTerkunci(teks) && teks.includes("Buka")){
+   // Ini kartu private
    if(!isAdminRoga){
-     // Ganti teks jadi terkunci, tapi simpan link asli
-     if(!btn.dataset.asli){
-       btn.dataset.asli = btn.getAttribute("onclick") || "";
-       btn.dataset.link = btn.parentElement.innerHTML;
-       // Cari link di dalam kartu
-       let link = card.querySelector("a");
-       if(link) btn.dataset.href = link.href;
-     }
-     btn.innerText = "🔒 Terkunci - Login Admin";
-     btn.style.background = "#9ca3af";
-     btn.onclick = function(e){
-       e.preventDefault(); e.stopPropagation();
-       let judul = cardText.split("\n")[0] || "Fitur Admin";
-       document.getElementById("sJudulRoga").innerText = "🔒 "+judul+" - Terkunci";
-       document.getElementById("sIsiRoga").innerText = "Fitur '"+judul+"' khusus Admin Desa Roga (data rahasia). Silakan klik Login Admin di pojok kiri atas. Anda akan tetap di halaman daftar kartu depan.";
-       document.getElementById("spandukRoga").style.display="block";
-       return false;
-     };
-   } else {
-     btn.innerText = btn.innerText.replace("🔒 Terkunci - Login Admin","Buka");
-     btn.style.background = "";
+     // KUNCI TOTAL
+     el.classList.add("card-terkunci");
+     // Matikan semua onclick di elemen ini dan anaknya
+     el.setAttribute("data-terkunci","true");
+     let btns = el.querySelectorAll("button, a");
+     btns.forEach(b=>{
+       b.dataset.asliOnclick = b.getAttribute("onclick")||"";
+       b.dataset.asliHref = b.getAttribute("href")||"";
+       b.removeAttribute("onclick");
+       b.removeAttribute("href");
+       if(b.innerText.includes("Buka")){
+         b.innerText = "🔒 Terkunci - Login Admin";
+       }
+       b.addEventListener("click", function(e){
+         e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
+         let judul = teks.split("\n")[0].substring(0,60);
+         document.getElementById("sJudulRoga").innerText = "🔒 "+judul+" - Terkunci";
+         document.getElementById("sIsiRoga").innerText = "Fitur '"+judul+"' khusus Admin Desa Roga (data rahasia). Warga tidak bisa buka. Silakan Login Admin di pojok kiri atas. Anda tetap di daftar kartu depan.";
+         document.getElementById("spandukRoga").style.display="block";
+         return false;
+       }, true);
+     });
+     // Juga kunci klik di div kartu itu sendiri
+     el.addEventListener("click", function(e){
+       if(e.target.tagName!=="BUTTON" && e.target.tagName!=="A"){
+         e.preventDefault(); e.stopPropagation();
+         let judul = teks.split("\n")[0].substring(0,60);
+         document.getElementById("sJudulRoga").innerText = "🔒 "+judul+" - Terkunci";
+         document.getElementById("sIsiRoga").innerText = "Fitur '"+judul+"' khusus Admin. Login dulu.";
+         document.getElementById("spandukRoga").style.display="block";
+       }
+     }, true);
    }
  }
 });
 }
+
+// Blokir navigasi level dokumen (anti bobol)
+document.addEventListener("click", function(e){
+ if(isAdminRoga) return;
+ let target = e.target;
+ let parentText = "";
+ let el = target.closest("div");
+ if(el) parentText = el.innerText || "";
+ if(cekTerkunci(parentText) &&!WARGA.some(k=>parentText.includes(k))){
+   // Jika yang diklik ada di dalam kartu private
+   if(parentText.includes("Buka") || target.innerText.includes("Buka")){
+     let isWargaCard = WARGA.some(k=>parentText.includes(k));
+     if(!isWargaCard){
+       e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
+       document.getElementById("sJudulRoga").innerText = "🔒 Akses Ditolak - Mode Warga";
+       document.getElementById("sIsiRoga").innerText = "Maaf, kartu ini terkunci untuk Warga. Hanya Admin Desa yang bisa buka. Klik Login Admin di pojok kiri atas, lalu Anda akan kembali ke daftar kartu depan.";
+       document.getElementById("spandukRoga").style.display="block";
+       return false;
+     }
+   }
+ }
+}, true);
+
 renderModeRoga();
-pasangKunciRoga();
-// Cek lagi setelah 1 detik (untuk pastikan semua kartu sudah muncul)
-setTimeout(pasangKunciRoga,1000);
-setTimeout(pasangKunciRoga,3000);
+setTimeout(pasangKunciTotal,500);
+setTimeout(pasangKunciTotal,1500);
+setTimeout(pasangKunciTotal,3000);
 </script>
-<!-- === AKHIR TAMBAHAN === --> </body>
+<!-- === AKHIR TAMBAHAN V2 === --> </body>
 </html>
