@@ -53,7 +53,7 @@ main{width:min(1600px,96%);margin:13px auto 25px;}
 footer{padding:12px;font-size:12px;line-height:1.45}
 @media(max-width:1250px){.menu-grid{grid-template-columns:repeat(5,minmax(0,1fr))}}
 @media(max-width:980px){.menu-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.ringkasan-grid{gap:6px}.ringkasan-item{padding:8px 4px}}
-@media(max-width:720px){header{padding:8px 10px}.kop{grid-template-columns:44px 1fr 44px;gap:7px}.logo{width:40px;height:40px}.alamat-kantor{font-size:10px}main{width:94%;margin:12px auto 22px}.ringkasan-grid{grid-template-columns:repeat(3,minmax(0,1fr));}.menu-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.menu-card{display:block;padding:9px}.ikon{width:30px;height:30px;font-size:17px;margin:0 0 5px}.menu-card h3{font-size:12px}.menu-card p{font-size:10px}.menu-card a{display:flex;width:100%;margin:4px 0 0;padding:6px 5px}}
+@media(max-width:720px){header{padding:12px 10px}.kop{grid-template-columns:55px 1fr 44px;gap:7px}.logo{width:50px;height:50px}.alamat-kantor{font-size:10px}main{width:94%;margin:14px auto 22px}.ringkasan-grid{grid-template-columns:repeat(3,minmax(0,1fr));}.menu-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.menu-card{display:block;padding:9px}.ikon{width:40px;height:30px;font-size:17px;margin:0 0 5px}.menu-card h3{font-size:12px}.menu-card p{font-size:10px}.menu-card a{display:flex;width:100%;margin:4px 0 0;padding:6px 5px}}
 @media(max-width:500px){.ringkasan-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.menu-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.judul-kop h1{font-size:14px}.judul-kop .wilayah{font-size:9px}.judul-kop .desa{font-size:15px}.alamat-kantor{font-size:9px}}
 @media(max-width:370px){.menu-grid{grid-template-columns:1fr}.menu-card{display:flex}.ikon{margin-bottom:0}}
 @media(prefers-reduced-motion:reduce){.menu-card,.ringkasan-item{transition:none}.menu-card:hover,.ringkasan-item:hover{transform:none}}
@@ -62,13 +62,13 @@ footer{padding:12px;font-size:12px;line-height:1.45}
 <body>
 <header>
   <div class="kop">
-    <img class="logo" src="logo_desaroga.jpg" alt="Logo Desa Roga">
+    <img class="logo" src="logo_ende.jpg" alt="Logo Kabupaten Ende"> 
     <div class="judul-kop">
       <h1>PEMERINTAH KABUPATEN ENDE</h1>
       <p class="wilayah">KECAMATAN NDONA TIMUR</p>
       <p class="desa">DESA ROGA</p>
     </div>
-    <img class="logo" src="logo_ende.jpg" alt="Logo Kabupaten Ende">
+    <img class="logo" src="logo_desaroga.jpg" alt="Logo Desa Roga">
   </div>
   <div class="alamat-kantor"><strong>Alamat Kantor Desa:</strong> RT/RW 001/001, Dusun Aegomo<br>Jalan Jurusan Roga–Ende KM 45</div>
 </header>
@@ -84,6 +84,238 @@ footer{padding:12px;font-size:12px;line-height:1.45}
     <div class="ringkasan-item"><span>Penduduk Perempuan</span><strong id="angkaPerempuan">—</strong></div>
     <div class="ringkasan-item"><span>Surat Tersimpan</span><strong id="angkaSurat">—</strong></div>
   </section>
+
+<!-- ===== KARTU BARU GRAFIK DATA WARGA - DESA ROGA - FINAL ===== -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin:16px 0">
+  
+  <!-- Kartu 1: Grafik Jenis Kelamin -->
+  <div style="background:white;border-radius:16px;padding:16px;box-shadow:0 4px 12px rgba(0,0,0,0.08);border:2px solid #e8f5e9">
+    <div style="font-weight:800;color:#0e5a32;margin-bottom:10px;display:flex;align-items:center;gap:8px">📊 Grafik Jenis Kelamin</div>
+    <canvas id="grafikGender" height="200"></canvas>
+    <div id="labelGender" style="text-align:center;margin-top:8px;font-size:13px;color:#333;font-weight:600"></div>
+  </div>
+
+  <!-- Kartu 2: Grafik Dusun / Wilayah -->
+  <div style="background:white;border-radius:16px;padding:16px;box-shadow:0 4px 12px rgba(0,0,0,0.08);border:2px solid #e3f2fd">
+    <div style="font-weight:800;color:#1565c0;margin-bottom:10px;display:flex;align-items:center;gap:8px">🏘️ Grafik Per Dusun</div>
+    <canvas id="grafikDusun" height="200"></canvas>
+    <div id="labelDusun" style="text-align:center;margin-top:8px;font-size:12px;color:#666"></div>
+  </div>
+
+  <!-- Kartu 3: Grafik Surat Tersimpan -->
+  <div style="background:white;border-radius:16px;padding:16px;box-shadow:0 4px 12px rgba(0,0,0,0.08);border:2px solid #fff3e0">
+    <div style="font-weight:800;color:#e67e22;margin-bottom:10px;display:flex;align-items:center;gap:8px">📄 Grafik Jenis Surat</div>
+    <canvas id="grafikSurat" height="200"></canvas>
+    <div id="labelSuratGrafik" style="text-align:center;margin-top:8px;font-size:12px;color:#666"></div>
+  </div>
+
+</section>
+
+<script>
+// ===== FUNGSI GRAFIK DATA WARGA - OTOMATIS DARI DATABASE =====
+function renderGrafikWarga(){
+  const KEYS_DB=["DATABASE_DESA_ROGA_UTAMA","DATABASE_JPT_100","jptdatapenduduk100","DATA_PENDUDUK_JPT","dataPenduduk","DATABASE_DESA_ROGA"];
+  const KEY_ARSIP="ARSIP_SURAT_DESA_ROGA_FINAL";
+  let list=[];
+  for(let k of KEYS_DB){
+    try{
+      let raw=localStorage.getItem(k);
+      if(!raw) continue;
+      let j=JSON.parse(raw);
+      if(Array.isArray(j)&&j[0]?.nik){list=j;break;}
+      if(j.anggota?.length){list=j.anggota;break;}
+      if(j.data?.length){list=j.data;break;}
+    }catch(e){}
+  }
+  let arsip=[]; try{arsip=JSON.parse(localStorage.getItem(KEY_ARSIP)||"[]")}catch(e){}
+
+  // Hitung gender
+  let laki=0, perempuan=0;
+  list.forEach(p=>{
+    let jk=(p.jk||p.jenisKelamin||"").toString().toLowerCase();
+    let nama=(p.nama||"").toLowerCase();
+    if(jk.includes("perempuan")||nama.includes("maria")) perempuan++; else laki++;
+  });
+  if(list.length>0 && laki+perempuan!=list.length){laki=list.length-perempuan;}
+
+  // Hitung dusun
+  let dusunCount={};
+  list.forEach(p=>{
+    let d=(p.dusun||p.alamat||"Tidak Ada").toString().split(",")[0].trim()||"Lainnya";
+    if(d.length>15) d=d.substring(0,15);
+    dusunCount[d]=(dusunCount[d]||0)+1;
+  });
+  if(Object.keys(dusunCount).length==0) dusunCount={"Desa Roga":list.length};
+
+  // Hitung surat
+  let suratCount={};
+  arsip.forEach(s=>{
+    let j=(s.jenis||s.jenisSurat||"Lainnya").toString().substring(0,18);
+    suratCount[j]=(suratCount[j]||0)+1;
+  });
+  if(Object.keys(suratCount).length==0) suratCount={"Belum Ada":1};
+
+  // Grafik 1 - Gender (Donut)
+  let ctx1=document.getElementById("grafikGender");
+  if(ctx1){
+    if(ctx1.chart) ctx1.chart.destroy();
+    ctx1.chart=new Chart(ctx1,{
+      type:'doughnut',
+      data:{
+        labels:['Laki-laki','Perempuan'],
+        datasets:[{data:[laki,perempuan],backgroundColor:['#1565c0','#e91e63'],borderWidth:2}]
+      },
+      options:{plugins:{legend:{position:'bottom'}},responsive:true}
+    });
+    document.getElementById("labelGender").textContent=`${laki} Laki-laki, ${perempuan} Perempuan - Total ${list.length} Jiwa`;
+  }
+
+  // Grafik 2 - Dusun (Bar)
+  let ctx2=document.getElementById("grafikDusun");
+  if(ctx2){
+    if(ctx2.chart) ctx2.chart.destroy();
+    ctx2.chart=new Chart(ctx2,{
+      type:'bar',
+      data:{
+        labels:Object.keys(dusunCount),
+        datasets:[{label:'Jiwa',data:Object.values(dusunCount),backgroundColor:['#0e5a32','#1565c0','#e67e22','#5e35b1'],borderRadius:8}]
+      },
+      options:{plugins:{legend:{display:false}},scales:{y:{beginAtZero:true}},responsive:true}
+    });
+    document.getElementById("labelDusun").textContent=`${Object.keys(dusunCount).length} Wilayah - Terbesar: ${Object.keys(dusunCount)[0]}`;
+  }
+
+  // Grafik 3 - Surat (Pie)
+  let ctx3=document.getElementById("grafikSurat");
+  if(ctx3){
+    if(ctx3.chart) ctx3.chart.destroy();
+    ctx3.chart=new Chart(ctx3,{
+      type:'pie',
+      data:{
+        labels:Object.keys(suratCount),
+        datasets:[{data:Object.values(suratCount),backgroundColor:['#ff9800','#4caf50','#2196f3','#9c27b0','#f44336']}]
+      },
+      options:{plugins:{legend:{position:'bottom',labels:{boxWidth:12,font:{size:10}}}},responsive:true}
+    });
+    document.getElementById("labelSuratGrafik").textContent=`Total ${arsip.length} Surat Tersimpan`;
+  }
+}
+
+// Jalankan setelah angka beranda muncul
+document.addEventListener("DOMContentLoaded",()=>{setTimeout(renderGrafikWarga,1200); setInterval(renderGrafikWarga,5000);});
+</script>
+
+
+<!-- ===== KARTU BARU GRAFIK GOLONGAN USIA - DESA ROGA ===== -->
+<section style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0">
+
+  <!-- Grafik Usia -->
+  <div style="background:white;border-radius:16px;padding:16px;box-shadow:0 4px 12px rgba(0,0,0,0.08);border:2px solid #f3e5f5">
+    <div style="font-weight:800;color:#7b1fa2;margin-bottom:10px">👶👧👨👴 Grafik Golongan Usia</div>
+    <canvas id="grafikUsia" height="220"></canvas>
+    <div id="labelUsia" style="text-align:center;margin-top:8px;font-size:12px;font-weight:600;color:#333"></div>
+  </div>
+
+  <!-- Tabel Rincian Usia -->
+  <div style="background:linear-gradient(135deg,#fafafa,#f3e5f5);border-radius:16px;padding:16px;box-shadow:0 4px 12px rgba(0,0,0,0.08);border:2px solid #e1bee7">
+    <div style="font-weight:800;color:#6a1b9a;margin-bottom:12px">📋 Rincian Usia Warga</div>
+    <div id="tabelUsia" style="font-size:13px;line-height:1.8"></div>
+    <div style="margin-top:12px;padding:10px;background:white;border-radius:10px;font-size:11px;color:#666">
+      <b>Patokan:</b><br>
+      🍼 Balita: 0-4 Thn<br>
+      🧒 Anak: 5-12 Thn<br>
+      🧑‍🎓 Remaja: 13-17 Thn<br>
+      👨‍💼 Dewasa: 18-59 Thn<br>
+      👴 Lansia: 60+ Thn
+    </div>
+  </div>
+
+</section>
+
+<script>
+// ===== HITUNG USIA OTOMATIS DARI TANGGAL LAHIR =====
+function hitungUmur(tglString){
+  if(!tglString) return null;
+  // Cari tahun dari string seperti "12-05-1990" atau "1990-05-12" atau "Maumere, 12-05-1990"
+  let match=tglString.toString().match(/(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})|(\d{4})[\/\-](\d{1,2})[\/\-](\d{1,2})/);
+  let tahun=null;
+  if(match){
+    tahun=match[3]?parseInt(match[3]):parseInt(match[4]);
+  }else{
+    let th=tglString.toString().match(/(19\d{2}|20\d{2})/);
+    if(th) tahun=parseInt(th[1]);
+  }
+  if(!tahun) return null;
+  let umur=new Date().getFullYear()-tahun;
+  if(umur<0||umur>120) return null;
+  return umur;
+}
+
+function renderGrafikUsia(){
+  const KEYS_DB=["DATABASE_DESA_ROGA_UTAMA","DATABASE_JPT_100","jptdatapenduduk100","DATA_PENDUDUK_JPT","dataPenduduk","DATABASE_DESA_ROGA"];
+  let list=[];
+  for(let k of KEYS_DB){
+    try{
+      let raw=localStorage.getItem(k);
+      if(!raw) continue;
+      let j=JSON.parse(raw);
+      if(Array.isArray(j)&&j[0]?.nik){list=j;break;}
+      if(j.anggota?.length){list=j.anggota;break;}
+      if(j.data?.length){list=j.data;break;}
+    }catch(e){}
+  }
+
+  let kelompok={Balita:0,Anak:0,Remaja:0,Dewasa:0,Lansia:0,TidakDiketahui:0};
+  let detail=[];
+  list.forEach(p=>{
+    let ttl=(p.ttl||p.tanggalLahir||p.tglLahir||p.tgl_lahir||p.lahir||"").toString();
+    let umur=hitungUmur(ttl);
+    if(umur===null){kelompok.TidakDiketahui++; detail.push({nama:p.nama||"Tanpa Nama",umur:"-",kel:"?"}); return;}
+    detail.push({nama:p.nama||"Tanpa Nama",umur:umur,kel:umur});
+    if(umur<=4) kelompok.Balita++;
+    else if(umur<=12) kelompok.Anak++;
+    else if(umur<=17) kelompok.Remaja++;
+    else if(umur<=59) kelompok.Dewasa++;
+    else kelompok.Lansia++;
+  });
+
+  // Grafik Batang Usia
+  let ctx=document.getElementById("grafikUsia");
+  if(ctx){
+    if(ctx.chart) ctx.chart.destroy();
+    ctx.chart=new Chart(ctx,{
+      type:'bar',
+      data:{
+        labels:['Balita\n0-4','Anak\n5-12','Remaja\n13-17','Dewasa\n18-59','Lansia\n60+'],
+        datasets:[{label:'Jiwa',data:[kelompok.Balita,kelompok.Anak,kelompok.Remaja,kelompok.Dewasa,kelompok.Lansia],backgroundColor:['#ffb74d','#4fc3f7','#ba68c8','#81c784','#e57373'],borderRadius:8,borderSkipped:false}]
+      },
+      options:{plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{stepSize:1}}},responsive:true}
+    });
+    document.getElementById("labelUsia").textContent=`Total ${list.length} Jiwa - Dewasa terbanyak: ${kelompok.Dewasa} orang`;
+  }
+
+  // Tabel Rincian
+  let tabel=document.getElementById("tabelUsia");
+  if(tabel){
+    let html="";
+    html+=`<div style="display:flex;justify-content:space-between;font-weight:700;border-bottom:2px solid #ce93d8;padding:6px 0"><span>Golongan</span><span>Jumlah</span></div>`;
+    html+=`<div style="display:flex;justify-content:space-between;padding:5px 0"><span>🍼 Balita (0-4)</span><span style="font-weight:800;color:#ef6c00">${kelompok.Balita} jiwa</span></div>`;
+    html+=`<div style="display:flex;justify-content:space-between;padding:5px 0"><span>🧒 Anak (5-12)</span><span style="font-weight:800;color:#0288d1">${kelompok.Anak} jiwa</span></div>`;
+    html+=`<div style="display:flex;justify-content:space-between;padding:5px 0"><span>🧑‍🎓 Remaja (13-17)</span><span style="font-weight:800;color:#7b1fa2">${kelompok.Remaja} jiwa</span></div>`;
+    html+=`<div style="display:flex;justify-content:space-between;padding:5px 0;background:#f3e5f5;border-radius:6px;padding:6px"><span>👨‍💼 Dewasa (18-59)</span><span style="font-weight:800;color:#2e7d32">${kelompok.Dewasa} jiwa</span></div>`;
+    html+=`<div style="display:flex;justify-content:space-between;padding:5px 0"><span>👴 Lansia (60+)</span><span style="font-weight:800;color:#c62828">${kelompok.Lansia} jiwa</span></div>`;
+    if(kelompok.TidakDiketahui>0) html+=`<div style="display:flex;justify-content:space-between;padding:5px 0;color:#999"><span>❓ TTL Kosong</span><span>${kelompok.TidakDiketahui} jiwa</span></div>`;
+    html+=`<div style="display:flex;justify-content:space-between;font-weight:800;border-top:2px solid #ce93d8;padding:8px 0;margin-top:6px"><span>TOTAL</span><span>${list.length} Jiwa</span></div>`;
+    tabel.innerHTML=html;
+  }
+}
+document.addEventListener("DOMContentLoaded",()=>{setTimeout(renderGrafikUsia,1500); setInterval(renderGrafikUsia,6000);});
+</script>
+
+<!-- ===== AKHIR KARTU GRAFIK ===== -->
+
+</script>
   <p id="statusKoneksi" class="status-koneksi" role="status">Membaca ringkasan dari penyimpanan aplikasi…</p>
   <section class="menu-grid" aria-label="Menu utama">
     <article class="menu-card">
@@ -99,11 +331,34 @@ footer{padding:12px;font-size:12px;line-height:1.45}
       <div><h3>Surat-Surat Desa</h3><p>Pilih penduduk, buat surat, simpan arsip, dan cetak surat.</p><a href="index_suratfinal100.html">Buka Surat Desa</a></div>
     </article>
 
-	<article class="menu-card">
+	
+<article class="menu-card">
 	<div class="ikon" aria-hidden="true">📄</div>
-      <div><h3>Pengajuan Surat Dari Rumah</h3><p>Pilih, buat surat, simpan arsip, dan cetak surat.</p><a href="index_darirumah.html">Buka Pengajuan Dari Rumah</a></div>
-    </article>
+	<div>
+		<h3>Pengajuan Surat Dari Rumah</h3>
+		<p>Pilih, buat, simpan, dan cetak. - Admin: 082-144-025-922</p>
+		<a href="index_darirumah.html">Buka Pengajuan Dari Rumah</a>
+	</div></article>
 
+<article class="menu-card">
+	<div class="ikon" aria-hidden="true">📄</div>
+	<div>
+		<h3>Formulir Surat</h3>
+		<p>Isi, buat, Kirim ke Admin Desa, dan Tunggu Proses</p>
+		<a href="index_panel_adm_antrean.html">Formulir Pengajuan ke admin</a>
+	</div>
+</article>
+
+
+<article class="menu-card" style="border-left: 5px solid #126b36;">
+	<div class="ikon" aria-hidden="true">✅</div>
+	<div>
+		<h3>Surat Resmi QR Verifikasi</h3>
+		<p>Surat resmi dengan QR Scan + TTD: Petrus Kanisius Leta (KADES). Konek ke Pengajuan Dari Rumah & Manual Kantor</p>
+		<a href="index_surat_ttd_camat_kades_qr_ok.html">Buka Surat QR Resmi</a> 
+		</div>
+		</article>
+	
 
     <article class="menu-card">
       <div class="ikon" aria-hidden="true">🗓️</div>
@@ -115,7 +370,7 @@ footer{padding:12px;font-size:12px;line-height:1.45}
     </article>
     <article class="menu-card">
       <div class="ikon" aria-hidden="true">📰</div>
-      <div><h3>Berita dan Informasi Desa</h3><p>Baca dan kelola kabar kegiatan serta informasi penting untuk warga Desa Roga.</p><a href="index_berita_informasi_desa.html">Buka Berita dan Informasi</a><a class="secondary" href="index_berita_informasi_desa.html#daftar">Lihat Informasi dan Berita Tersimpan</a></div>
+      <div><h3>Berita dan Informasi Desa</h3><p>Baca dan kelola kabar kegiatan serta informasi penting untuk warga Desa Roga.</p><a href="index_berita_informasi_desa.html">Buka Berita dan Informasi</a><a class="secondary" href="index_berita_informasi_desa.html#daftar"></a></div>
     </article>
     <article class="menu-card">
       <div class="ikon" aria-hidden="true">📊</div>
@@ -147,12 +402,22 @@ footer{padding:12px;font-size:12px;line-height:1.45}
     </article>    <article class="menu-card">
       <div class="ikon" aria-hidden="true">📣</div>
       <div><h3>Aspirasi dan Pengaduan Warga</h3><p>Sampaikan usulan atau pengaduan dan pantau nomor laporan, status, serta tindak lanjutnya.</p><a href="index_aspirasi_pengaduan_desa_roga.html">Buka Aspirasi dan Pengaduan</a></div>
+
     </article>    <article class="menu-card">
       <div class="ikon" aria-hidden="true">☎️</div>
       <div><h3>Kontak dan Nomor Penting</h3><p>Hubungi aparat desa, polisi, ambulans, pemadam kebakaran, dan layanan darurat; lihat daftar laporan warga.</p><a href="index_kontak_penting_desa_roga.html">Buka Kontak Penting</a></div>
+
     </article>    <article class="menu-card">
       <div class="ikon" aria-hidden="true">🏷️</div>
       <div><h3>Inventaris Aset Desa</h3><p>Catat nilai, sumber perolehan, kondisi, lokasi, penanggung jawab, dokumen, dan pemeliharaan aset desa.</p><a href="index_inventaris_aset_desa_roga.html">Buka Inventaris Aset</a></div>
+
+
+</article>    <article class="menu-card">
+      <div class="ikon" aria-hidden="true">📊</div>
+      <div><h3>Surat Keluar Masuk Desa Roga</h3><p>Hitung,Tanggal & Nomor Otomatis,Simpan di tabel data desa.</p><a href="index_sura_kluarmasuk_br.html">Buka Surat Keluar Masuk Desa</a></div>
+
+
+
     </article>    <article class="menu-card">
       <div class="ikon" aria-hidden="true">📈</div>
       <div><h3>Pemantauan Program dan Kegiatan Desa</h3><p>Pantau jadwal, target, progres fisik, realisasi anggaran, kendala, dan tindak lanjut kegiatan desa.</p><a href="index_pemantauan_program_desa_roga.html">Buka Pemantauan Program</a></div>
@@ -171,7 +436,7 @@ footer{padding:12px;font-size:12px;line-height:1.45}
     <article class="menu-card" style="--card-accent:#13877d;--card-tint:#ebf8f6"><div class="ikon">🗓️</div><div><h3>Peminjaman Fasilitas Desa</h3><p>Kelola permohonan pemakaian fasilitas dan tampilkan jadwal yang sudah disetujui tanpa membuka identitas pemohon.</p><a href="index_layanan_potensi_desa_roga.html#peminjaman">Buka Peminjaman Fasilitas</a></div></article>  </section>
   <aside class="catatan">Layanan ini membantu petugas desa mengelola administrasi dengan lebih teratur. Rekap publik hanya menampilkan data agregat. Data rinci penduduk dan surat harus dibatasi untuk petugas berwenang. STATUS: Aplikasi saat ini masih prototipe lokal tanpa autentikasi server. Jangan unggah modul pengelolaan data pribadi atau cadangan penduduk sebagai situs publik. Penyimpanan browser tidak tersinkron lintas pengguna. Akses publik dan data internal harus dipisahkan di server dengan hak akses yang diperiksa server; kata sandi di HTML saja tidak aman. Semua menu tetap dapat dibuka dari Beranda ini.</aside>
 </main>
-<footer>© 2026 Pemerintah Desa Roga<br>Pelayanan administrasi desa yang mudah, tertib, dan transparan.</footer>
+<footer>© 2026 Pemerintah Desa Roga<br>Pelayanan Administrasi Desa yang Mudah, Tertib, dan Transparan.By.Karolus Dari</footer>
 <script>
 function isiAngka(id,jumlah){
     document.getElementById(id).textContent = new Intl.NumberFormat("id-ID").format(jumlah);
@@ -216,132 +481,71 @@ function tampilkanRingkasanBeranda(){
     }
 }
 window.addEventListener("pageshow",tampilkanRingkasanBeranda);`r`nwindow.addEventListener("storage",tampilkanRingkasanBeranda);`r`nwindow.addEventListener("focus",tampilkanRingkasanBeranda);
-</script><script src="kunci_lokal_desaroga.js"></script> <!-- === TAMBAHAN KUNCI TOTAL V2 - AMAN === -->
-<style>
-#spandukRoga{position:fixed;top:90px;left:50%;transform:translateX(-50%);background:#0f172a;color:#fff;padding:18px 22px;border-radius:14px;display:none;z-index:99999;width:92%;max-width:520px;text-align:center;border-left:6px solid #facc15;box-shadow:0 10px 30px rgba(0,0,0,.5)}
-#loginRoga{position:fixed;inset:0;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;z-index:100000}
-.loginBoxRoga{background:#fff;padding:20px;border-radius:14px;width:90%;max-width:320px;text-align:center}
-#badgeModeRoga{position:fixed;top:8px;right:10px;z-index:9998;background:#facc15;color:#000;padding:6px 12px;border-radius:20px;font-size:11px;font-weight:800}
-#btnLoginRoga{position:fixed;top:8px;left:10px;z-index:9998;background:#facc15;border:0;padding:6px 12px;border-radius:8px;font-weight:800;cursor:pointer;font-size:11px}
-#btnLogoutRoga{position:fixed;top:8px;left:10px;z-index:9998;background:#ef4444;color:#fff;border:0;padding:6px 12px;border-radius:8px;font-weight:800;cursor:pointer;font-size:11px;display:none}
-.kunci-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.05);cursor:not-allowed;z-index:10;display:none}
-.card-terkunci{position:relative!important;border-left:5px solid #ef4444!important;}
-.card-terkunci button{background:#9ca3af!important;}
-</style>
-
-<div id="badgeModeRoga">WARGA</div>
-<button id="btnLoginRoga" onclick="bukaLoginRoga()">🔑 Login Admin</button>
-<button id="btnLogoutRoga" onclick="logoutRoga()">Logout</button>
-
-<div id="spandukRoga">
-<b id="sJudulRoga">🔒 Terkunci</b><br>
-<small id="sIsiRoga" style="font-size:12px">Khusus Admin Desa Roga. Silakan login.</small><br>
-<button onclick="tutupSpandukRoga()" style="margin-top:12px;background:#facc15;border:0;padding:8px 16px;border-radius:8px;font-weight:800;cursor:pointer">Mengerti, Kembali ke Daftar Kartu</button>
-</div>
-
-<div id="loginRoga"><div class="loginBoxRoga">
-<h3>🔒 Login Admin</h3>
-<input type="password" id="passRoga" placeholder="Password: AdminRoga2026" style="width:100%;padding:10px;margin:8px 0;border:1px solid #ccc;border-radius:8px">
-<button onclick="loginRoga()" style="width:100%;padding:10px;background:#0f172a;color:#fff;border:0;border-radius:8px;font-weight:800;cursor:pointer">Masuk</button>
-<button onclick="tutupLoginRoga()" style="width:100%;padding:8px;background:#e5e7eb;border:0;border-radius:8px;margin-top:6px;cursor:pointer">Batal</button>
-<p id="pesanRoga" style="color:red;font-size:11px;margin-top:8px"></p>
-</div></div>
-
-<script>
-const PASS_ROGA = "AdminRoga2026";
-let isAdminRoga = localStorage.getItem("isAdminRoga")==="true";
-const PRIVATE = ["Data Penduduk","Surat-Surat Desa","Surat Desa","Peristiwa Penduduk","Pengumuman dan Agenda","Laporan dan Rekap","Laporan","Pengisian Data RT","Form Pengiriman Data","Inventaris Aset","Backup dan Pemulihan","Backup Data"];
-const WARGA = ["Pengajuan Surat Dari Rumah","Aspirasi dan Pengaduan"];
-
-function renderModeRoga(){
-document.getElementById("badgeModeRoga").innerText = isAdminRoga? "ADMIN DESA" : "MODE: WARGA";
-document.getElementById("badgeModeRoga").style.background = isAdminRoga? "#22c55e" : "#facc15";
-document.getElementById("btnLoginRoga").style.display = isAdminRoga? "none" : "block";
-document.getElementById("btnLogoutRoga").style.display = isAdminRoga? "block" : "none";
-}
-function bukaLoginRoga(){document.getElementById("loginRoga").style.display="flex";document.getElementById("pesanRoga").innerText="";}
-function tutupLoginRoga(){document.getElementById("loginRoga").style.display="none";}
-function tutupSpandukRoga(){document.getElementById("spandukRoga").style.display="none";window.scrollTo({top:0,behavior:'smooth'});}
-function loginRoga(){let p=document.getElementById("passRoga").value;if(p===PASS_ROGA){isAdminRoga=true;localStorage.setItem("isAdminRoga","true");tutupLoginRoga();tutupSpandukRoga();renderModeRoga();location.reload();}else{document.getElementById("pesanRoga").innerText="Salah! Password: "+PASS_ROGA;}}
-function logoutRoga(){isAdminRoga=false;localStorage.removeItem("isAdminRoga");renderModeRoga();location.reload();}
-
-function cekTerkunci(teks){
- if(WARGA.some(k=>teks.includes(k))) return false;
- return PRIVATE.some(k=>teks.includes(k));
-}
-
-function pasangKunciTotal(){
-// Cari semua kartu / div yang ada tombol Buka
-let semuaElemen = document.querySelectorAll("div, section, article");
-semuaElemen.forEach(el=>{
- let teks = el.innerText || "";
- if(teks.length>500) return; // skip container besar
- if(cekTerkunci(teks) && teks.includes("Buka")){
-   // Ini kartu private
-   if(!isAdminRoga){
-     // KUNCI TOTAL
-     el.classList.add("card-terkunci");
-     // Matikan semua onclick di elemen ini dan anaknya
-     el.setAttribute("data-terkunci","true");
-     let btns = el.querySelectorAll("button, a");
-     btns.forEach(b=>{
-       b.dataset.asliOnclick = b.getAttribute("onclick")||"";
-       b.dataset.asliHref = b.getAttribute("href")||"";
-       b.removeAttribute("onclick");
-       b.removeAttribute("href");
-       if(b.innerText.includes("Buka")){
-         b.innerText = "🔒 Terkunci - Login Admin";
-       }
-       b.addEventListener("click", function(e){
-         e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
-         let judul = teks.split("\n")[0].substring(0,60);
-         document.getElementById("sJudulRoga").innerText = "🔒 "+judul+" - Terkunci";
-         document.getElementById("sIsiRoga").innerText = "Fitur '"+judul+"' khusus Admin Desa Roga (data rahasia). Warga tidak bisa buka. Silakan Login Admin di pojok kiri atas. Anda tetap di daftar kartu depan.";
-         document.getElementById("spandukRoga").style.display="block";
-         return false;
-       }, true);
-     });
-     // Juga kunci klik di div kartu itu sendiri
-     el.addEventListener("click", function(e){
-       if(e.target.tagName!=="BUTTON" && e.target.tagName!=="A"){
-         e.preventDefault(); e.stopPropagation();
-         let judul = teks.split("\n")[0].substring(0,60);
-         document.getElementById("sJudulRoga").innerText = "🔒 "+judul+" - Terkunci";
-         document.getElementById("sIsiRoga").innerText = "Fitur '"+judul+"' khusus Admin. Login dulu.";
-         document.getElementById("spandukRoga").style.display="block";
-       }
-     }, true);
-   }
- }
-});
-}
-
-// Blokir navigasi level dokumen (anti bobol)
-document.addEventListener("click", function(e){
- if(isAdminRoga) return;
- let target = e.target;
- let parentText = "";
- let el = target.closest("div");
- if(el) parentText = el.innerText || "";
- if(cekTerkunci(parentText) &&!WARGA.some(k=>parentText.includes(k))){
-   // Jika yang diklik ada di dalam kartu private
-   if(parentText.includes("Buka") || target.innerText.includes("Buka")){
-     let isWargaCard = WARGA.some(k=>parentText.includes(k));
-     if(!isWargaCard){
-       e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
-       document.getElementById("sJudulRoga").innerText = "🔒 Akses Ditolak - Mode Warga";
-       document.getElementById("sIsiRoga").innerText = "Maaf, kartu ini terkunci untuk Warga. Hanya Admin Desa yang bisa buka. Klik Login Admin di pojok kiri atas, lalu Anda akan kembali ke daftar kartu depan.";
-       document.getElementById("spandukRoga").style.display="block";
-       return false;
-     }
-   }
- }
-}, true);
-
-renderModeRoga();
-setTimeout(pasangKunciTotal,500);
-setTimeout(pasangKunciTotal,1500);
-setTimeout(pasangKunciTotal,3000);
+</script><script src="kunci_lokal_desaroga.js">
 </script>
-<!-- === AKHIR TAMBAHAN V2 === --> </body>
+<script>
+// ===== REKAPAN OTOMATIS DESA ROGA - 5 ANGKA BERANDA - FINAL =====
+const KEYS_DB=["DATABASE_DESA_ROGA_UTAMA","DATABASE_JPT_100","jptdatapenduduk100","DATA_PENDUDUK_JPT","dataPenduduk","DATABASE_DESA_ROGA"];
+const KEY_ARSIP="ARSIP_SURAT_DESA_ROGA_FINAL";
+
+function getDB(){
+  let r={kk:[],anggota:[]};
+  for(let k of KEYS_DB){
+    try{
+      let raw=localStorage.getItem(k);
+      if(!raw) continue;
+      let j=JSON.parse(raw);
+      if(Array.isArray(j)&&j[0]?.nik){r.anggota=j;break;}
+      if(j.anggota?.length){r=j;break;}
+      if(j.data?.length){r.anggota=j.data;break;}
+    }catch(e){}
+  }
+  return r;
+}
+function getArsip(){try{return JSON.parse(localStorage.getItem(KEY_ARSIP)||"[]")}catch(e){return []}}
+
+function isiAngkaBeranda(){
+  let db=getDB();
+  let list=db.anggota||[];
+  let jumlahPenduduk=list.length;
+  
+  let kkUnik=new Set();
+  list.forEach(p=>{
+    let kk=(p.nomorKK||p.kk||"").toString().trim();
+    if(kk) kkUnik.add(kk);
+  });
+  let jumlahKK=kkUnik.size||db.kk?.length||0;
+  if(jumlahKK==0 && jumlahPenduduk>0) jumlahKK=Math.ceil(jumlahPenduduk/3);
+
+  let laki=list.filter(p=>{
+    let jk=(p.jk||p.jenisKelamin||"").toLowerCase();
+    return jk.includes("laki")||jk=="l"||jk=="1";
+  }).length;
+  let perempuan=jumlahPenduduk - laki;
+  let jumlahSurat=getArsip().length;
+
+  // Isi ke 5 kotak yang sobat sudah kasih ID di foto
+  if(document.getElementById("angkaKK")) document.getElementById("angkaKK").textContent=jumlahKK;
+  if(document.getElementById("angkaPenduduk")) document.getElementById("angkaPenduduk").textContent=jumlahPenduduk;
+  if(document.getElementById("angkaLaki")) document.getElementById("angkaLaki").textContent=laki;
+  if(document.getElementById("angkaPerempuan")) document.getElementById("angkaPerempuan").textContent=perempuan;
+  if(document.getElementById("angkaSurat")) document.getElementById("angkaSurat").textContent=jumlahSurat;
+  
+  // Update tulisan status di bawahnya
+  let status=document.getElementById("statusKoneksi");
+  if(status){
+    status.textContent=`✅ Terhubung - ${jumlahKK} KK, ${jumlahPenduduk} Penduduk (${laki} Laki-laki, ${perempuan} Perempuan), ${jumlahSurat} Surat Tersimpan - Data dari penyimpanan lokal`;
+    status.style.background="linear-gradient(135deg,#dcfce7,#bbf7d0)";
+    status.style.padding="10px 14px";
+    status.style.borderRadius="10px";
+    status.style.fontWeight="700";
+    status.style.color="#0e5a32";
+  }
+}
+document.addEventListener("DOMContentLoaded",()=>{
+  setTimeout(isiAngkaBeranda,800);
+  setInterval(isiAngkaBeranda,2000);
+});
+</script>
+</body>
 </html>

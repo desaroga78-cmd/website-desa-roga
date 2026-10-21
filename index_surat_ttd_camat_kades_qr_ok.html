@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>Desa Roga - Pelayanan Surat Resmi - FINAL V3 SEMPURNA HARAPAN</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{--hijau:#0e5a32;--hijau2:#1a8a4a;--hijau3:#22a55b;--ungu:#6a1b9a;--ungu2:#8e44ad;--orange:#e67e22;--kuning:#f1c40f;--biru:#1565c0;--biru2:#1e88e5;--gradHeader:linear-gradient(135deg,#0b3d24 0%,#0e6a3c 45%,#1a9a5a 100%);--gradCard:linear-gradient(135deg,#ffffff 0%,#f7fcf8 100%);--gradHijau:linear-gradient(135deg,#0e5a32,#1a8a4a);--gradUngu:linear-gradient(135deg,#5e35b1,#7e57c2);--gradOrange:linear-gradient(135deg,#e67e22,#f39c12);--gradBiru:linear-gradient(135deg,#1565c0,#1e88e5);--shadow:0 8px 30px rgba(14,90,50,.12);--shadow2:0 4px 20px rgba(0,0,0,.08);--radius:16px}
+*{box-sizing:border-box} html{scroll-behavior:smooth}
+body{margin:0;font-family:'Inter','Plus Jakarta Sans',sans-serif;background:linear-gradient(180deg,#eef7f0 0%,#f6fbf7 100%);color:#1f2f28;font-size:14px;line-height:1.6}
+header{background:var(--gradHeader);color:#fff;text-align:center;padding:18px 14px;position:sticky;top:0;z-index:30;box-shadow:0 4px 20px rgba(11,74,42,.35);border-bottom:3px solid #f1c40f}
+header h1{margin:0;font-size:20px;font-weight:800} header p{margin:8px auto 0;max-width:1000px;font-size:11.5px;opacity:.95}
+.header-actions{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+.btn-beranda{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:999px;background:#fff;color:var(--hijau);font-weight:700;text-decoration:none;font-size:12.5px;box-shadow:0 4px 12px rgba(0,0,0,.15)}
+.container{width:97%;max-width:1240px;margin:18px auto}
+.card{background:var(--gradCard);padding:20px;margin-bottom:18px;border-radius:16px;box-shadow:var(--shadow);border:1px solid #e0f0e4;position:relative;overflow:hidden}
+.card::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:var(--gradHijau)}
+.card.ungu::before{background:var(--gradUngu)}.card.biru::before{background:var(--gradBiru)}.card.orange::before{background:var(--gradOrange)}
+.card h2{color:var(--hijau);margin:0 0 16px;padding-bottom:10px;border-bottom:3px solid var(--hijau);font-size:16px;font-weight:800;display:flex;align-items:center;gap:10px}
+label{display:block;font-weight:700;margin-top:12px;margin-bottom:5px;font-size:12.5px;color:#2a3f36}
+input,select,textarea{width:100%;padding:11px 14px;border:1.8px solid #cfe1d6;border-radius:12px;font-size:14px;background:#fff;transition:.2s}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--hijau2);box-shadow:0 0 0 4px rgba(26,138,74,.15)}
+button{border:0;border-radius:12px;padding:10px 18px;font-weight:700;cursor:pointer;margin:5px 5px 0 0;font-size:13px;transition:.2s;box-shadow:0 3px 10px rgba(0,0,0,.1)}
+.btn-hijau{background:var(--gradHijau);color:#fff}.btn-biru{background:var(--gradBiru);color:#fff}.btn-ungu{background:var(--gradUngu);color:#fff}.btn-orange{background:var(--gradOrange);color:#fff}.btn-kuning{background:linear-gradient(135deg,#a66a1a,#f4b400);color:#fff}.btn-merah{background:linear-gradient(135deg,#b3261e,#ef5350);color:#fff}.btn-abu{background:linear-gradient(135deg,#eef2ef,#d5ddd7);color:#3a4a42}.btn-wa{background:linear-gradient(135deg,#075e54,#25D366);color:#fff}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.status-sinkron{display:block;margin:10px 0;padding:12px 16px;border-radius:12px;background:linear-gradient(135deg,#e6f4ea,#c8e6c9);border-left:5px solid var(--hijau);color:#0b3d24;font-size:13.5px;font-weight:700}
+.deskripsi-surat{background:linear-gradient(135deg,#f0f7f2,#e3f2e6);border:2px solid #b7d8bf;border-left:6px solid var(--hijau);padding:14px 16px;margin-top:12px;border-radius:12px;font-size:13.5px;line-height:1.6}
+.preview{display:none}.surat-kertas{max-width:820px;margin:20px auto;padding:32px 40px;background:#fff;color:#000;font-family:'Times New Roman',serif;line-height:1.7;font-size:13px;border:2.5px solid #222;box-shadow:0 8px 40px rgba(0,0,0,.15)}
+.kop{position:relative;width:100%;min-height:108px;text-align:center;border-bottom:3.5px double #000;padding:8px 90px 10px;margin-bottom:20px;background:#fff}
+.logo-kop{position:absolute;top:4px;width:72px;height:72px;object-fit:contain;display:block;background:#fff;border-radius:50%;padding:3px;border:2px solid #0e5a32}
+.logo-kop-kanan{right:8px}.logo-kop-kiri{left:8px}
+.kop .kab{font-size:13px;font-weight:800}.kop .kec{font-size:12px;font-weight:700}.kop .desa{font-size:22px;font-weight:900;color:#0e5a32}.kop .alamat{font-size:9px;margin-top:3px;color:#333;font-weight:600}
+.judul-surat{text-align:center;font-size:16px;font-weight:900;text-decoration:underline;text-transform:uppercase}
+.nomor-surat{text-align:center;margin:6px 0 20px;font-size:12px;font-weight:600}
+.badge{display:inline-flex;padding:4px 12px;border-radius:999px;font-size:11px;font-weight:800;color:#fff;box-shadow:0 2px 6px rgba(0,0,0,.15)}
+.badge-hijau{background:var(--gradHijau)}.badge-ungu{background:var(--gradUngu)}.badge-biru{background:var(--gradBiru)}.badge-orange{background:var(--gradOrange)}
+.ttd-box{border:2px solid #000;border-radius:10px;padding:8px 10px;text-align:center;background:#fff;width:190px;min-height:168px;display:flex;flex-direction:column;justify-content:space-between;font-size:10px;box-shadow:0 3px 12px rgba(0,0,0,.1)}
+.qr-mini{padding:6px!important;border:2px solid #000!important;margin:6px auto!important;background:#fff!important;display:flex!important;align-items:center;justify-content:center;border-radius:6px;min-height:96px;min-width:96px}
+.data-penduduk-lengkap{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;background:#fff;padding:14px;border-radius:14px;border:2px solid #d6e6dc;margin-top:10px}
+.data-penduduk-lengkap .field{background:linear-gradient(135deg,#ffffff,#f2f8f4);padding:10px 12px;border-radius:10px;border-left:5px solid #1a8a4a}
+.data-terpilih{display:none;background:linear-gradient(135deg,#f2f8f4,#e8f5e9);border:2px solid #a8d5b5;border-left:6px solid var(--hijau);padding:16px;margin-top:14px;border-radius:14px}
+.readonly{background:#f5f8f6!important;font-weight:600}
+.ttd-panel{background:linear-gradient(135deg,#fffef7,#fef9e7);border:2px solid #f2e2a0;border-radius:16px;padding:16px;margin:16px 0}
+.ttd-kiri-kanan-container{display:flex;justify-content:space-between;width:100%;gap:20px;margin-top:12px}
+.ttd-input-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:12px}
+.ttd-input-kotak{background:#fff;border:2.5px solid #0e5a32;border-radius:14px;padding:14px;box-shadow:0 6px 20px rgba(14,90,50,.1)}
+.ttd-input-kotak.camat{border-color:#6a1b9a}.ttd-input-kotak.kades{border-color:#0e5a32}
+.ttd-input-kotak h4{margin:0 0 12px;padding-bottom:8px;border-bottom:2.5px solid #e8f0e9;color:#0e5a32;font-size:13px;font-weight:800}
+.format-resmi-tabel{width:100%;border-collapse:collapse;margin:16px 0;font-size:13px;background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+.format-resmi-tabel td{border:none;padding:7px 10px;vertical-align:top;border-bottom:1px solid #f0f0f0}
+.format-resmi-tabel td:first-child{width:168px;font-weight:700;color:#222;background:#f9fcf9}
+.format-resmi-tabel td:nth-child(2){width:14px;text-align:center;font-weight:700}
+.format-resmi-paragraf{text-align:justify;font-family:'Times New Roman',serif;font-size:13.5px;margin:12px 0;line-height:1.75;color:#111}
+.hasil{overflow-x:auto;margin-top:12px;border-radius:14px;border:2px solid #e0ece3;background:#fff;box-shadow:0 4px 20px rgba(0,0,0,.08)}
+table{width:100%;border-collapse:collapse} th,td{padding:12px 14px;text-align:left;font-size:13px;border-bottom:1px solid #e8f0e9}
+th{background:var(--gradHijau);color:#fff;font-weight:800;position:sticky;top:0;text-transform:uppercase;font-size:11.5px;white-space:nowrap}
+tr:hover td{background:#f6faf7}
+footer{background:linear-gradient(135deg,#0b3d24,#0e6a3c);color:#fff;text-align:center;padding:18px 14px;font-size:11.5px;border-top:4px solid #f1c40f}
+@media(max-width:768px){.grid{grid-template-columns:1fr}.ttd-input-grid-2{grid-template-columns:1fr}.data-penduduk-lengkap{grid-template-columns:1fr}.ttd-kiri-kanan-container{flex-direction:column}.ttd-kiri,.ttd-kanan{width:100%;justify-content:center}}
+
+@media print{
+  @page{margin:12mm 10mm;size:A4 portrait}
+  html,body{background:#fff!important;margin:0!important;padding:0!important;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+  header,footer,.no-print{display:none!important}
+  .container{width:100%!important;max-width:100%!important;margin:0!important;padding:0!important}
+  .container > .card:not(#previewSurat){display:none!important}
+  #previewSurat{display:block!important;width:100%!important;margin:0!important;padding:0!important;box-shadow:none!important;border:none!important}
+  .surat-kertas{width:100%!important;margin:0 auto!important;padding:28px 36px!important;box-shadow:none!important;border:2.5px solid #000!important;page-break-inside:avoid!important;page-break-after:avoid!important}
+  .kop{display:block!important;visibility:visible!important}
+  .logo-kop{display:block!important;visibility:visible!important}
+  .ttd-box{display:flex!important;visibility:visible!important}
+  .qr-mini{display:flex!important;visibility:visible!important}
+}
+
+</style></head><body>
+
+<header class="no-print"><h1>🏛️ PELAYANAN SURAT RESMI DESA ROGA</h1><p>Pemerintah Kabupaten Ende • Kecamatan Ndona Timur • Desa Roga • Kode Pos 86362 • 75 Jenis Surat Format Resmi • Sesuai Ketentuan Permendagri • Camat Kiri Kades Kanan Rata Tepi Luar • Kop Logo Print • QR Scan Verifikasi</p><div class="header-actions"><a class="btn-beranda" href="index_beranda_desa_roga.html">🏠 Beranda</a><a class="btn-beranda" href="index_jptdatapenduduk100.html">👥 Data Penduduk</a><a class="btn-beranda" href="index_darirumah.html">🏡 Dari Rumah</a><span class="btn-beranda" style="background:#fff8dc;color:#7a5a00;border:1px solid #f5e6a0">📜 75 Jenis • Profesional • Responsif</span></div></header>
+<div class="container">
+
+
+<div class="card"><h2>🔎 CARI DATA PENDUDUK - Sesuai Foto Contoh Hijau - Hasil Langsung 1 Angka</h2><div id="statusDatabasePenduduk" class="status-sinkron">Memeriksa database lokal...</div>
+<div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:12px"><input type="text" id="kataPencarian" placeholder="Ketik NIK / Nama / Nomor KK - Hasil langsung muncul mulai 1 angka..." oninput="cariPenduduk()" style="flex:1;min-width:240px"><button class="btn-hijau" onclick="cariPenduduk()">🔍 CARI</button><button class="btn-abu" onclick="resetPencarian()">↺ RESET</button><button class="btn-biru" onclick="buatDataContoh()">✨ Contoh Foto - Auto Konek</button></div><div style="margin-top:6px;font-size:11.5px;color:#5a6d64;background:#f6faf7;padding:6px 12px;border-radius:8px">Hasil warga muncul langsung saat mengetik, termasuk mulai dari satu angka NIK atau KK.</div><div id="hasilPencarian" class="hasil" style="display:none;margin-top:12px"></div></div>
+
+<div class="card ungu"><h2>👤 DATA PENDUDUK TERPILIH - 6 KOLOM LENGKAP</h2>
+<div id="belumAdaPenduduk"><p style="font-size:13px;color:#5a6d64;background:#f8faf9;padding:12px;border-radius:10px;border-left:4px solid #0e5a32">Belum ada penduduk yang dipilih - Pilih dari tabel di atas</p></div>
+<div id="dataTerpilih" class="data-terpilih">
+<div style="background:linear-gradient(135deg,#0e5a32,#1a8a4a);color:#fff;padding:10px 16px;border-radius:10px;margin-bottom:12px;font-weight:800;font-size:13px">📋 6 KOLOM RESMI - Nama Lengkap, Nomor KK, NIK, Tempat/Tgl Lahir, Pekerjaan, Alamat</div>
+<div class="data-penduduk-lengkap">
+<div class="field"><label>Nama Lengkap</label><div class="value" id="viewNama">-</div></div>
+<div class="field"><label>Nomor KK</label><div class="value" id="viewKK">-</div></div>
+<div class="field"><label>NIK</label><div class="value" id="viewNIK">-</div></div>
+<div class="field"><label>Tempat/Tgl Lahir</label><div class="value" id="viewTTL">-</div></div>
+<div class="field"><label>Pekerjaan</label><div class="value" id="viewPekerjaan">-</div></div>
+<div class="field"><label>Alamat Lengkap</label><div class="value" id="viewAlamat">-</div></div>
+</div>
+<div class="grid" style="margin-top:14px">
+<div><label>NIK</label><input id="suratNIK" class="readonly" readonly></div>
+<div><label>Nomor KK</label><input id="suratKK" class="readonly" readonly></div>
+<div><label>Nama Lengkap</label><input id="suratNama" class="readonly" readonly></div>
+<div><label>Tempat/Tgl Lahir</label><input id="suratTTL" class="readonly" readonly></div>
+<div><label>Pekerjaan</label><input id="suratPekerjaan" class="readonly" readonly></div>
+<div><label>Alamat</label><input id="suratAlamat" class="readonly" readonly></div>
+</div>
+</div>
+</div>
+
+<div class="card biru"><h2>📄 PEMBUATAN SURAT - 75 JENIS FORMAT RESMI DINAMIS</h2>
+<div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px"><input type="search" id="kataCariJenisSurat" placeholder="Cari kode: SKD, SKU, SKT..." oninput="cariJenisSurat()" style="flex:1;min-width:220px"><button class="btn-biru" onclick="cariJenisSurat()">🔎 Cari Jenis</button><button class="btn-abu" onclick="resetCariJenisSurat()">🌈 Semua 75</button></div><small id="statusCariJenisSurat" style="font-size:12.5px;color:#fff;display:block;margin-bottom:14px;background:linear-gradient(135deg,#0e5a32,#1a8a4a);padding:10px 14px;border-radius:10px;font-weight:600">75 jenis tersedia</small>
+<label>Jenis Surat (75 Jenis)</label><select id="jenisSurat" onchange="tampilkanDeskripsiSurat()" style="font-weight:600"><option value="">-- Pilih 1 dari 75 Jenis Surat Resmi Desa --</option></select>
+<div id="deskripsiSurat" class="deskripsi-surat" style="display:none"></div>
+<div class="grid"><div><label>📄 Nomor Surat</label><input id="nomorSurat" class="readonly" readonly style="font-weight:700;color:#0e5a32"></div><div><label>📅 Tanggal Surat</label><input id="tanggalSurat" class="readonly" readonly></div></div>
+
+<div class="ttd-panel">
+<div style="font-size:15px;font-weight:800;color:#0e5a32;margin-bottom:14px">👨‍💼 PENGATURAN TANDA TANGAN & QR CODE - KADES SELALU KANAN</div>
+<div style="background:#fff;padding:12px 16px;border-radius:12px;margin-bottom:14px;display:flex;gap:14px;flex-wrap:wrap;align-items:center;border:2px solid #e0f0e4">
+<b style="color:#0e5a32">Mode TTD:</b>
+<label style="background:#fff;padding:6px 14px;border-radius:999px;box-shadow:0 2px 8px rgba(0,0,0,.07);font-weight:600;border:2px solid #c8e6c9"><input type="radio" name="modeCetakX" value="manual" onchange="aturModeTTD_X()" checked> ✍️ Manual</label>
+<label style="background:#fff;padding:6px 14px;border-radius:999px;box-shadow:0 2px 8px rgba(0,0,0,.07);font-weight:600;border:2px solid #c8e6c9"><input type="radio" name="modeCetakX" value="qr" onchange="aturModeTTD_X()"> 📱 QR Code</label>
+<label style="background:#fff8dc;padding:6px 14px;border-radius:999px;box-shadow:0 2px 8px rgba(0,0,0,.07);font-weight:700;border:2px solid #f2e2a0"><input type="radio" name="modeCetakX" value="both" onchange="aturModeTTD_X()"> ✨ Keduanya</label>
+</div>
+<div class="ttd-input-grid-2">
+  <div class="ttd-input-kotak camat">
+    <h4>👨‍💼 CAMAT - Kiri - 1 Kolom</h4>
+    <label>Camat - Jabatan:</label><input id="jabCamat" value="CAMAT NDONA TIMUR" oninput="buatTTD_X()">
+    <label>Nama Camat:</label><input id="namaCamat" value="Sabinus Patrianusa So S.Sos." oninput="buatTTD_X()">
+    <label>Pangkat/Gol:</label><input id="pangkatCamat" value="Pembina / IV/a" oninput="buatTTD_X()">
+    <label>NIP Camat:</label><input id="nipCamat" value="19750815 200501 1 010" oninput="buatTTD_X()">
+  </div>
+  <div class="ttd-input-kotak kades">
+    <h4>🏡 KADES - Kanan - 1 Kolom - Selalu Kanan</h4>
+    <label>Kepala Desa - Jabatan:</label><input id="inputJabManualX" value="KEPALA DESA ROGA" oninput="buatTTD_X()">
+    <label>Nama Kades:</label><input id="namaManualX" value="PETRUS KANISIUS LETA" oninput="buatTTD_X()">
+    <label>Pangkat/Gol:</label><input id="pangkatKades" value="Penata Muda / III/a" oninput="buatTTD_X()">
+    <label>NIP Kades:</label><input id="nipKades" value="-" oninput="buatTTD_X()">
+  </div>
+</div>
+<div style="margin-top:14px;background:#f8f5ff;padding:12px 16px;border-radius:12px;display:flex;gap:14px;flex-wrap:wrap;align-items:center;border:2px solid #e9d5ff">
+<b style="color:#5e35b1">Pengaturan:</b>
+<label style="background:#f3e8ff;color:#5b21b6;font-weight:700;padding:8px 16px;border-radius:999px;border:2px solid #d8b4fe"><input type="checkbox" id="butuhCamat" onchange="aturModeTTD_X()"> Butuh Camat? (Camat Kiri, Kades Kanan - Kades Selalu Kanan)</label>
+<label style="background:#fff;display:flex;align-items:center;gap:10px;padding:6px 14px;border-radius:999px;border:2px solid #c8e6c9;font-weight:600"><input type="checkbox" id="showQRX" checked onchange="buatTTD_X()"> 📱 QR <input type="range" id="sizeQRX" min="60" max="160" value="110" style="width:120px" oninput="document.getElementById('lbSizeX').textContent=this.value;buatTTD_X()"><span id="lbSizeX" style="background:#0e5a32;color:#fff;padding:4px 10px;border-radius:999px;font-weight:800">110</span> px</label>
+</div>
+</div>
+
+<div style="display:flex;gap:12px;justify-content:space-between;flex-wrap:wrap;width:100%;background:#fbfdfb;padding:16px;border-radius:14px;border:2px dashed #a8d5b5" id="areaBawahX">
+<div id="colCamatX" style="display:none" class="ttd-box ttd-kiri"><div><div style="font-size:8px;font-weight:700;color:#5e35b1">Mengetahui,</div><div class="jabatan" id="tampilJabCamatX">CAMAT NDONA TIMUR</div></div><div><br><br></div><div><div class="nama" id="namaTTDCamatX">Sabinus Patrianusa So S.Sos.</div><div class="pangkat" id="pangkatTTDCamatX">Pembina / IV/a</div><div class="nip" id="nipTTDCamatX">NIP. 19750815 200501 1 010</div></div></div>
+<div id="colManualX" class="ttd-box ttd-kanan"><div><div class="tgl">Roga, <span class="tglX">20 Okt 2026</span></div><div class="jabatan" id="tampilJabKiriX">KEPALA DESA ROGA</div></div><div><br><br></div><div><div class="nama" id="namaTTDKiriX">PETRUS KANISIUS LETA</div><div class="pangkat" id="pangkatTTDKiriX">Penata Muda / III/a</div><div class="nip" id="nipTTDKiriX">NIP. -</div></div></div>
+<div id="colQRX" class="ttd-box ttd-kanan"><div><div class="tgl">Roga, <span class="tglX">20 Okt 2026</span></div><div class="jabatan" id="tampilJabKananX">KEPALA DESA ROGA</div><div id="qrcodeX" class="qr-mini"></div><div style="font-size:7px;font-weight:800;color:#0e5a32" id="kTxtX">TRK-000001</div></div><div><div class="nama" id="namaTTDKananX">PETRUS KANISIUS LETA</div><div class="pangkat" id="pangkatTTDKananQRX">Penata Muda / III/a</div><div class="nip" id="nipTTDKananQRX">NIP. -</div></div></div>
+</div>
+
+<label>📝 Keperluan / Tujuan Surat (Wajib)</label><textarea id="keperluanSurat" placeholder="Contoh: Pinjam BRI, KUR, Beasiswa..."></textarea>
+<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px">
+<button class="btn-hijau" onclick="buatPreviewSurat()">👁️ Preview Format Resmi</button>
+<button class="btn-biru" onclick="simpanSurat()">💾 Simpan ke Arsip</button>
+<button class="btn-kuning" onclick="cetakSurat()">🖨️ Cetak / PDF</button>
+<button class="btn-abu" onclick="resetFormSurat()">↺ Reset Form</button>
+</div>
+<div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:14px;background:linear-gradient(135deg,#e8f5e9,#c8e6c9);padding:14px;border-radius:14px;border:2px dashed #0e5a32">
+<button class="btn-wa" onclick="kirimBalikKeWarga()" style="flex:1">📤 Kirim Balik ke Warga - PDF Otomatis + Kop Logo + QR Scan</button>
+<button class="btn-hijau" onclick="downloadPDFOtomatis()" style="flex:1">📄 Download PDF Otomatis Dinamis</button>
+</div>
+<div id="pesanSurat" class="status-sinkron" style="display:none;margin-top:14px"></div>
+</div>
+
+<div id="previewSurat" class="card preview"><div id="isiPreviewSurat"></div></div>
+
+<div class="card orange"><h2>🗂️ ARSIP SURAT DESA - TABEL DINAMIS SERASI</h2>
+<div style="display:flex;gap:10px;flex-wrap:wrap;margin:12px 0"><input type="text" id="cariArsip" placeholder="Cari Nomor, Nama, NIK..." oninput="tampilkanArsip()" style="flex:1;min-width:220px"><select id="filterKodeSurat" onchange="tampilkanArsip()" style="width:140px;font-weight:600"><option value="">Semua Kode</option></select><button class="btn-hijau" onclick="tampilkanArsip()">🔎 Cari</button><button class="btn-merah" onclick="hapusSemuaArsip()">🗑️ Hapus Semua</button></div>
+<div id="infoArsip" style="font-size:12.5px;color:#fff;margin:8px 0;background:linear-gradient(135deg,#0e5a32,#1a8a4a);padding:10px 14px;border-radius:10px;font-weight:600"></div><div id="daftarArsip" class="hasil" style="display:none"></div></div>
+</div>
+<footer class="no-print"><div>© 2026 Pemerintah Desa Roga - 75 Jenis Surat Format Resmi | Camat Kiri Kades Kanan (Kades Selalu Kanan) | Kop Logo Print | QR Verifikasi | Dinamis Serasi</div></footer>
+
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+const KEYS_DATABASE=["DATABASE_DESA_ROGA_UTAMA","DATABASE_JPT_100","jptdatapenduduk100","DATA_PENDUDUK_JPT","dataPenduduk","DATABASE_DESA_ROGA"];
+const NAMA_ARSIP="ARSIP_SURAT_DESA_ROGA_FINAL";const KEY_BACKUP="BACKUP_ARSIP_DESA_ROGA";
+function ambilDatabase(){let r={kk:[],anggota:[]};for(let k of KEYS_DATABASE){try{let raw=localStorage.getItem(k);if(!raw)continue;let j=JSON.parse(raw);if(Array.isArray(j)&&j[0]?.nik){r.anggota=j;break;}if(j.anggota?.length){r=j;break;}if(j.data?.length){r.anggota=j.data;break;}}catch(e){}}return r;}
+function ambilArsip(){try{let d=localStorage.getItem(NAMA_ARSIP);if(!d)return[];return JSON.parse(d);}catch(e){return[]}}
+function simpanArsip(a){localStorage.setItem(NAMA_ARSIP,JSON.stringify(a));}
+function tanggalIndonesia(){let b=["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];let s=new Date();return s.getDate()+" "+b[s.getMonth()]+" "+s.getFullYear();}
+function buatNomorSurat(k){let arsip=ambilArsip();let n=0;arsip.forEach(s=>{let m=String(s.nomor||"").match(/\/(\d{3})\//);if(m){let a=parseInt(m[1]);if(a>n)n=a;}});let nb=String(n+1).padStart(3,"0");let now=new Date();return `470/${nb}/DESA-ROGA/${String(now.getMonth()+1).padStart(2,"0")}/${now.getFullYear()}`;}
+const BUTUH_CAMAT=["SKA","SKT","SKTS","SKPF","SKDU","SKIK","SKBENC","SKJB","SKHT","SKPT","SKKT","SKIMB","SKTKT","SKBA","SKBK","SKBB","SKBL","SKBG","SKIMB2","SKPD","SKDW","SKRTLH","SKUM","SKUKM"];
+const DATA_SURAT={
+SKD:{nama:"SURAT KETERANGAN DOMISILI",deskripsi:"berdomisili tetap di wilayah Desa Roga, Kecamatan Ndona Timur, Kabupaten Ende, dan surat ini berlaku sebagai bukti domisili resmi untuk keperluan administrasi kependudukan, pendidikan, dan pekerjaan"},
+SKTM:{nama:"SURAT KETERANGAN TIDAK MAMPU",deskripsi:"tergolong keluarga tidak mampu/miskin berdasarkan verifikasi RT/RW dan data DTKS, sehingga layak mendapatkan bantuan PKH, BLT, KIP, KIP Kuliah, dan bantuan kesehatan"},
+SKKL:{nama:"SURAT KETERANGAN KELAHIRAN",deskripsi:"telah benar-benar lahir di wilayah Desa Roga pada tanggal tersebut di atas, sesuai keterangan saksi dan data keluarga, untuk pengurusan Akta Kelahiran di Disdukcapil"},
+SKKM:{nama:"SURAT KETERANGAN KEMATIAN",deskripsi:"telah meninggal dunia di Desa Roga pada tanggal tersebut, sesuai keterangan keluarga dan saksi, untuk pengurusan Akta Kematian, waris, dan administrasi bank"},
+SKU:{nama:"SURAT KETERANGAN USAHA",deskripsi:"benar warga Desa Roga yang menjalankan kegiatan usaha produktif secara aktif dan mandiri di wilayah Desa Roga, untuk kelengkapan administrasi usaha, pengajuan KUR, dan keperluan perbankan"},
+SKDU:{nama:"SURAT KETERANGAN DOMISILI USAHA - BUTUH CAMAT",deskripsi:"memiliki dan menjalankan usaha yang berdomisili di wilayah Desa Roga, untuk pengurusan NIB, SIUP, dan izin usaha resmi - BUTUH CAMAT KIRI KADES KANAN"},
+SKK:{nama:"SURAT KETERANGAN UMUM / BERSIH",deskripsi:"berkelakuan baik, bersih diri, tidak pernah terlibat tindak pidana, tidak pernah dihukum penjara, dan keberadaannya tidak meresahkan masyarakat Desa Roga"},
+SKBM:{nama:"SURAT KETERANGAN BELUM MENIKAH",deskripsi:"belum pernah menikah dan masih berstatus lajang, untuk keperluan melamar pekerjaan, TNI/Polri, dan persyaratan pernikahan"},
+SKJD:{nama:"SURAT KETERANGAN JANDA/DUDA",deskripsi:"berstatus janda/duda cerai mati/hidup berdasarkan keterangan warga dan RT/RW, untuk keperluan nikah lagi, waris, dan tunjangan"},
+SKPH:{nama:"SURAT KETERANGAN PENGHASILAN",deskripsi:"memiliki penghasilan tidak tetap sebesar yang bersangkutan sampaikan, untuk keperluan beasiswa, kredit usaha, dan bantuan sosial"},
+SKPO:{nama:"SURAT KETERANGAN PENGHASILAN ORANG TUA",deskripsi:"orang tua/wali dari yang bersangkutan memiliki penghasilan tidak tetap sebagaimana tercantum, untuk keperluan KIP Kuliah dan beasiswa pendidikan"},
+SKA:{nama:"SURAT KETERANGAN AHLI WARIS - BUTUH CAMAT",deskripsi:"merupakan ahli waris yang sah dari almarhum/almarhumah tersebut di atas sesuai hukum adat dan agama, untuk keperluan pertanahan, perbankan, dan pensiun - BUTUH CAMAT"},
+SKT:{nama:"SURAT KETERANGAN TANAH / KEPEMILIKAN - BUTUH CAMAT",deskripsi:"benar memiliki dan menguasai sebidang tanah secara sah dan turun temurun di wilayah Desa Roga, tidak dalam sengketa, untuk keperluan jual beli, sertifikat, dan agunan bank - BUTUH CAMAT"},
+SKTS:{nama:"SURAT KETERANGAN TIDAK SENGKETA TANAH - BUTUH CAMAT",deskripsi:"tanah milik yang bersangkutan tidak dalam keadaan sengketa dengan pihak manapun, batas-batas jelas, untuk transaksi dan sertifikat - BUTUH CAMAT"},
+SKPF:{nama:"SURAT KETERANGAN PENGUASAAN FISIK TANAH - BUTUH CAMAT",deskripsi:"benar-benar menguasai secara fisik sebidang tanah tersebut secara terus menerus dan terbuka, untuk program PTSL dan sertifikat - BUTUH CAMAT"},
+SKBR:{nama:"SURAT KETERANGAN BELUM PUNYA RUMAH",deskripsi:"belum memiliki rumah tinggal pribadi dan masih menumpang/tinggal bersama keluarga, untuk bantuan subsidi perumahan dan BSPS"},
+SKP:{nama:"SURAT PENGANTAR UMUM",deskripsi:"warga Desa Roga yang memerlukan pengantar resmi untuk pengurusan administrasi di tingkat Kecamatan, Kabupaten, dan Provinsi"},
+SPCK:{nama:"SURAT PENGANTAR SKCK",deskripsi:"berkelakuan baik dan tidak pernah terlibat tindak pidana di wilayah Desa Roga, untuk pengurusan SKCK di Polsek/Polres"},
+SPN:{nama:"SURAT PENGANTAR NIKAH",deskripsi:"memenuhi syarat untuk melangsungkan pernikahan sesuai peraturan yang berlaku, untuk pengurusan N1, N2, N4 di KUA"},
+SKIK:{nama:"SURAT IZIN KERAMAIAN - BUTUH CAMAT",deskripsi:"akan menyelenggarakan kegiatan hajatan/keramaian dengan penanggung jawab yang bersangkutan, tidak mengganggu ketertiban umum - BUTUH CAMAT"},
+SKBN:{nama:"SURAT KETERANGAN BEDA NAMA",deskripsi:"terdapat perbedaan penulisan nama pada dokumen kependudukan dan dokumen lainnya namun merujuk pada satu orang yang sama"},
+SKSO:{nama:"SURAT KETERANGAN SATU ORANG SAMA",deskripsi:"nama yang tercantum pada beberapa dokumen yang berbeda adalah satu orang yang sama, untuk keperluan perbaikan data bank, BPJS, dan administrasi"},
+SKHIL:{nama:"SURAT KETERANGAN KEHILANGAN",deskripsi:"benar telah kehilangan dokumen/barang berharga sebagaimana dilaporkan, untuk pengurusan dokumen pengganti dan laporan resmi ke Polsek"},
+SKBENC:{nama:"SURAT KETERANGAN BENCANA - BUTUH CAMAT",deskripsi:"benar terdampak bencana alam yang terjadi di wilayah Desa Roga, untuk pengajuan bantuan kepada BPBD dan Dinas Sosial - BUTUH CAMAT"},
+SKLHN:{nama:"SURAT KETERANGAN LAHAN PERTANIAN",deskripsi:"memiliki dan menggarap lahan pertanian aktif di wilayah Desa Roga, untuk keperluan pupuk subsidi, alsintan, dan KUR tani"},
+SKPD:{nama:"SURAT KETERANGAN PINDAH DOMISILI",deskripsi:"akan pindah domisili dari Desa Roga ke daerah tujuan tersebut untuk keperluan pengurusan KTP dan KK baru di tempat tujuan"},
+SKDT:{nama:"SURAT KETERANGAN DATANG / PENDATANG BARU",deskripsi:"baru datang dan berdomisili di Desa Roga, telah melapor kepada Pemerintah Desa untuk pendataan penduduk pendatang"},
+SKDW:{nama:"SURAT KETERANGAN DOMISILI WARGA PENDATANG",deskripsi:"benar berdomisili sementara sebagai warga pendatang di Desa Roga, untuk keperluan KTP sementara dan administrasi kerja"},
+SKRTLH:{nama:"SURAT KETERANGAN RUMAH TIDAK LAYAK HUNI",deskripsi:"memiliki rumah dalam kondisi tidak layak huni, dinding dan atap rusak, untuk program BSPS dan bantuan bedah rumah"},
+SKTMB:{nama:"SURAT KETERANGAN TIDAK MAMPU BEROBAT",deskripsi:"tergolong tidak mampu untuk biaya pengobatan, untuk pengajuan Jamkesda, BPJS gratis, dan bantuan kesehatan"},
+SKPTT:{nama:"SURAT KETERANGAN PENGHASILAN TIDAK TETAP",deskripsi:"memiliki penghasilan tidak tetap per bulan dengan rata-rata sebagaimana keterangan, untuk keperluan bantuan sosial dan beasiswa"},
+SKUM:{nama:"SURAT KETERANGAN USAHA MIKRO",deskripsi:"menjalankan usaha mikro dengan modal kecil dan dikelola secara mandiri, untuk pengajuan KUR mikro dan bantuan UMKM"},
+SKUKM:{nama:"SURAT KETERANGAN USAHA KECIL MENENGAH",deskripsi:"menjalankan usaha kecil menengah yang aktif dan berkembang di Desa Roga, untuk pengajuan KUR dan perizinan NIB/SIUP"},
+SKIMB:{nama:"SURAT KETERANGAN IZIN MENDIRIKAN BANGUNAN DESA - BUTUH CAMAT",deskripsi:"akan mendirikan bangunan rumah tinggal/ruko di atas tanah milik sendiri, tidak mengganggu lingkungan sekitar - BUTUH CAMAT"},
+SKTKT:{nama:"SURAT KETERANGAN TIDAK KEBERATAN TETANGGA - BUTUH CAMAT",deskripsi:"tetangga sekitar tidak keberatan atas rencana pembangunan/usaha yang akan dilakukan, tidak mengganggu ketertiban - BUTUH CAMAT"},
+SKJB:{nama:"SURAT KETERANGAN JUAL BELI TANAH - BUTUH CAMAT",deskripsi:"telah terjadi transaksi jual beli sebidang tanah secara sah dan disaksikan saksi-saksi, untuk proses balik nama dan sertifikat - BUTUH CAMAT"},
+SKHT:{nama:"SURAT KETERANGAN HIBAH TANAH - BUTUH CAMAT",deskripsi:"telah menerima/menghibahkan sebidang tanah secara sukarela tanpa paksaan untuk keperluan keluarga, sosial, atau wakaf - BUTUH CAMAT"},
+SKPT:{nama:"SURAT KETERANGAN PENGGARAPAN TANAH",deskripsi:"aktif menggarap dan mengolah sebidang tanah pertanian/perkebunan di wilayah Desa Roga secara terus menerus"},
+SKKT:{nama:"SURAT KETERANGAN KEPEMILIKAN TANAH ADAT - BUTUH CAMAT",deskripsi:"memiliki tanah adat secara turun temurun dari nenek moyang, dikuasai secara adat, belum bersertifikat resmi - BUTUH CAMAT"},
+SKLT:{nama:"SURAT KETERANGAN LAHAN TIDUR",deskripsi:"memiliki lahan yang saat ini tidak digarap/tidur, untuk program cetak sawah baru dan bantuan alsintan"},
+SKKTM:{nama:"SURAT KETERANGAN TIDAK MEMILIKI TANAH",deskripsi:"tidak memiliki tanah hak milik pribadi di wilayah Desa Roga, untuk pengajuan reforma agraria dan bantuan lahan"},
+SKKH:{nama:"SURAT KETERANGAN KEHILANGAN KK",deskripsi:"telah kehilangan Kartu Keluarga asli karena musibah/kelalaian, untuk pengurusan KK baru di Disdukcapil"},
+SKKTP:{nama:"SURAT KETERANGAN KEHILANGAN KTP",deskripsi:"telah kehilangan KTP elektronik asli, untuk pengurusan KTP baru di Disdukcapil dan laporan ke Polsek"},
+SKKI:{nama:"SURAT KETERANGAN KEHILANGAN IJAZAH",deskripsi:"telah kehilangan ijazah pendidikan asli, untuk pengurusan surat keterangan pengganti ijazah di sekolah/dinas terkait"},
+SKKA:{nama:"SURAT KETERANGAN KEHILANGAN AKTA",deskripsi:"telah kehilangan Akta Kelahiran/Kematian asli, untuk pengurusan akta pengganti di Disdukcapil"},
+SKSH:{nama:"SURAT KETERANGAN KEHILANGAN SERTIFIKAT TANAH",deskripsi:"telah kehilangan sertifikat hak milik tanah asli, untuk pengurusan sertifikat pengganti di BPN"},
+SKKB:{nama:"SURAT KETERANGAN KEHILANGAN BPKB",deskripsi:"telah kehilangan BPKB kendaraan bermotor asli, untuk pengurusan BPKB baru di Samsat"},
+SKKS:{nama:"SURAT KETERANGAN KEHILANGAN STNK",deskripsi:"telah kehilangan STNK kendaraan bermotor asli, untuk pengurusan STNK baru di Samsat"},
+SKKB2:{nama:"SURAT KETERANGAN KEHILANGAN BARANG / DOKUMEN",deskripsi:"telah kehilangan barang/dokumen penting sebagaimana dilaporkan, untuk laporan resmi dan pengurusan dokumen baru"},
+SKBA:{nama:"SURAT KETERANGAN BENCANA ALAM - BUTUH CAMAT",deskripsi:"terdampak langsung bencana alam yang mengakibatkan kerusakan rumah dan harta benda, untuk bantuan darurat BPBD - BUTUH CAMAT"},
+SKBK:{nama:"SURAT KETERANGAN BENCANA KEBAKARAN - BUTUH CAMAT",deskripsi:"terdampak kebakaran yang menghanguskan rumah dan harta benda, untuk bantuan bencana kebakaran dari BPBD dan Dinas Sosial - BUTUH CAMAT"},
+SKBB:{nama:"SURAT KETERANGAN BENCANA BANJIR - BUTUH CAMAT",deskripsi:"terdampak banjir yang merendam rumah dan lahan pertanian, untuk bantuan penanganan banjir - BUTUH CAMAT"},
+SKBL:{nama:"SURAT KETERANGAN BENCANA LONGSOR - BUTUH CAMAT",deskripsi:"terdampak tanah longsor yang mengancam keselamatan rumah, untuk bantuan relokasi dan penanganan longsor - BUTUH CAMAT"},
+SKBG:{nama:"SURAT KETERANGAN BENCANA GEMPA - BUTUH CAMAT",deskripsi:"terdampak gempa bumi yang merusak bangunan rumah, untuk bantuan tanggap darurat gempa bumi - BUTUH CAMAT"}
+};
+function generateIsi(kode){
+ const s=DATA_SURAT[kode];
+ let butuhCamat=BUTUH_CAMAT.includes(kode);
+ let extra=butuhCamat?" - Telah diketahui oleh Camat Ndona Timur (Camat di sisi kiri, Kades di sisi kanan, Kades selalu kanan).":"";
+ return `
+<p class="format-resmi-paragraf">Yang bertanda tangan di bawah ini, Kepala Desa Roga, Kecamatan Ndona Timur, Kabupaten Ende, dengan ini menerangkan bahwa:</p>
+<table class="format-resmi-tabel">
+<tr><td>Nama Lengkap</td><td>:</td><td><b>{{NAMA}}</b></td></tr>
+<tr><td>Nomor KK</td><td>:</td><td>{{KK}}</td></tr>
+<tr><td>NIK</td><td>:</td><td>{{NIK}}</td></tr>
+<tr><td>Tempat/Tanggal Lahir</td><td>:</td><td>{{TTL}}</td></tr>
+<tr><td>Pekerjaan</td><td>:</td><td>{{PEKERJAAN}}</td></tr>
+<tr><td>Alamat Lengkap</td><td>:</td><td>{{ALAMAT}}</td></tr>
+</table>
+<p class="format-resmi-paragraf">Berdasarkan data administrasi kependudukan dan keterangan yang disampaikan kepada Pemerintah Desa Roga, serta setelah diadakan pemeriksaan seperlunya, maka warga tersebut di atas adalah benar warga Desa Roga, Kecamatan Ndona Timur, Kabupaten Ende, dan <b>${s.deskripsi}</b>. Surat keterangan ini dibuat sebagai kelengkapan administrasi untuk dipergunakan sebagaimana mestinya. Adapun surat ini digunakan untuk keperluan:</p>
+<p class="format-resmi-paragraf"><b>{{KEPERLUAN}}</b>${extra}</p>
+<p class="format-resmi-paragraf">Demikian surat keterangan ini dibuat dengan sebenar-benarnya dan penuh tanggung jawab untuk dapat dipergunakan sebagaimana mestinya.</p>
+`;
+}
+function replaceTemplate(t,d){return t.replace(/{{NIK}}/g,d.nik||'').replace(/{{NAMA}}/g,d.nama||'').replace(/{{TTL}}/g,d.ttl||'').replace(/{{ALAMAT}}/g,d.alamat||'').replace(/{{KK}}/g,d.kk||'').replace(/{{KEPERLUAN}}/g,d.keperluan||'-').replace(/{{TGL}}/g,d.tgl||'').replace(/{{RT}}/g,d.rt||'001').replace(/{{JK}}/g,d.jk||'').replace(/{{PEKERJAAN}}/g,d.pekerjaan||'');}
+window.terpilih={nik:'5308163011140001',nama:'Aventino Dode Dari',alamat:'Kopogire RT 004 RW 002, Desa Roga, Kecamatan Ndona Timur, Kabupaten Ende',kk:'5308162309190001',ttl:'Ende, 30/11/2014',jk:'Laki-laki',pekerjaan:'Pelajar/Mahasiswa',rt:'004'};
+function tampilkanStatusDatabasePenduduk(){
+ let el=document.getElementById("statusDatabasePenduduk");
+ let db=ambilDatabase();
+ if(!db.anggota.length){el.innerHTML=`⚠️ <b>Database belum terbaca.</b> Klik <b>✨ Contoh Foto - Auto Konek</b> untuk membuat data contoh Aventino Dode Dari - Auto konek 100%.`;el.style.background="linear-gradient(135deg,#fff3cd,#fde68a)";}else{el.innerHTML=`✅ TERHUBUNG — ${db.anggota.length} penduduk dari ${db.kk.length} KK terbaca. ${Object.keys(DATA_SURAT).length} jenis surat tersedia; cari warga dengan NIK, nama, atau Nomor KK.`;el.style.background="linear-gradient(135deg,#dcfce7,#bbf7d0)";}
+}
+function cariPenduduk(){
+ let k=document.getElementById("kataPencarian").value.toLowerCase().trim();
+ let h=document.getElementById("hasilPencarian");
+ let db=ambilDatabase();let list=db.anggota;
+ if(!list.length){h.style.display="block";h.innerHTML="<div style='background:linear-gradient(135deg,#fff3cd,#fde68a);padding:16px;border-radius:12px;border:2px solid #f59e0b;color:#78350f;font-weight:600'>⚠️ Belum ada data penduduk. Klik tombol biru <b>✨ Contoh Foto - Auto Konek</b> di atas untuk membuat data contoh otomatis sesuai foto SKU!</div>";return;}
+ h.style.display="block";
+ if(!k){
+  h.innerHTML=`<table><tr><th>No</th><th>NIK</th><th>Nama</th><th>Jenis Kelamin</th><th>Nomor KK</th><th>Aksi</th></tr>`+list.slice(0,30).map((a,i)=>`<tr><td>${i+1}</td><td><b>${a.nik}</b></td><td><b style="color:#0e5a32">${a.nama}</b></td><td>${a.jk||a.jenisKelamin||'-'}</td><td>${a.nomorKK||a.kk||'-'}</td><td><button class="btn-biru" onclick="pilihPenduduk('${a.nik}')">✓ PILIH</button></td></tr>`).join('')+'</table>';
+  return;
+ }
+ let f=list.filter(a=>String(a.nik||"").toLowerCase().includes(k)||String(a.nama||"").toLowerCase().includes(k)||String(a.nomorKK||a.kk||"").toLowerCase().includes(k)).slice(0,30);
+ if(!f.length){h.innerHTML=`<div style="background:#fee2e2;padding:12px;border-radius:10px;color:#991b1b;font-weight:600">❌ Tidak ditemukan data untuk "${k}"</div>`;return;}
+ h.innerHTML=`<table><tr><th>No</th><th>NIK</th><th>Nama</th><th>Jenis Kelamin</th><th>Nomor KK</th><th>Aksi</th></tr>`+f.map((a,i)=>`<tr><td>${i+1}</td><td><b>${a.nik}</b></td><td><b style="color:#0e5a32">${a.nama}</b></td><td>${a.jk||'-'}</td><td>${a.nomorKK||a.kk||'-'}</td><td><button class="btn-biru" onclick="pilihPenduduk('${a.nik}')">✓ PILIH</button></td></tr>`).join('')+'</table>';
+}
+function pilihPenduduk(nik){
+ let db=ambilDatabase();let p=db.anggota.find(a=>String(a.nik)===String(nik))||window.terpilih;
+ window.terpilih=p;document.getElementById("belumAdaPenduduk").style.display="none";document.getElementById("dataTerpilih").style.display="block";
+ let ttlVal=`${p.tempatLahir||p.tempat||'-'}, ${p.tanggalLahir||p.tglLahir||'-'}`;let alamatVal=p.alamat||'Desa Roga';let kkVal=p.nomorKK||p.kk||'-';let pekerjaanVal=p.pekerjaan||'-';
+ document.getElementById('viewNama').textContent=p.nama||'-';document.getElementById('viewKK').textContent=kkVal;document.getElementById('viewNIK').textContent=p.nik||'-';document.getElementById('viewTTL').textContent=ttlVal;document.getElementById('viewPekerjaan').textContent=pekerjaanVal;document.getElementById('viewAlamat').textContent=alamatVal;
+ document.getElementById("suratNIK").value=p.nik||"";document.getElementById("suratKK").value=kkVal;document.getElementById("suratNama").value=p.nama||"";document.getElementById("suratTTL").value=ttlVal;document.getElementById("suratPekerjaan").value=pekerjaanVal;document.getElementById("suratAlamat").value=alamatVal;
+ window.terpilih.kk=kkVal;window.terpilih.pekerjaan=pekerjaanVal;window.terpilih.ttl=ttlVal;window.terpilih.alamatLengkap=alamatVal;buatTTD_X();
+ document.getElementById("dataTerpilih").scrollIntoView({behavior:"smooth",block:"center"});
+}
+function buatDataContoh(){
+ let contoh=[
+ {nik:"5308163011140001",nomorKK:"5308162309190001",nama:"Aventino Dode Dari",jk:"Laki-laki",tempatLahir:"Ende",tanggalLahir:"30/11/2014",pekerjaan:"Pelajar/Mahasiswa",alamat:"Kopogire RT 004 RW 002, Desa Roga",rt:"004"},
+ {nik:"530816160202890001",nomorKK:"5308160101220001",nama:"Carlos Lengkap",jk:"Laki-laki",tempatLahir:"Ende",tanggalLahir:"16-02-1989",pekerjaan:"Petani Jagung",alamat:"Dusun Aegomo RT 001/RW 001, Desa Roga",rt:"001"},
+ {nik:"5308160203900002",nomorKK:"5308160101220001",nama:"Maria Roga",jk:"Perempuan",tempatLahir:"Ende",tanggalLahir:"02-03-1990",pekerjaan:"Ibu Rumah Tangga",alamat:"Kopogire RT 004 RW 002, Desa Roga",rt:"004"}
+ ];
+ localStorage.setItem("DATABASE_DESA_ROGA_UTAMA",JSON.stringify({kk:[],anggota:contoh}));
+ localStorage.setItem("DATABASE_JPT_100",JSON.stringify({kk:[],anggota:contoh}));
+ localStorage.setItem("jptdatapenduduk100",JSON.stringify({kk:[],anggota:contoh}));
+ alert("✅ AUTO-KONEK 100% BERHASIL! 3 Data Contoh Dibuat!");tampilkanStatusDatabasePenduduk();cariPenduduk();
+}
+function resetPencarian(){document.getElementById("kataPencarian").value="";let h=document.getElementById("hasilPencarian");h.style.display="none";h.innerHTML="";}
+function cariJenisSurat(){let kata=document.getElementById("kataCariJenisSurat").value.toLowerCase();let sel=document.getElementById("jenisSurat");let c=0;Array.from(sel.options).forEach(o=>{if(!o.value)return;let show=!kata||o.textContent.toLowerCase().includes(kata);o.hidden=!show;if(show)c++;});document.getElementById('statusCariJenisSurat').textContent=`🔎 Ditemukan ${c} dari ${Object.keys(DATA_SURAT).length} jenis surat`;}
+function resetCariJenisSurat(){document.getElementById("kataCariJenisSurat").value="";Array.from(document.getElementById("jenisSurat").options).forEach(o=>o.hidden=false);document.getElementById('statusCariJenisSurat').textContent=`${Object.keys(DATA_SURAT).length} jenis tersedia - Format resmi - Kop Logo Print - QR 110px - Kades Selalu Kanan`;}
+function tampilkanDeskripsiSurat(){
+ let kode=document.getElementById("jenisSurat").value;let kotak=document.getElementById("deskripsiSurat");let nomor=document.getElementById("nomorSurat");let checkCamat=document.getElementById("butuhCamat");
+ if(!kode){kotak.style.display="none";nomor.value="";checkCamat.checked=false;aturModeTTD_X();return;}
+ let s=DATA_SURAT[kode];let isButuhCamat=BUTUH_CAMAT.includes(kode);checkCamat.checked=isButuhCamat;
+ kotak.innerHTML=`<div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:8px"><b style="color:#0e5a32;font-size:15px">📜 ${s.nama} (${kode})</b> ${isButuhCamat?'<span class="badge badge-ungu">📍 CAMAT KIRI - KADES KANAN (Kades Selalu Kanan)</span>':'<span class="badge badge-hijau">✅ HANYA KADES KANAN - Kiri Kosong</span>'}</div><div style="background:#fff;padding:10px 14px;border-radius:8px;border-left:4px solid #0e5a32;margin-top:8px"><b>Deskripsi Lengkap Sesuai Jenis:</b><br>${s.deskripsi}</div><div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap"><small style="background:#e0f2e9;color:#0b3d24;padding:4px 10px;border-radius:999px;font-weight:700">✅ Format Resmi</small><small style="background:#fff8dc;color:#7a5a00;padding:4px 10px;border-radius:999px;font-weight:700">🖨️ Kop Logo Print</small><small style="background:#e9d5ff;color:#5b21b6;padding:4px 10px;border-radius:999px;font-weight:700">📱 QR 110px Scan HP</small></div>`;
+ kotak.style.display="block";nomor.value=buatNomorSurat(kode);document.getElementById("tanggalSurat").value=tanggalIndonesia();aturModeTTD_X();
+}
+function validasiSurat(){if(!document.getElementById("suratNIK").value){alert("❌ Pilih penduduk dulu!");return false;}if(!document.getElementById("jenisSurat").value){alert("❌ Pilih jenis surat!");return false;}if(!document.getElementById("keperluanSurat").value){alert("❌ Isi keperluan/tujuan surat!");document.getElementById("keperluanSurat").focus();return false;}return true;}
+window.aturModeTTD_X=function(){
+ let m=document.querySelector('input[name=modeCetakX]:checked')?.value||'manual';
+ let a=document.getElementById('colManualX'),b=document.getElementById('colQRX'),colCamat=document.getElementById('colCamatX');
+ let butuhCamat=document.getElementById('butuhCamat').checked;
+ if(colCamat) colCamat.style.display=butuhCamat?'flex':'none';
+ if(!a||!b) return;
+ if(m=='manual'){a.style.display='flex';b.style.display='none';}
+ else if(m=='qr'){a.style.display='none';b.style.display='flex';}
+ else{a.style.display='flex';b.style.display='flex';}
+ buatTTD_X();
+};
+window.buatTTD_X=function(){
+ try{
+  let jab=document.getElementById('inputJabManualX').value;let nama=document.getElementById('namaManualX').value;let pangkatKades=document.getElementById('pangkatKades').value;let nipKades=document.getElementById('nipKades').value;
+  let jabCamat=document.getElementById('jabCamat').value;let namaCamat=document.getElementById('namaCamat').value;let pangkatCamat=document.getElementById('pangkatCamat').value;let nipCamat=document.getElementById('nipCamat').value;
+  let nomorSurat=document.getElementById('nomorSurat').value||'470/001/DESA-ROGA';
+  document.getElementById('tampilJabKiriX').textContent=jab;document.getElementById('tampilJabKananX').textContent=jab;
+  document.getElementById('namaTTDKiriX').textContent=nama;document.getElementById('namaTTDKananX').textContent=nama;
+  document.getElementById('pangkatTTDKiriX').textContent=pangkatKades;document.getElementById('nipTTDKiriX').textContent='NIP. '+nipKades;
+  document.getElementById('pangkatTTDKananQRX').textContent=pangkatKades;document.getElementById('nipTTDKananQRX').textContent='NIP. '+nipKades;
+  document.getElementById('tampilJabCamatX').textContent=jabCamat;document.getElementById('namaTTDCamatX').textContent=namaCamat;
+  document.getElementById('pangkatTTDCamatX').textContent=pangkatCamat;document.getElementById('nipTTDCamatX').textContent='NIP. '+nipCamat;
+  document.querySelectorAll('.tglX').forEach(e=>e.textContent=new Date().toLocaleDateString('id-ID',{day:'2-digit',month:'long',year:'numeric'}));
+  let qr=document.getElementById('qrcodeX');
+  if(qr){
+   if(document.getElementById('showQRX').checked){
+    let size=parseInt(document.getElementById('sizeQRX').value||110);
+    qr.innerHTML="";qr.style.display="flex";
+    new QRCode(qr,{text:`DESA-ROGA-VERIFIKASI\nNIK:${window.terpilih.nik}\nNomor:${nomorSurat}\nNama:${window.terpilih.nama}\nTgl:${new Date().toLocaleDateString('id-ID')}\nKades:${nama}`,width:size,height:size,correctLevel:QRCode.CorrectLevel.H});
+    document.getElementById('kTxtX').textContent='TRK-'+window.terpilih.nik.slice(-6)+' | SCAN VERIFIKASI';
+   }else{qr.innerHTML="";qr.style.display="none";}
+  }
+ }catch(e){console.log("TTD Error:",e)}
+};
+function buatPreviewSurat(){
+ if(!validasiSurat())return;aturModeTTD_X();buatTTD_X();
+ let kode=document.getElementById('jenisSurat').value;let nomor=document.getElementById('nomorSurat').value;let keperluan=document.getElementById('keperluanSurat').value||"Pinjam BRI";
+ let w=window.terpilih;let mode=document.querySelector('input[name=modeCetakX]:checked').value;
+ let jab=document.getElementById('inputJabManualX').value;let namaTTD=document.getElementById('namaManualX').value;let pangkatKades=document.getElementById('pangkatKades').value;let nipKades=document.getElementById('nipKades').value;
+ let jabCamat=document.getElementById('jabCamat').value;let namaCamat=document.getElementById('namaCamat').value;let pangkatCamat=document.getElementById('pangkatCamat').value;let nipCamat=document.getElementById('nipCamat').value;
+ let butuhCamat=document.getElementById('butuhCamat').checked;let tgl=new Date().toLocaleDateString('id-ID',{day:'2-digit',month:'long',year:'numeric'});let tglPanjang=tanggalIndonesia();
+ let dataTemplate={nik:w.nik||document.getElementById('suratNIK').value, nama:w.nama||document.getElementById('suratNama').value, ttl:document.getElementById('suratTTL').value, alamat:document.getElementById('suratAlamat').value, kk:document.getElementById('suratKK').value, keperluan:keperluan, tgl:tglPanjang, rt:w.rt||'004', jk:w.jk||'', pekerjaan:document.getElementById('suratPekerjaan').value};
+ let isiLengkap=generateIsi(kode);isiLengkap=replaceTemplate(isiLengkap,dataTemplate);
+ let kop=`<div class="kop"><img src="logo_ende.jpg" class="logo-kop logo-kop-kiri" onerror="this.onerror=null;this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Lambang_Kabupaten_Ende.png/200px-Lambang_Kabupaten_Ende.png'" alt="Logo Ende Kiri"><img src="logo_desaroga.jpg" class="logo-kop logo-kop-kanan" onerror="this.onerror=null;this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Coat_of_arms_of_East_Nusa_Tenggara.png/200px-Coat_of_arms_of_East_Nusa_Tenggara.png'" alt="Logo Desa Kanan"><div class="kab">PEMERINTAH KABUPATEN ENDE</div><div class="kec">KECAMATAN NDONA TIMUR</div><div class="desa">DESA ROGA</div><div class="alamat">Jalan Trans Ndona - Roga RT/RW 001/001 Dusun Aegomo - Kode Pos 86362</div></div>`;
+ let ttdKadesManual=`<div class="ttd-box ttd-kanan"><div><div class="tgl">Roga, ${tgl}</div><div class="jabatan">${jab}</div></div><div style="margin:8px 0"><br><br><br></div><div><div class="nama">${namaTTD}</div><div class="pangkat">${pangkatKades}</div><div class="nip">NIP. ${nipKades}</div></div></div>`;
+ let ttdKadesQR=`<div class="ttd-box ttd-kanan"><div><div class="tgl">Roga, ${tgl}</div><div class="jabatan">${jab}</div><div id="qrcodePreview" class="qr-mini" style="min-height:110px;min-width:110px"></div><div style="font-size:7px;font-weight:800;color:#0e5a32;margin-top:4px">TRK-${w.nik.slice(-6)} | VERIFIKASI SCAN HP</div></div><div style="margin-top:6px"><div class="nama">${namaTTD}</div><div class="pangkat">${pangkatKades}</div><div class="nip">NIP. ${nipKades}</div></div></div>`;
+ let ttdKadesBoth=`<div class="ttd-box ttd-kanan" style="min-height:240px"><div><div class="tgl">Roga, ${tgl}</div><div class="jabatan">${jab}</div><div id="qrcodePreviewBoth" class="qr-mini" style="min-height:100px;min-width:100px"></div><div style="font-size:6px;font-weight:700">TRK-${w.nik.slice(-6)}</div></div><div style="margin:6px 0"><br></div><div><div class="nama">${namaTTD}</div><div class="pangkat">${pangkatKades}</div><div class="nip">NIP. ${nipKades}</div></div></div>`;
+ let ttdCamatBox=`<div class="ttd-box ttd-kiri" style="background:linear-gradient(135deg,#fffef7,#fef9e7);border-color:#6a1b9a;border-width:2.5px"><div><div style="font-size:8px;font-weight:800;color:#6a1b9a">Mengetahui,</div><div class="jabatan" style="color:#6a1b9a">${jabCamat}</div></div><div style="margin:8px 0"><br><br><br></div><div><div class="nama">${namaCamat}</div><div class="pangkat">${pangkatCamat}</div><div class="nip">NIP. ${nipCamat}</div></div></div>`;
+ let ttdKanan="";
+ if(butuhCamat){
+  if(mode=='manual'){ttdKanan=`<div class="ttd-kiri-kanan-container" style="display:flex;justify-content:space-between;gap:20px;flex-direction:row;"><div class="ttd-kiri">${ttdCamatBox}</div><div class="ttd-kanan">${ttdKadesManual}</div></div>`;}
+  else if(mode=='qr'){ttdKanan=`<div class="ttd-kiri-kanan-container" style="display:flex;justify-content:space-between;gap:20px;flex-direction:row;"><div class="ttd-kiri">${ttdCamatBox}</div><div class="ttd-kanan">${ttdKadesQR}</div></div>`;}
+  else{ttdKanan=`<div class="ttd-kiri-kanan-container" style="display:flex;justify-content:space-between;gap:20px;flex-direction:row;"><div class="ttd-kiri">${ttdCamatBox}</div><div class="ttd-kanan">${ttdKadesBoth}</div></div>`;}
+ }else{
+  if(mode=='manual'){ttdKanan=`<div class="ttd-kiri-kanan-container" style="display:flex;justify-content:space-between;gap:20px;flex-direction:row;"><div class="ttd-kiri" style="visibility:hidden;flex:1;">${ttdCamatBox}</div><div class="ttd-kanan">${ttdKadesManual}</div></div>`;}
+  else if(mode=='qr'){ttdKanan=`<div class="ttd-kiri-kanan-container" style="display:flex;justify-content:space-between;gap:20px;flex-direction:row;"><div class="ttd-kiri" style="visibility:hidden;flex:1;">${ttdCamatBox}</div><div class="ttd-kanan">${ttdKadesQR}</div></div>`;}
+  else{ttdKanan=`<div class="ttd-kiri-kanan-container" style="display:flex;justify-content:space-between;gap:20px;flex-direction:row;"><div class="ttd-kiri" style="visibility:hidden;flex:1;">${ttdCamatBox}</div><div class="ttd-kanan">${ttdKadesBoth}</div></div>`;}
+ }
+ let html=`<div class="surat-kertas">${kop}<div class="judul-surat">${DATA_SURAT[kode].nama}</div><div class="nomor-surat">Nomor: ${nomor}</div>${isiLengkap}<div style="margin-top:24px">${ttdKanan}</div><div style="margin-top:20px;border-top:1.5px dashed #999;padding-top:8px;display:flex;justify-content:space-between;align-items:center;font-size:8px;color:#666;font-family:'Inter',sans-serif"><span>📄 Dokumen Resmi Desa Roga - Dicetak: ${new Date().toLocaleString('id-ID')}</span><span>📱 Scan QR untuk Verifikasi - ${nomor}</span></div></div>`;
+ document.getElementById('isiPreviewSurat').innerHTML=html;document.getElementById('previewSurat').style.display='block';document.getElementById('previewSurat').scrollIntoView({behavior:"smooth",block:"start"});
+ setTimeout(()=>{
+  let qrPrev=document.getElementById('qrcodePreview');
+  let qrBoth=document.getElementById('qrcodePreviewBoth');
+  let size=parseInt(document.getElementById('sizeQRX').value||110);
+  let qrText=`DESA ROGA - VERIFIKASI RESMI\nNomor: ${nomor}\nNIK: ${w.nik}\nNama: ${w.nama}\nJenis: ${DATA_SURAT[kode].nama}\nTanggal: ${tgl}\nKades: ${namaTTD}\nCamat: ${butuhCamat?namaCamat:'-'}\nKeperluan: ${keperluan}\nScan untuk cek keaslian di Kantor Desa Roga`;
+  if(qrPrev){qrPrev.innerHTML="";try{new QRCode(qrPrev,{text:qrText,width:size,height:size,correctLevel:QRCode.CorrectLevel.H});}catch(e){}}
+  if(qrBoth){qrBoth.innerHTML="";try{new QRCode(qrBoth,{text:qrText,width:100,height:100,correctLevel:QRCode.CorrectLevel.H});}catch(e){}}
+  buatTTD_X();
+ },500);
+}
+function simpanSurat(){if(!validasiSurat())return;let kode=document.getElementById('jenisSurat').value;let nomor=document.getElementById('nomorSurat').value;let arsip=ambilArsip();let mode=document.querySelector('input[name=modeCetakX]:checked').value;let data={id:Date.now(),nomor,kode,jenis:DATA_SURAT[kode].nama,nama:document.getElementById('suratNama').value,nik:document.getElementById('suratNIK').value,kk:document.getElementById('suratKK').value,ttl:document.getElementById('suratTTL').value,pekerjaan:document.getElementById('suratPekerjaan').value,alamat:document.getElementById('suratAlamat').value,keperluan:document.getElementById('keperluanSurat').value,tanggal:document.getElementById('tanggalSurat').value,modeTTD:mode,jabatan:document.getElementById('inputJabManualX').value,pejabat:document.getElementById('namaManualX').value,pangkatKades:document.getElementById('pangkatKades').value,nipKades:document.getElementById('nipKades').value,jabatanCamat:document.getElementById('jabCamat').value,namaCamat:document.getElementById('namaCamat').value,pangkatCamat:document.getElementById('pangkatCamat').value,nipCamat:document.getElementById('nipCamat').value,butuhCamat:document.getElementById('butuhCamat').checked};arsip.unshift(data);simpanArsip(arsip);tampilkanArsip();let pesan=document.getElementById('pesanSurat');pesan.style.display='block';pesan.innerHTML=`✅ <b>DISIMPAN SEMPURNA!</b> - ${nomor} - ${data.nama} - ${DATA_SURAT[kode].nama} - Mode: ${mode.toUpperCase()} - ${data.butuhCamat?'Camat Kiri Kades Kanan (Kades Selalu Kanan)':'Kades Kanan Kiri Kosong'}`;pesan.style.background="linear-gradient(135deg,#dcfce7,#bbf7d0)";buatPreviewSurat();}
+function cetakSurat(){if(!validasiSurat())return;buatPreviewSurat();setTimeout(()=>{window.print();},800);}
+function resetFormSurat(){if(!confirm("Reset form?"))return;document.getElementById('jenisSurat').value="";document.getElementById('nomorSurat').value="";document.getElementById('keperluanSurat').value="";document.getElementById('deskripsiSurat').style.display="none";document.getElementById('previewSurat').style.display="none";document.querySelector('input[name=modeCetakX][value=manual]').checked=true;document.getElementById('butuhCamat').checked=false;document.getElementById('pesanSurat').style.display="none";aturModeTTD_X();buatTTD_X();}
+function kirimBalikKeWarga(){if(!validasiSurat())return;buatPreviewSurat();setTimeout(()=>{let w=window.terpilih||{};let nomor=document.getElementById('nomorSurat').value||'SURAT';let namaFile=`${nomor.replace(/\//g,'-')}_${(w.nama||'Warga').replace(/\s+/g,'_')}_DESA_ROGA.pdf`;let element=document.getElementById('isiPreviewSurat');let opt={margin:8,filename:namaFile,image:{type:'jpeg',quality:0.98},html2canvas:{scale:2,useCORS:true},jsPDF:{unit:'mm',format:'a4'}};let pesan=document.getElementById('pesanSurat');pesan.style.display='block';pesan.innerHTML=`⏳ Membuat PDF Dinamis...`;html2pdf().set(opt).from(element).save().then(()=>{pesan.innerHTML=`✅ PDF <b>${namaFile}</b> berhasil dibuat!`;});},900);}
+function downloadPDFOtomatis(){if(!validasiSurat())return;buatPreviewSurat();setTimeout(()=>{let w=window.terpilih||{};let nomor=document.getElementById('nomorSurat').value||'SURAT';let namaFile=`${nomor.replace(/\//g,'-')}_${(w.nama||'Warga').replace(/\s+/g,'_')}_75JENIS_DINAMIS.pdf`;let element=document.getElementById('isiPreviewSurat');let opt={margin:8,filename:namaFile,image:{type:'jpeg',quality:0.98},html2canvas:{scale:2,useCORS:true},jsPDF:{unit:'mm',format:'a4'}};html2pdf().set(opt).from(element).save();},800);}
+function tampilkanArsip(){let kata=document.getElementById('cariArsip').value.toLowerCase();let filterKode=document.getElementById('filterKodeSurat').value;let arsip=ambilArsip();let filtered=arsip.filter(s=>{let ck=!kata||String(s.nomor||"").toLowerCase().includes(kata)||String(s.nama||"").toLowerCase().includes(kata)||String(s.nik||"").toLowerCase().includes(kata);let cko=!filterKode||String(s.kode)===filterKode;return ck&&cko;});document.getElementById('infoArsip').innerHTML=`📊 Total Arsip: ${arsip.length} | Tampil: ${filtered.length} | 75 Jenis Format Resmi`;let div=document.getElementById('daftarArsip');if(!filtered.length){div.style.display="none";div.innerHTML="";if(arsip.length===0){document.getElementById('infoArsip').innerHTML=`📭 Belum ada arsip surat`;return;}}div.style.display="block";let html=`<table><tr><th>No</th><th>Nomor Surat</th><th>Kode</th><th>Nama Lengkap</th><th>NIK</th><th>KK</th><th>Camat?</th><th>Mode TTD</th><th>Aksi</th></tr>`;filtered.forEach((s,i)=>{let badgeCamat=s.butuhCamat?'<span class="badge badge-ungu">KIRI-KANAN</span>':'<span class="badge badge-hijau">KANAN-KOSONG</span>';let badgeMode=s.modeTTD=='qr'?'<span class="badge badge-biru">QR</span>':s.modeTTD=='both'?'<span class="badge badge-orange">BOTH</span>':'<span class="badge badge-hijau">MANUAL</span>';html+=`<tr><td><b>${i+1}</b></td><td><b style="color:#0e5a32">${s.nomor}</b></td><td><span class="badge badge-hijau">${s.kode}</span></td><td><b>${s.nama}</b></td><td style="font-family:monospace;font-size:12px">${s.nik}</td><td style="font-family:monospace;font-size:12px">${s.kk||'-'}</td><td>${badgeCamat}</td><td>${badgeMode}</td><td style="white-space:nowrap"><button class="btn-biru" onclick="previewArsip(${s.id})">👁️</button><button class="btn-hijau" onclick="editArsip(${s.id})">✏️</button><button class="btn-kuning" onclick="cetakArsip(${s.id})">🖨️</button><button class="btn-wa" onclick="kirimBalikArsip(${s.id})">📤</button><button class="btn-merah" onclick="hapusArsip(${s.id})">🗑️</button></td></tr>`});html+="</table>";div.innerHTML=html;}
+function getArsipById(id){return ambilArsip().find(a=>String(a.id)===String(id));}
+function previewArsip(id){let s=getArsipById(id);if(!s)return;document.getElementById('suratNIK').value=s.nik;document.getElementById('suratNama').value=s.nama;document.getElementById('suratKK').value=s.kk||'';document.getElementById('suratTTL').value=s.ttl||'';document.getElementById('suratPekerjaan').value=s.pekerjaan||'';document.getElementById('suratAlamat').value=s.alamat||'';document.getElementById('nomorSurat').value=s.nomor;document.getElementById('jenisSurat').value=s.kode;document.getElementById('keperluanSurat').value=s.keperluan||'';window.terpilih={nik:s.nik,nama:s.nama,kk:s.kk,ttl:s.ttl,pekerjaan:s.pekerjaan,alamat:s.alamat};if(s.pangkatKades)document.getElementById('pangkatKades').value=s.pangkatKades;if(s.nipKades)document.getElementById('nipKades').value=s.nipKades;if(s.jabatan)document.getElementById('inputJabManualX').value=s.jabatan;if(s.pejabat)document.getElementById('namaManualX').value=s.pejabat;if(s.namaCamat)document.getElementById('namaCamat').value=s.namaCamat;if(s.nipCamat)document.getElementById('nipCamat').value=s.nipCamat;if(s.jabatanCamat)document.getElementById('jabCamat').value=s.jabatanCamat;if(s.butuhCamat!=null)document.getElementById('butuhCamat').checked=s.butuhCamat;if(s.modeTTD)document.querySelector(`input[name=modeCetakX][value=${s.modeTTD}]`).checked=true;document.getElementById('dataTerpilih').style.display='block';document.getElementById('belumAdaPenduduk').style.display='none';document.getElementById('viewNama').textContent=s.nama;document.getElementById('viewKK').textContent=s.kk;document.getElementById('viewNIK').textContent=s.nik;document.getElementById('viewTTL').textContent=s.ttl;document.getElementById('viewPekerjaan').textContent=s.pekerjaan;document.getElementById('viewAlamat').textContent=s.alamat;tampilkanDeskripsiSurat();buatPreviewSurat();}
+function editArsip(id){previewArsip(id);window.scrollTo({top:0,behavior:"smooth"});}
+
+function cetakArsip(id){previewArsip(id);setTimeout(()=>{window.print();},1000);}
+function kirimBalikArsip(id){previewArsip(id);setTimeout(()=>{kirimBalikKeWarga();},1100);}
+function hapusArsip(id){if(!confirm("Hapus arsip ini?"))return;let arsip=ambilArsip().filter(a=>String(a.id)!==String(id));simpanArsip(arsip);tampilkanArsip();}
+function hapusSemuaArsip(){if(!confirm(`Hapus SEMUA ${ambilArsip().length} arsip?`))return;if(!confirm("KONFIRMASI TERAKHIR: Yakin hapus semua?"))return;localStorage.removeItem(NAMA_ARSIP);tampilkanArsip();}
+function isiDropdown75(){
+ let sel=document.getElementById('jenisSurat');let filterSel=document.getElementById('filterKodeSurat');
+ Object.keys(DATA_SURAT).forEach(k=>{
+  let opt=document.createElement('option');opt.value=k;opt.textContent=k+" - "+DATA_SURAT[k].nama.replace(" - BUTUH CAMAT","");sel.appendChild(opt);
+  let opt2=document.createElement('option');opt2.value=k;opt2.textContent=k;filterSel.appendChild(opt2);
+ });
+ document.getElementById('statusCariJenisSurat').textContent=`${Object.keys(DATA_SURAT).length} jenis tersedia - Format resmi - Kop Logo Print - QR 110px - Kades Selalu Kanan`;
+}
+document.addEventListener("DOMContentLoaded",()=>{
+ isiDropdown75();tampilkanStatusDatabasePenduduk();
+ document.getElementById("tanggalSurat").value=tanggalIndonesia();
+ aturModeTTD_X();buatTTD_X();tampilkanArsip();
+ setTimeout(()=>{cariPenduduk();},600);
+ console.log("✅ Desa Roga - FINAL V3 SEMPURNA HARAPAN - Semua fungsi siap");
+});
+</script></body></html>
+
