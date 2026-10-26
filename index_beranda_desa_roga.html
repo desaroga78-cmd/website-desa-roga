@@ -85,235 +85,6 @@ footer{padding:12px;font-size:12px;line-height:1.45}
     <div class="ringkasan-item"><span>Surat Tersimpan</span><strong id="angkaSurat">—</strong></div>
   </section>
 
-<!-- ===== KARTU BARU GRAFIK DATA WARGA - DESA ROGA - FINAL ===== -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:16px;margin:16px 0">
-  
-  <!-- Kartu 1: Grafik Jenis Kelamin -->
-  <div style="background:white;border-radius:16px;padding:8px;box-shadow:0 4px 8px rgba(03,03,03,03.08);border:2px solid #e8f5e9">
-    <div style="font-weight:100;color:#0e5a32;margin-bottom:10px;display:flex;align-items:center;gap:8px">📊 Grafik Jenis Kelamin</div>
-    <canvas id="grafikGender" height="50"></canvas>
-    <div id="labelGender" style="text-align:center;margin-top:8px;font-size:13px;color:#333;font-weight:600"></div>
-  </div>
-
-  <!-- Kartu 2: Grafik Dusun / Wilayah -->
-  <div style="background:white;border-radius:16px;padding:16px;box-shadow:0 4px 12px rgba(02,02,02,02.08);border:2px solid #e3f2fd">
-    <div style="font-weight:600;color:#1565c0;margin-bottom:10px;display:flex;align-items:center;gap:8px">🏘️ Grafik Per Dusun</div>
-    <canvas id="grafikDusun" height="100"></canvas>
-    <div id="labelDusun" style="text-align:center;margin-top:8px;font-size:12px;color:#666"></div>
-  </div>
-
-  <!-- Kartu 3: Grafik Surat Tersimpan -->
-  <div style="background:white;border-radius:16px;padding:8px;box-shadow:0 4px 8px rgba(01,01,01,01.08);border:2px solid #fff3e0">
-    <div style="font-weight:100;color:#e67e22;margin-bottom:10px;display:flex;align-items:center;gap:8px">📄 Grafik Jenis Surat</div>
-    <canvas id="grafikSurat" height="50"></canvas>
-    <div id="labelSuratGrafik" style="text-align:center;margin-top:8px;font-size:12px;color:#666"></div>
-  </div>
-
-</section>
-
-<script>
-// ===== FUNGSI GRAFIK DATA WARGA - OTOMATIS DARI DATABASE =====
-function renderGrafikWarga(){
-  const KEYS_DB=["DATABASE_DESA_ROGA_UTAMA","DATABASE_JPT_100","jptdatapenduduk100","DATA_PENDUDUK_JPT","dataPenduduk","DATABASE_DESA_ROGA"];
-  const KEY_ARSIP="ARSIP_SURAT_DESA_ROGA_FINAL";
-  let list=[];
-  for(let k of KEYS_DB){
-    try{
-      let raw=localStorage.getItem(k);
-      if(!raw) continue;
-      let j=JSON.parse(raw);
-      if(Array.isArray(j)&&j[0]?.nik){list=j;break;}
-      if(j.anggota?.length){list=j.anggota;break;}
-      if(j.data?.length){list=j.data;break;}
-    }catch(e){}
-  }
-  let arsip=[]; try{arsip=JSON.parse(localStorage.getItem(KEY_ARSIP)||"[]")}catch(e){}
-
-  // Hitung gender
-  let laki=0, perempuan=0;
-  list.forEach(p=>{
-    let jk=(p.jk||p.jenisKelamin||"").toString().toLowerCase();
-    let nama=(p.nama||"").toLowerCase();
-    if(jk.includes("perempuan")||nama.includes("maria")) perempuan++; else laki++;
-  });
-  if(list.length>0 && laki+perempuan!=list.length){laki=list.length-perempuan;}
-
-  // Hitung dusun
-  let dusunCount={};
-  list.forEach(p=>{
-    let d=(p.dusun||p.alamat||"Tidak Ada").toString().split(",")[0].trim()||"Lainnya";
-    if(d.length>15) d=d.substring(0,15);
-    dusunCount[d]=(dusunCount[d]||0)+1;
-  });
-  if(Object.keys(dusunCount).length==0) dusunCount={"Desa Roga":list.length};
-
-  // Hitung surat
-  let suratCount={};
-  arsip.forEach(s=>{
-    let j=(s.jenis||s.jenisSurat||"Lainnya").toString().substring(0,18);
-    suratCount[j]=(suratCount[j]||0)+1;
-  });
-  if(Object.keys(suratCount).length==0) suratCount={"Belum Ada":1};
-
-  // Grafik 1 - Gender (Donut)
-  let ctx1=document.getElementById("grafikGender");
-  if(ctx1){
-    if(ctx1.chart) ctx1.chart.destroy();
-    ctx1.chart=new Chart(ctx1,{
-      type:'doughnut',
-      data:{
-        labels:['Laki-laki','Perempuan'],
-        datasets:[{data:[laki,perempuan],backgroundColor:['#1565c0','#e91e63'],borderWidth:2}]
-      },
-      options:{plugins:{legend:{position:'bottom'}},responsive:true}
-    });
-    document.getElementById("labelGender").textContent=`${laki} Laki-laki, ${perempuan} Perempuan - Total ${list.length} Jiwa`;
-  }
-
-  // Grafik 2 - Dusun (Bar)
-  let ctx2=document.getElementById("grafikDusun");
-  if(ctx2){
-    if(ctx2.chart) ctx2.chart.destroy();
-    ctx2.chart=new Chart(ctx2,{
-      type:'bar',
-      data:{
-        labels:Object.keys(dusunCount),
-        datasets:[{label:'Jiwa',data:Object.values(dusunCount),backgroundColor:['#0e5a32','#1565c0','#e67e22','#5e35b1'],borderRadius:8}]
-      },
-      options:{plugins:{legend:{display:false}},scales:{y:{beginAtZero:true}},responsive:true}
-    });
-    document.getElementById("labelDusun").textContent=`${Object.keys(dusunCount).length} Wilayah - Terbesar: ${Object.keys(dusunCount)[0]}`;
-  }
-
-  // Grafik 3 - Surat (Pie)
-  let ctx3=document.getElementById("grafikSurat");
-  if(ctx3){
-    if(ctx3.chart) ctx3.chart.destroy();
-    ctx3.chart=new Chart(ctx3,{
-      type:'pie',
-      data:{
-        labels:Object.keys(suratCount),
-        datasets:[{data:Object.values(suratCount),backgroundColor:['#ff9800','#4caf50','#2196f3','#9c27b0','#f44336']}]
-      },
-      options:{plugins:{legend:{position:'bottom',labels:{boxWidth:12,font:{size:10}}}},responsive:true}
-    });
-    document.getElementById("labelSuratGrafik").textContent=`Total ${arsip.length} Surat Tersimpan`;
-  }
-}
-
-// Jalankan setelah angka beranda muncul
-document.addEventListener("DOMContentLoaded",()=>{setTimeout(renderGrafikWarga,1200); setInterval(renderGrafikWarga,5000);});
-</script>
-
-
-<!-- ===== KARTU BARU GRAFIK GOLONGAN USIA - DESA ROGA ===== -->
-<section style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0">
-
-  <!-- Grafik Usia -->
-  <div style="background:white;border-radius:16px;padding:16px;box-shadow:0 2px 6px rgba(02,02,02,02.08);border:2px solid #f3e5f5">
-    <div style="font-weight:800;color:#7b1fa2;margin-bottom:10px">👶👧👨👴 Grafik Golongan Usia</div>
-    <canvas id="grafikUsia" height="110"></canvas>
-    <div id="labelUsia" style="text-align:center;margin-top:8px;font-size:12px;font-weight:600;color:#333"></div>
-  </div>
-
-  <!-- Tabel Rincian Usia -->
-  <div style="background:linear-gradient(135deg,#fafafa,#f3e5f5);border-radius:16px;padding:16px;box-shadow:0 4px 6px rgba(02,02,02,02.08);border:2px solid #e1bee7">
-    <div style="font-weight:200;color:#6a1b9a;margin-bottom:6px">📋 Rincian Usia Warga</div>
-    <div id="tabelUsia" style="font-size:13px;line-height:1.8"></div>
-    <div style="margin-top:12px;padding:10px;background:white;border-radius:10px;font-size:11px;color:#666">
-      <b>Patokan:</b><br>
-      🍼 Balita: 0-4 Thn<br>
-      🧒 Anak: 5-12 Thn<br>
-      🧑‍🎓 Remaja: 13-17 Thn<br>
-      👨‍💼 Dewasa: 18-59 Thn<br>
-      👴 Lansia: 60+ Thn
-    </div>
-  </div>
-
-</section>
-
-<script>
-// ===== HITUNG USIA OTOMATIS DARI TANGGAL LAHIR =====
-function hitungUmur(tglString){
-  if(!tglString) return null;
-  // Cari tahun dari string seperti "12-05-1990" atau "1990-05-12" atau "Maumere, 12-05-1990"
-  let match=tglString.toString().match(/(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})|(\d{4})[\/\-](\d{1,2})[\/\-](\d{1,2})/);
-  let tahun=null;
-  if(match){
-    tahun=match[3]?parseInt(match[3]):parseInt(match[4]);
-  }else{
-    let th=tglString.toString().match(/(19\d{2}|20\d{2})/);
-    if(th) tahun=parseInt(th[1]);
-  }
-  if(!tahun) return null;
-  let umur=new Date().getFullYear()-tahun;
-  if(umur<0||umur>120) return null;
-  return umur;
-}
-
-function renderGrafikUsia(){
-  const KEYS_DB=["DATABASE_DESA_ROGA_UTAMA","DATABASE_JPT_100","jptdatapenduduk100","DATA_PENDUDUK_JPT","dataPenduduk","DATABASE_DESA_ROGA"];
-  let list=[];
-  for(let k of KEYS_DB){
-    try{
-      let raw=localStorage.getItem(k);
-      if(!raw) continue;
-      let j=JSON.parse(raw);
-      if(Array.isArray(j)&&j[0]?.nik){list=j;break;}
-      if(j.anggota?.length){list=j.anggota;break;}
-      if(j.data?.length){list=j.data;break;}
-    }catch(e){}
-  }
-
-  let kelompok={Balita:0,Anak:0,Remaja:0,Dewasa:0,Lansia:0,TidakDiketahui:0};
-  let detail=[];
-  list.forEach(p=>{
-    let ttl=(p.ttl||p.tanggalLahir||p.tglLahir||p.tgl_lahir||p.lahir||"").toString();
-    let umur=hitungUmur(ttl);
-    if(umur===null){kelompok.TidakDiketahui++; detail.push({nama:p.nama||"Tanpa Nama",umur:"-",kel:"?"}); return;}
-    detail.push({nama:p.nama||"Tanpa Nama",umur:umur,kel:umur});
-    if(umur<=4) kelompok.Balita++;
-    else if(umur<=12) kelompok.Anak++;
-    else if(umur<=17) kelompok.Remaja++;
-    else if(umur<=59) kelompok.Dewasa++;
-    else kelompok.Lansia++;
-  });
-
-  // Grafik Batang Usia
-  let ctx=document.getElementById("grafikUsia");
-  if(ctx){
-    if(ctx.chart) ctx.chart.destroy();
-    ctx.chart=new Chart(ctx,{
-      type:'bar',
-      data:{
-        labels:['Balita\n0-4','Anak\n5-12','Remaja\n13-17','Dewasa\n18-59','Lansia\n60+'],
-        datasets:[{label:'Jiwa',data:[kelompok.Balita,kelompok.Anak,kelompok.Remaja,kelompok.Dewasa,kelompok.Lansia],backgroundColor:['#ffb74d','#4fc3f7','#ba68c8','#81c784','#e57373'],borderRadius:8,borderSkipped:false}]
-      },
-      options:{plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{stepSize:1}}},responsive:true}
-    });
-    document.getElementById("labelUsia").textContent=`Total ${list.length} Jiwa - Dewasa terbanyak: ${kelompok.Dewasa} orang`;
-  }
-
-  // Tabel Rincian
-  let tabel=document.getElementById("tabelUsia");
-  if(tabel){
-    let html="";
-    html+=`<div style="display:flex;justify-content:space-between;font-weight:700;border-bottom:2px solid #ce93d8;padding:6px 0"><span>Golongan</span><span>Jumlah</span></div>`;
-    html+=`<div style="display:flex;justify-content:space-between;padding:5px 0"><span>🍼 Balita (0-4)</span><span style="font-weight:800;color:#ef6c00">${kelompok.Balita} jiwa</span></div>`;
-    html+=`<div style="display:flex;justify-content:space-between;padding:5px 0"><span>🧒 Anak (5-12)</span><span style="font-weight:800;color:#0288d1">${kelompok.Anak} jiwa</span></div>`;
-    html+=`<div style="display:flex;justify-content:space-between;padding:5px 0"><span>🧑‍🎓 Remaja (13-17)</span><span style="font-weight:800;color:#7b1fa2">${kelompok.Remaja} jiwa</span></div>`;
-    html+=`<div style="display:flex;justify-content:space-between;padding:5px 0;background:#f3e5f5;border-radius:6px;padding:6px"><span>👨‍💼 Dewasa (18-59)</span><span style="font-weight:800;color:#2e7d32">${kelompok.Dewasa} jiwa</span></div>`;
-    html+=`<div style="display:flex;justify-content:space-between;padding:5px 0"><span>👴 Lansia (60+)</span><span style="font-weight:800;color:#c62828">${kelompok.Lansia} jiwa</span></div>`;
-    if(kelompok.TidakDiketahui>0) html+=`<div style="display:flex;justify-content:space-between;padding:5px 0;color:#999"><span>❓ TTL Kosong</span><span>${kelompok.TidakDiketahui} jiwa</span></div>`;
-    html+=`<div style="display:flex;justify-content:space-between;font-weight:800;border-top:2px solid #ce93d8;padding:8px 0;margin-top:6px"><span>TOTAL</span><span>${list.length} Jiwa</span></div>`;
-    tabel.innerHTML=html;
-  }
-}
-document.addEventListener("DOMContentLoaded",()=>{setTimeout(renderGrafikUsia,1500); setInterval(renderGrafikUsia,6000);});
-</script>
-
-<!-- ===== AKHIR KARTU GRAFIK ===== -->
 
 </script>
   <p id="statusKoneksi" class="status-koneksi" role="status">Membaca ringkasan dari penyimpanan aplikasi…</p>
@@ -547,5 +318,238 @@ document.addEventListener("DOMContentLoaded",()=>{
   setInterval(isiAngkaBeranda,2000);
 });
 </script>
+
+
+<!-- ===== KARTU BARU GRAFIK DATA WARGA - DESA ROGA - FINAL ===== -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:16px;margin:16px 0">
+  
+  <!-- Kartu 1: Grafik Jenis Kelamin -->
+  <div style="background:white;border-radius:16px;padding:8px;box-shadow:0 4px 8px rgba(03,03,03,03.08);border:2px solid #e8f5e9">
+    <div style="font-weight:100;color:#0e5a32;margin-bottom:10px;display:flex;align-items:center;gap:8px">📊 Grafik Jenis Kelamin</div>
+    <canvas id="grafikGender" height="50"></canvas>
+    <div id="labelGender" style="text-align:center;margin-top:8px;font-size:13px;color:#333;font-weight:600"></div>
+  </div>
+
+  <!-- Kartu 2: Grafik Dusun / Wilayah -->
+  <div style="background:white;border-radius:16px;padding:16px;box-shadow:0 4px 12px rgba(02,02,02,02.08);border:2px solid #e3f2fd">
+    <div style="font-weight:600;color:#1565c0;margin-bottom:10px;display:flex;align-items:center;gap:8px">🏘️ Grafik Per Dusun</div>
+    <canvas id="grafikDusun" height="100"></canvas>
+    <div id="labelDusun" style="text-align:center;margin-top:8px;font-size:12px;color:#666"></div>
+  </div>
+
+  <!-- Kartu 3: Grafik Surat Tersimpan -->
+  <div style="background:white;border-radius:16px;padding:8px;box-shadow:0 4px 8px rgba(01,01,01,01.08);border:2px solid #fff3e0">
+    <div style="font-weight:100;color:#e67e22;margin-bottom:10px;display:flex;align-items:center;gap:8px">📄 Grafik Jenis Surat</div>
+    <canvas id="grafikSurat" height="50"></canvas>
+    <div id="labelSuratGrafik" style="text-align:center;margin-top:8px;font-size:12px;color:#666"></div>
+  </div>
+
+</section>
+
+<script>
+// ===== FUNGSI GRAFIK DATA WARGA - OTOMATIS DARI DATABASE =====
+function renderGrafikWarga(){
+  const KEYS_DB=["DATABASE_DESA_ROGA_UTAMA","DATABASE_JPT_100","jptdatapenduduk100","DATA_PENDUDUK_JPT","dataPenduduk","DATABASE_DESA_ROGA"];
+  const KEY_ARSIP="ARSIP_SURAT_DESA_ROGA_FINAL";
+  let list=[];
+  for(let k of KEYS_DB){
+    try{
+      let raw=localStorage.getItem(k);
+      if(!raw) continue;
+      let j=JSON.parse(raw);
+      if(Array.isArray(j)&&j[0]?.nik){list=j;break;}
+      if(j.anggota?.length){list=j.anggota;break;}
+      if(j.data?.length){list=j.data;break;}
+    }catch(e){}
+  }
+  let arsip=[]; try{arsip=JSON.parse(localStorage.getItem(KEY_ARSIP)||"[]")}catch(e){}
+
+  // Hitung gender
+  let laki=0, perempuan=0;
+  list.forEach(p=>{
+    let jk=(p.jk||p.jenisKelamin||"").toString().toLowerCase();
+    let nama=(p.nama||"").toLowerCase();
+    if(jk.includes("perempuan")||nama.includes("maria")) perempuan++; else laki++;
+  });
+  if(list.length>0 && laki+perempuan!=list.length){laki=list.length-perempuan;}
+
+  // Hitung dusun
+  let dusunCount={};
+  list.forEach(p=>{
+    let d=(p.dusun||p.alamat||"Tidak Ada").toString().split(",")[0].trim()||"Lainnya";
+    if(d.length>15) d=d.substring(0,15);
+    dusunCount[d]=(dusunCount[d]||0)+1;
+  });
+  if(Object.keys(dusunCount).length==0) dusunCount={"Desa Roga":list.length};
+
+  // Hitung surat
+  let suratCount={};
+  arsip.forEach(s=>{
+    let j=(s.jenis||s.jenisSurat||"Lainnya").toString().substring(0,18);
+    suratCount[j]=(suratCount[j]||0)+1;
+  });
+  if(Object.keys(suratCount).length==0) suratCount={"Belum Ada":1};
+
+  // Grafik 1 - Gender (Donut)
+  let ctx1=document.getElementById("grafikGender");
+  if(ctx1){
+    if(ctx1.chart) ctx1.chart.destroy();
+    ctx1.chart=new Chart(ctx1,{
+      type:'doughnut',
+      data:{
+        labels:['Laki-laki','Perempuan'],
+        datasets:[{data:[laki,perempuan],backgroundColor:['#1565c0','#e91e63'],borderWidth:2}]
+      },
+      options:{plugins:{legend:{position:'bottom'}},responsive:true}
+    });
+    document.getElementById("labelGender").textContent=`${laki} Laki-laki, ${perempuan} Perempuan - Total ${list.length} Jiwa`;
+  }
+
+  // Grafik 2 - Dusun (Bar)
+  let ctx2=document.getElementById("grafikDusun");
+  if(ctx2){
+    if(ctx2.chart) ctx2.chart.destroy();
+    ctx2.chart=new Chart(ctx2,{
+      type:'bar',
+      data:{
+        labels:Object.keys(dusunCount),
+        datasets:[{label:'Jiwa',data:Object.values(dusunCount),backgroundColor:['#0e5a32','#1565c0','#e67e22','#5e35b1'],borderRadius:8}]
+      },
+      options:{plugins:{legend:{display:false}},scales:{y:{beginAtZero:true}},responsive:true}
+    });
+    document.getElementById("labelDusun").textContent=`${Object.keys(dusunCount).length} Wilayah - Terbesar: ${Object.keys(dusunCount)[0]}`;
+  }
+
+  // Grafik 3 - Surat (Pie)
+  let ctx3=document.getElementById("grafikSurat");
+  if(ctx3){
+    if(ctx3.chart) ctx3.chart.destroy();
+    ctx3.chart=new Chart(ctx3,{
+      type:'pie',
+      data:{
+        labels:Object.keys(suratCount),
+        datasets:[{data:Object.values(suratCount),backgroundColor:['#ff9800','#4caf50','#2196f3','#9c27b0','#f44336']}]
+      },
+      options:{plugins:{legend:{position:'bottom',labels:{boxWidth:12,font:{size:10}}}},responsive:true}
+    });
+    document.getElementById("labelSuratGrafik").textContent=`Total ${arsip.length} Surat Tersimpan`;
+  }
+}
+
+// Jalankan setelah angka beranda muncul
+document.addEventListener("DOMContentLoaded",()=>{setTimeout(renderGrafikWarga,1200); setInterval(renderGrafikWarga,5000);});
+</script>
+
+
+<!-- ===== KARTU BARU GRAFIK GOLONGAN USIA - DESA ROGA ===== -->
+<section style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0">
+
+  <!-- Grafik Usia -->
+  <div style="background:white;border-radius:16px;padding:16px;box-shadow:0 2px 6px rgba(02,02,02,02.08);border:2px solid #f3e5f5">
+    <div style="font-weight:800;color:#7b1fa2;margin-bottom:10px">👶👧👨👴 Grafik Golongan Usia</div>
+    <canvas id="grafikUsia" height="110"></canvas>
+    <div id="labelUsia" style="text-align:center;margin-top:8px;font-size:12px;font-weight:600;color:#333"></div>
+  </div>
+
+  <!-- Tabel Rincian Usia -->
+  <div style="background:linear-gradient(135deg,#fafafa,#f3e5f5);border-radius:16px;padding:16px;box-shadow:0 4px 6px rgba(02,02,02,02.08);border:2px solid #e1bee7">
+    <div style="font-weight:200;color:#6a1b9a;margin-bottom:6px">📋 Rincian Usia Warga</div>
+    <div id="tabelUsia" style="font-size:13px;line-height:1.8"></div>
+    <div style="margin-top:12px;padding:10px;background:white;border-radius:10px;font-size:11px;color:#666">
+      <b>Patokan:</b><br>
+      🍼 Balita: 0-4 Thn<br>
+      🧒 Anak: 5-12 Thn<br>
+      🧑‍🎓 Remaja: 13-17 Thn<br>
+      👨‍💼 Dewasa: 18-59 Thn<br>
+      👴 Lansia: 60+ Thn
+    </div>
+  </div>
+
+</section>
+
+<script>
+// ===== HITUNG USIA OTOMATIS DARI TANGGAL LAHIR =====
+function hitungUmur(tglString){
+  if(!tglString) return null;
+  // Cari tahun dari string seperti "12-05-1990" atau "1990-05-12" atau "Maumere, 12-05-1990"
+  let match=tglString.toString().match(/(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})|(\d{4})[\/\-](\d{1,2})[\/\-](\d{1,2})/);
+  let tahun=null;
+  if(match){
+    tahun=match[3]?parseInt(match[3]):parseInt(match[4]);
+  }else{
+    let th=tglString.toString().match(/(19\d{2}|20\d{2})/);
+    if(th) tahun=parseInt(th[1]);
+  }
+  if(!tahun) return null;
+  let umur=new Date().getFullYear()-tahun;
+  if(umur<0||umur>120) return null;
+  return umur;
+}
+
+function renderGrafikUsia(){
+  const KEYS_DB=["DATABASE_DESA_ROGA_UTAMA","DATABASE_JPT_100","jptdatapenduduk100","DATA_PENDUDUK_JPT","dataPenduduk","DATABASE_DESA_ROGA"];
+  let list=[];
+  for(let k of KEYS_DB){
+    try{
+      let raw=localStorage.getItem(k);
+      if(!raw) continue;
+      let j=JSON.parse(raw);
+      if(Array.isArray(j)&&j[0]?.nik){list=j;break;}
+      if(j.anggota?.length){list=j.anggota;break;}
+      if(j.data?.length){list=j.data;break;}
+    }catch(e){}
+  }
+
+  let kelompok={Balita:0,Anak:0,Remaja:0,Dewasa:0,Lansia:0,TidakDiketahui:0};
+  let detail=[];
+  list.forEach(p=>{
+    let ttl=(p.ttl||p.tanggalLahir||p.tglLahir||p.tgl_lahir||p.lahir||"").toString();
+    let umur=hitungUmur(ttl);
+    if(umur===null){kelompok.TidakDiketahui++; detail.push({nama:p.nama||"Tanpa Nama",umur:"-",kel:"?"}); return;}
+    detail.push({nama:p.nama||"Tanpa Nama",umur:umur,kel:umur});
+    if(umur<=4) kelompok.Balita++;
+    else if(umur<=12) kelompok.Anak++;
+    else if(umur<=17) kelompok.Remaja++;
+    else if(umur<=59) kelompok.Dewasa++;
+    else kelompok.Lansia++;
+  });
+
+  // Grafik Batang Usia
+  let ctx=document.getElementById("grafikUsia");
+  if(ctx){
+    if(ctx.chart) ctx.chart.destroy();
+    ctx.chart=new Chart(ctx,{
+      type:'bar',
+      data:{
+        labels:['Balita\n0-4','Anak\n5-12','Remaja\n13-17','Dewasa\n18-59','Lansia\n60+'],
+        datasets:[{label:'Jiwa',data:[kelompok.Balita,kelompok.Anak,kelompok.Remaja,kelompok.Dewasa,kelompok.Lansia],backgroundColor:['#ffb74d','#4fc3f7','#ba68c8','#81c784','#e57373'],borderRadius:8,borderSkipped:false}]
+      },
+      options:{plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{stepSize:1}}},responsive:true}
+    });
+    document.getElementById("labelUsia").textContent=`Total ${list.length} Jiwa - Dewasa terbanyak: ${kelompok.Dewasa} orang`;
+  }
+
+  // Tabel Rincian
+  let tabel=document.getElementById("tabelUsia");
+  if(tabel){
+    let html="";
+    html+=`<div style="display:flex;justify-content:space-between;font-weight:700;border-bottom:2px solid #ce93d8;padding:6px 0"><span>Golongan</span><span>Jumlah</span></div>`;
+    html+=`<div style="display:flex;justify-content:space-between;padding:5px 0"><span>🍼 Balita (0-4)</span><span style="font-weight:800;color:#ef6c00">${kelompok.Balita} jiwa</span></div>`;
+    html+=`<div style="display:flex;justify-content:space-between;padding:5px 0"><span>🧒 Anak (5-12)</span><span style="font-weight:800;color:#0288d1">${kelompok.Anak} jiwa</span></div>`;
+    html+=`<div style="display:flex;justify-content:space-between;padding:5px 0"><span>🧑‍🎓 Remaja (13-17)</span><span style="font-weight:800;color:#7b1fa2">${kelompok.Remaja} jiwa</span></div>`;
+    html+=`<div style="display:flex;justify-content:space-between;padding:5px 0;background:#f3e5f5;border-radius:6px;padding:6px"><span>👨‍💼 Dewasa (18-59)</span><span style="font-weight:800;color:#2e7d32">${kelompok.Dewasa} jiwa</span></div>`;
+    html+=`<div style="display:flex;justify-content:space-between;padding:5px 0"><span>👴 Lansia (60+)</span><span style="font-weight:800;color:#c62828">${kelompok.Lansia} jiwa</span></div>`;
+    if(kelompok.TidakDiketahui>0) html+=`<div style="display:flex;justify-content:space-between;padding:5px 0;color:#999"><span>❓ TTL Kosong</span><span>${kelompok.TidakDiketahui} jiwa</span></div>`;
+    html+=`<div style="display:flex;justify-content:space-between;font-weight:800;border-top:2px solid #ce93d8;padding:8px 0;margin-top:6px"><span>TOTAL</span><span>${list.length} Jiwa</span></div>`;
+    tabel.innerHTML=html;
+  }
+}
+document.addEventListener("DOMContentLoaded",()=>{setTimeout(renderGrafikUsia,1500); setInterval(renderGrafikUsia,6000);});
+</script>
+
+<!-- ===== AKHIR KARTU GRAFIK ===== -->
+
+
 </body>
 </html>

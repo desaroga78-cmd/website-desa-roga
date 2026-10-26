@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Admin Antrean Surat - Desa Roga - 4 KARTU TERHUBUNG</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: #eef3ee; margin: 0; padding: 0; }
+        header { background: linear-gradient(135deg, #126b36, #218c4b); color: white; text-align: center; padding: 18px; }
+        header h1 { margin: 0; font-size: 20px; }
+        header p { margin: 4px 0; font-size: 11px; }
+       .container { width: 96%; max-width: 1350px; margin: 15px auto; }
+       .card { background: white; padding: 15px; margin-bottom: 15px; border-radius: 12px; box-shadow: 0 3px 10px rgba(0,0,0,0.1); }
+       .card h2 { color: #126b36; margin-top: 0; border-bottom: 2px solid #126b36; padding-bottom: 6px; font-size: 14px; }
+       .grid-dashboard { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 15px; }
+       .dash-box { padding: 15px; border-radius: 8px; color: white; text-align: center; font-weight: bold; }
+       .bg-kuning { background: #c27a0d; }
+       .bg-biru { background: #1769aa; }
+       .bg-hijau { background: #126b36; }
+       .dash-box span { display: block; font-size: 24px; margin-top: 5px; }
+       .btn-beranda { display: inline-block; margin-top: 6px; padding: 8px 14px; border: 1px solid #e8cf70; border-radius: 999px; background: #fff; color: #075b2d; font-weight: 700; text-decoration: none; font-size: 11px; }
+       .hasil { overflow-x: auto; margin-top: 10px; }
+        table { width: 100%; border-collapse: collapse; min-width: 1000px; font-size: 12px; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; vertical-align: middle; }
+        th { background: #126b36; color: white; }
+        tr:nth-child(even) { background: #f7f7f7; }
+       .mini-foto { width: 60px; height: 40px; object-fit: cover; border-radius: 4px; cursor: pointer; border: 1px solid #ddd; }
+        button { border: 0; border-radius: 4px; padding: 6px 10px; font-weight: bold; cursor: pointer; margin: 2px; font-size: 11px; }
+       .btn-proses { background: #1769aa; color: white; }
+       .btn-cetak { background: #126b36; color: white; }
+       .btn-hapus { background: #b3261e; color: white; }
+       .btn-ttd { background: #a66a1a; color: white; }
+       .btn-kartu { background: #a5275c; color: white; }
+       .badge { padding: 4px 8px; border-radius: 12px; font-size: 10px; font-weight: bold; color: white; }
+       .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); justify-content: center; align-items: center; }
+       .modal-content { max-width: 90%; max-height: 80%; border-radius: 8px; }
+       .close-modal { position: absolute; top: 20px; right: 30px; color: white; font-size: 40px; font-weight: bold; cursor: pointer; }
+       .status-4kartu { background: linear-gradient(135deg,#eef6ff,#dde8ff); border:2px solid #a8c4ff; border-left:5px solid #174ea6; padding:10px; border-radius:8px; margin-bottom:12px; font-size:11px; font-weight:700; color:#174ea6; display:none; }
+       .field6 { display:grid; grid-template-columns:repeat(3,1fr); gap:3px; background:#f2f8f4; padding:5px; border-radius:6px; margin-top:3px; font-size:10px; }
+       .field6 div { background:#fff; padding:3px 5px; border-radius:4px; border-left:2px solid #1a8a4a; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>PANEL ADMIN - ANTREAN SURAT DARI RUMAH</h1>
+    <p>Penanggung Jawab Berkas: <b>KAROLUS DARI (KASI PEMERINTAHAN DESA ROGA)</b> | HP Admin: <b>082-144-025-922</b></p>
+    <a class="btn-beranda" href="index_beranda_desa_roga.html">🏠 KEMBALI KE BERANDA 27 KARTU</a>
+    <a class="btn-beranda" href="index_suratfinal100.html" style="background:#ffc107; color:black;">📄 BUKA KARTU SURAT UTAMA</a>
+</header>
+<div class="container">
+    <div class="grid-dashboard">
+        <div class="dash-box bg-kuning">MENUNGGU<span><attr id="countMenunggu">0</attr></span></div>
+        <div class="dash-box bg-biru">DIPROSES<span><attr id="countProses">0</attr></span></div>
+        <div class="dash-box bg-hijau">SELESAI<span><attr id="countSelesai">0</attr></span></div>
+    </div>
+    <div id="status4Kartu" class="status-4kartu"></div>
+    <div class="card">
+        <h2>📥 DAFTAR ANTREAN SURAT MASUK WARGA (PERMANEN DI MEMORI) - TERKONEKSI 4 KARTU 100%</h2>
+        <div class="hasil">
+            <table id="tabelAdmin">
+                <thead>
+                    <tr>
+                        <th>Kode Tiket</th><th>Waktu Kirim</th><th>Identitas Warga - 6 Kolom Lengkap</th><th>Asal Dusun</th><th>Kebutuhan Surat & Keperluan</th><th>Foto KTP/KK</th><th>Status</th><th>Aksi Tindakan Admin - 4 Kartu</th>
+                    </tr>
+                </thead>
+                <tbody id="badanTabel"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div id="myModal" class="modal" onclick="tutupModal()">
+    <span class="close-modal">&times;</span>
+    <img class="modal-content" id="imgModal">
+</div>
+<script>
+function getAntrean(){
+  let a = localStorage.getItem("antrean_surat_dari_rumah");
+  return a ? JSON.parse(a) : [];
+}
+function saveAntrean(a){ localStorage.setItem("antrean_surat_dari_rumah", JSON.stringify(a)); }
+function muatDataAntrean() {
+    let antreanSurat = getAntrean();
+    let badanTabel = document.getElementById("badanTabel");
+    badanTabel.innerHTML = "";
+    let m = 0, p = 0, s = 0;
+    if(antreanSurat.length === 0) {
+        badanTabel.innerHTML = `<tr><td colspan="8" style="text-align:center; color:#666; font-style:italic;">Belum ada pengajuan surat mandiri dari rumah saat ini.</td></tr>`;
+    } else {
+        antreanSurat.slice().reverse().forEach((data) => {
+            if(data.status === "MENUNGGU PROSES") { m++; }
+            else if(data.status === "SEDANG DIPROSES") { p++; }
+            else if(data.status === "SELESAI") { s++; }
+            let colorBadge = data.status === "MENUNGGU PROSES"? "#c27a0d" : (data.status === "SEDANG DIPROSES"? "#1769aa" : "#126b36");
+            let nama = data.nama || '-';
+            let nik = data.nik || '-';
+            let kk = data.kk || data.nomorKK || nik;
+            let ttl = data.ttl || '-';
+            let pekerjaan = data.pekerjaan || '-';
+            let alamat = data.alamat || '-';
+            let baris = `<tr>
+                <td><b>${data.id}</b></td>
+                <td><small>${data.waktu || ''}</small></td>
+                <td>
+                    <b>${nama}</b><br><small>NIK: ${nik}</small>
+                    <div class="field6">
+                        <div><b>KK:</b> ${kk}</div>
+                        <div><b>TTL:</b> ${ttl}</div>
+                        <div><b>Kerja:</b> ${pekerjaan}</div>
+                    </div>
+                    <small style="font-size:9px;">Alamat: ${alamat}</small>
+                </td>
+                <td>Dusun ${data.dusun || '-'}</td>
+                <td><u><b>${data.jenisSurat || data.jenis || '-'}</b></u><br><small>Bagi: ${data.keperluan || '-'}</small><br><small>${data.nomorSurat || ''}</small></td>
+                <td style="text-align:center;">
+                    ${data.foto? `<img src="${data.foto}" class="mini-foto" onclick="perbesarFoto('${data.foto}')">` : '-'}
+                </td>
+                <td><span class="badge" style="background:${colorBadge}">${data.status}</span></td>
+                <td>
+                    <button class="btn-proses" onclick="ubahStatus('${data.id}', 'SEDANG DIPROSES')">⚙️ Proses</button><br>
+                    <button class="btn-ttd" onclick="transferSatu('${data.id}','ttd')">📜 Ke TTD QR (KARTU 3)</button><br>
+                    <button class="btn-kartu" onclick="transferSatu('${data.id}','final')">💳 Ke Final (KARTU 4)</button><br>
+                    <button class="btn-cetak" onclick="transferSatu('${data.id}','both')">🚀 Ke 3+4 (4 KARTU)</button><br>
+                    <button class="btn-hapus" onclick="hapusAntrean('${data.id}')">❌ Hapus</button>
+                </td>
+            </tr>`;
+            badanTabel.innerHTML += baris;
+        });
+    }
+    document.getElementById("countMenunggu").innerText = m;
+    document.getElementById("countProses").innerText = p;
+    document.getElementById("countSelesai").innerText = s;
+}
+function ubahStatus(id, statusBaru) {
+    let antreanSurat = getAntrean();
+    let idx = antreanSurat.findIndex(d => d.id === id);
+    if(idx!== -1) {
+        antreanSurat[idx].status = statusBaru;
+        saveAntrean(antreanSurat);
+        muatDataAntrean();
+    }
+}
+function buatPayloadLengkap(data){
+  return {
+    id: data.id,
+    nama: (data.nama||'').toUpperCase(),
+    nik: data.nik||'',
+    kk: data.kk||data.nomorKK||data.nik||'',
+    ttl: data.ttl||'Roga, 01-01-1990',
+    pekerjaan: data.pekerjaan||'Petani',
+    alamat: data.alamat||data.dusun||'Desa Roga',
+    dusun: data.dusun||'Roga',
+    jenisSurat: data.jenisSurat||data.jenis||'SKD',
+    jenis: data.jenisSurat||data.jenis||'SKD',
+    keperluan: data.keperluan||'-',
+    nomorSurat: data.nomorSurat||"470/"+(data.jenisSurat||'SKD')+"/"+new Date().getFullYear(),
+    namaSurat: data.namaSurat||data.jenis||'SURAT KETERANGAN',
+    foto: data.foto||'',
+    waktu: data.waktu||new Date().toLocaleString('id-ID'),
+    status: "SELESAI"
+  };
+}
+function simpanKeSemuaKey(payload){
+  localStorage.setItem("transfer_warga_dari_rumah", JSON.stringify(payload));
+  localStorage.setItem("TRANSFER_DATA_SURATFINAL100", JSON.stringify(payload));
+  localStorage.setItem("DATA_KARTU_SURATFINAL100", JSON.stringify(payload));
+  localStorage.setItem("TRANSFER_DATA_TTD_CAMAT_KADES", JSON.stringify(payload));
+  localStorage.setItem("TRANSFER_ANTRIAN_PANEL_ADM", JSON.stringify(payload));
+  localStorage.setItem("DATA_PENDUDUK_DARI_RUMAH", JSON.stringify([payload]));
+  localStorage.setItem("ARSIP_TRANSFER_4KARTU", JSON.stringify(payload));
+}
+function transferSatu(id, mode){
+  let antrean = getAntrean();
+  let data = antrean.find(d=>d.id===id);
+  if(!data) return;
+  let payload = buatPayloadLengkap(data);
+  ubahStatus(id,'SELESAI');
+  simpanKeSemuaKey(payload);
+  let box = document.getElementById("status4Kartu");
+  box.style.display='block';
+  if(mode==='ttd'){
+    box.innerHTML = `✅ ${payload.nama} TERKIRIM KE KARTU 3 TTD QR - 6 Kolom Lengkap`;
+    setTimeout(()=>{ window.location.href="index_surat_ttd_camat_kades_qr_ok.html"; }, 800);
+  }else if(mode==='final'){
+    box.innerHTML = `✅ ${payload.nama} TERKIRIM KE KARTU 4 FINAL100`;
+    setTimeout(()=>{ window.location.href="index_suratfinal100.html"; }, 800);
+  }else{
+    box.innerHTML = `✅ ${payload.nama} TERKIRIM KE KARTU 3 & 4 SEKALIGUS - 4 KARTU TERHUBUNG!`;
+    if(confirm(`6 Kolom ${payload.nama} berhasil! OK = TTD QR, Cancel = Final`)){
+      window.location.href="index_surat_ttd_camat_kades_qr_ok.html";
+    }else{
+      window.location.href="index_suratfinal100.html";
+    }
+  }
+}
+function hapusAntrean(id) {
+    if(confirm("Hapus data ini?")) {
+        let antreanSurat = getAntrean();
+        antreanSurat = antreanSurat.filter(d => d.id!== id);
+        saveAntrean(antreanSurat);
+        muatDataAntrean();
+    }
+}
+function perbesarFoto(src) {
+    document.getElementById("myModal").style.display = "flex";
+    document.getElementById("imgModal").src = src;
+}
+function tutupModal() {
+    document.getElementById("myModal").style.display = "none";
+}
+window.onload = function() { muatDataAntrean(); };
+</script>
+</body>
+</html>
