@@ -1,121 +1,106 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ajukan Surat Dari Rumah - Desa Roga</title>
-    <style>
-        * { box-sizing: border-box; }
-        body { font-family: Arial, sans-serif; background: #eef3ee; margin: 0; padding: 0; }
-        header { background: linear-gradient(135deg, #126b36, #218c4b); color: white; text-align: center; padding: 20px; }
-        header h1 { margin: 0; font-size: 22px; }
-        header p { margin: 5px 0 0; font-size: 12px; }
-       .container { width: 92%; max-width: 600px; margin: 20px auto; }
-       .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-       .card h2 { color: #126b36; margin-top: 0; border-bottom: 2px solid #126b36; padding-bottom: 8px; font-size: 16px; }
-        label { display: block; font-weight: bold; margin-top: 12px; margin-bottom: 5px; font-size: 12px; }
-        input, select, textarea { width: 100%; padding: 10px; border: 1px solid #bbb; border-radius: 6px; font-size: 13px; }
-        textarea { min-height: 80px; }
-        input[type="file"] { padding: 5px; background: #f9f9f9; }
-       .btn { display: block; width: 100%; border: 0; border-radius: 6px; padding: 12px; font-weight: bold; cursor: pointer; font-size: 13px; text-align: center; text-decoration: none; margin-top: 15px; }
-       .btn-hijau { background: #126b36; color: white; }
-       .btn-abu { background: #fff; color: #126b36; border: 1px solid #126b36; }
-       .status { display: none; padding: 12px; margin-top: 15px; border-radius: 6px; font-size: 12px; text-align: center; }
-       .sukses { background: #e8f5e9; color: #145a2a; border-left: 5px solid #126b36; }
-       .preview-img { max-width: 150px; margin-top: 10px; display: none; border-radius: 6px; border: 1px solid #ccc; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Surat Dari Rumah - KOP RESMI Desa Roga</title>
+<style>
+*{box-sizing:border-box}
+body{font-family:'Times New Roman',Times,serif;background:#ecece0;margin:0}
+.kop{background:white;padding:14px 18px 10px;border-bottom:4px double #0a4d2a;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.kop img.logo{width:100px;height:100px;object-fit:contain}
+.kop-tengah{flex:1;text-align:center;line-height:1.3}
+.kop-tengah h2{margin:0;font-size:15px;letter-spacing:0.8px;font-weight:bold}
+.kop-tengah h3{margin:2px 0 0;font-size:14px;font-weight:bold}
+.kop-tengah h1{margin:4px 0 6px;font-size:23px;font-weight:bold;letter-spacing:1.5px;color:#0a4d2a}
+.kop-tengah .alamat{font-family:'Times New Roman',serif;font-size:11px;font-style:normal;margin-top:4px;color:#222;text-transform:none}
+.kop-tengah .alamat span{font-size:11px}
+.container{max-width:720px;margin:0 auto;width:96%;background:white;padding:18px;box-shadow:0 2px 12px rgba(0,0,0,0.1)}
+.judul{text-align:center;border-bottom:2px solid #0a4d2a;padding-bottom:12px;margin-bottom:16px}
+.judul h2{margin:0;font-size:17px;text-decoration:underline}
+label{font-family:Arial;font-size:12.5px;font-weight:bold;display:block;margin-top:12px}
+input,select,textarea{width:100%;padding:10px;margin-top:4px;border:1px solid #999;border-radius:4px;font-family:Arial;font-size:13.5px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn{width:100%;padding:11px;border:0;border-radius:5px;font-weight:bold;cursor:pointer;font-family:Arial;font-size:12.5px}
+.btn-hijau{background:#0a4d2a;color:white}.btn-abu{background:#ddd;color:#333}
+.preview-wrap{display:none;text-align:center;margin-top:8px}.preview-wrap img{width:130px;border:1px solid #aaa;border-radius:5px}
+.status{display:none;padding:11px;border-radius:5px;margin-top:12px;font-family:Arial;font-size:12.5px}.status.ok{display:block;background:#e8f5e9;border:1px solid #81c784;color:#2e7d32}.status.err{display:block;background:#ffebee;border:1px solid #e57373;color:#b71c1c}
+.info-admin{background:#fffde7;border:2px solid #f9a825;padding:12px;border-radius:8px;margin-top:16px;font-family:Arial;font-size:12px;text-align:center}
+@media(max-width:600px){.kop img.logo{width:70px;height:70px}.kop-tengah h1{font-size:17px}.row{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
-<header>
-    <h1>PENGAJUAN SURAT MANDIRI DARI RUMAH</h1>
-    <p>Pemerintah Desa Roga, Kecamatan Ndona Timur, Kabupaten Ende, NTT</p>
-</header>
-<div class="container">
-    <div class="card">
-        <h2>📄 FORMULIR PERMOHONAN WARGA</h2>
-        <form id="formWarga" onsubmit="kirimSurat(event)">
-            <label>NIK (16 Digit Wajib)</label>
-            <input type="text" id="wargaNIK" maxlength="16" placeholder="Masukkan 16 digit NIK Anda" required>
-            <label>Nama Lengkap</label>
-            <input type="text" id="wargaNama" placeholder="Masukkan Nama Lengkap Anda" required>
-            <label>Asal Dusun</label>
-            <select id="wargaDusun" required>
-                <option value="Aegomo">Dusun Aegomo</option>
-                <option value="Dekotonga">Dusun Dekotonga</option>
-                <option value="Roga">Dusun Roga</option>
-                <option value="Toba">Dusun Toba</option>
-            </select>
-            <label>Jenis Surat Yang Dibutuhkan</label>
-            <select id="wargaJenisSurat" required>
-                <option value="Surat Keterangan Pengantar KTP/KK">Surat Keterangan Pengantar KTP/KK</option>
-                <option value="Surat Keterangan Tidak Mampu (SKTM)">Surat Keterangan Tidak Mampu (SKTM)</option>
-                <option value="Surat Keterangan Usaha (SKU)">Surat Keterangan Usaha (SKU)</option>
-                <option value="Surat Keterangan Domisili">Surat Keterangan Domisili</option>
-                <option value="Surat Keterangan Kelakuan Baik">Surat Keterangan Kelakuan Baik</option>
-                <option value="Surat Keterangan Jalan / Bepergian">Surat Keterangan Jalan / Bepergian</option>
-            </select>
-            <label>Alasan / Keperluan Surat</label>
-            <textarea id="wargaKeperluan" placeholder="Contoh: Untuk syarat pendaftaran beasiswa anak sekolah..." required></textarea>
-            <label>Unggah Berkas Pendukung (Foto KTP / KK)</label>
-            <input type="file" id="wargaFile" accept="image/*" onchange="previewFoto()" required>
-            <img id="imgPreview" class="preview-img" alt="Pratinjau KTP/KK">
-            <button type="submit" class="btn btn-hijau">🚀 KIRIM PERMOHONAN SURAT</button>
-            <a href="index_beranda_desa_roga.html" class="btn btn-abu">🏠 KEMBALI KE BERANDA 27 KARTU</a>
-        </form>
-        <div id="statusBox" class="status sukses"></div>
-        <div style="margin-top:18px; padding:12px; background:#e8f5e9; border:1px solid #126b36; border-radius:8px; font-size:12px; text-align:center; line-height:1.6;">
-            <b>📞 KONTAK ADMIN DESA ROGA</b><br>
-            Penanggung Jawab: <b>KAROLUS DARI (Kasi Pemerintahan)</b><br>
-            HP / WA Admin: <a href="https://wa.me/6282144025922" target="_blank" style="color:#126b36; font-weight:bold; text-decoration:none; font-size:14px;">082-144-025-922</a><br>
-            <small>Hubungi nomor ini setelah mengirim permohonan untuk konfirmasi cepat.</small>
-        </div>
-    </div>
+
+<!-- KOP RESMI SESUAI PERMINTAAN SOBAT -->
+<div class="kop">
+<img class="logo" src="logo-kabupaten-ende.png" alt="Logo Kabupaten Ende" onerror="this.src='https://via.placeholder.com/100x100?text=ENDE'">
+<div class="kop-tengah">
+<h2>PEMERINTAHAN KABUPATEN ENDE</h2>
+<h3>KECAMATAN NDONA TIMUR</h3>
+<h1>DESA ROGA</h1>
+<div class="alamat">
+Alamat: Rt/Rw.001/001 Dusun Aegomo, Jl: Jurusan Roga-Ende KM.45<br>
+Email: desaroga.ende@gmail.com | Kode Pos 86361 | Kontak Admin: 0821-4402-5922
 </div>
+</div>
+<img class="logo" src="logo-desa-roga.png" alt="Logo Desa Roga" onerror="this.src='https://via.placeholder.com/100x100/126b36/fff?text=ROGA'">
+</div>
+
+<div class="container">
+<div class="judul"><h2>FORMULIR SURAT DARI RUMAH</h2><p style="font-family:Arial;font-size:11px;color:#555">Pelayanan Online Desa Roga - Warga kirim dari rumah - Project: website-desa-roga</p><span style="background:#0a4d2a;color:white;padding:3px 10px;border-radius:12px;font-family:Arial;font-size:9px">● ONLINE FIREBASE</span></div>
+
+<form id="formSurat" onsubmit="return kirimOnline(event)">
+<label>NIK (16 Digit) *</label><input type="text" id="nik" maxlength="16" inputmode="numeric" placeholder="Contoh: 531101..." required>
+<div class="row"><div><label>Nama Lengkap *</label><input type="text" id="nama" placeholder="NAMA SESUAI KTP" style="text-transform:uppercase" required></div><div><label>Dusun *</label><select id="dusun" required><option value="">-- Pilih Dusun --</option><option>Aegomo</option><option>Dekotonga</option><option>Roga</option><option>Toba</option></select></div></div>
+<label>Jenis Surat *</label><select id="jenis" required><option value="">-- Pilih Jenis --</option><option><option value="SKIK">SKIK - Surat Keterangan Pengantar Izin Keramaian</option>
+<option value="SPCK">SPCK - Surat Pengantar Permohonan SKCK</option>
+<option value="SPN">SPN - Surat Pengantar Nikah</option>
+<option value="SPB">SPB - Surat Pengantar Beasiswa</option>
+<option value="SPS">SPS - Surat Pengantar Sekolah</option>
+<option value="SPJKN">SPJKN - Surat Pengantar Layanan JKN/BPJS</option>
+<option value="SKBR">SKBR - Surat Keterangan Belum Memiliki Rumah</option>
+<option value="SKTS">SKTS - Surat Keterangan Tidak Sengketa Tanah</option>
+<option value="SKPF">SKPF - Surat Keterangan Penguasaan Fisik Tanah</option>
+<option value="SKBN">SKBN - Surat Keterangan Beda Nama</option>
+<option value="SKSO">SKSO - Surat Keterangan Satu Orang yang Sama</option>
+<option value="SKTK">SKTK - Surat Keterangan Tanggungan Keluarga</option>
+<option value="SKKD">SKKD - Surat Keterangan Pindah Antar Dusun</option>
+<option value="SKHIL">SKHIL - Surat Keterangan Kehilangan</option>
+<option value="SKBENC">SKBENC - Surat Keterangan Dampak Bencana</option>
+<option value="SKUB">SKUB - Surat Keterangan Untuk Penguburan</option>
+<option value="SKASUH">SKASUH - Surat Keterangan Pengasuhan Anak</option>
+<option value="SKPO">SKPO - Surat Keterangan Penghasilan Orang Tua</option>
+<option value="SKJAM">SKJAM - Surat Keterangan Sosial untuk Jaminan Kesehatan</option>
+<option value="SKDT">SKDT - Surat Keterangan Datang/Tinggal Sementara</option>
+<option value="SKPERJ">SKPERJ - Surat Keterangan Perjalanan</option>
+<option value="SKKEG">SKKEG - Surat Keterangan Kegiatan Kemasyarakatan</option>
+<option value="SKLHN">SKLHN - Surat Keterangan Lahan Pertanian</option>
+<option value="SKPENS">SKPENS - Surat Keterangan Pensiun</option>
+<option value="SKPENG">SKPENG - Surat Pengantar Administrasi</option>
+</option></select>
+<label>Keperluan / Keterangan *</label><textarea id="keperluan" rows="3" placeholder="Tulis keperluan lengkap..." required></textarea>
+<label>Foto KTP / KK (Max 1.5MB)</label><input type="file" id="foto" accept="image/*" onchange="previewFoto(this)"><div class="preview-wrap" id="prevWrap"><img id="prevImg"><br><button type="button" class="btn btn-abu" style="width:auto;padding:5px 12px;font-size:11px;margin-top:5px" onclick="hapusFoto()">🗑️ Hapus Foto</button></div>
+<div class="row" style="margin-top:18px"><div><button type="button" class="btn btn-abu" onclick="resetForm()">🔄 RESET</button></div><div><button type="submit" id="btnKirim" class="btn btn-hijau">🚀 KIRIM ONLINE KE DESA</button></div></div>
+<div id="statusBox" class="status"></div>
+</form>
+
+<div class="info-admin">
+📞 <b>KONTAK ADMIN KASI PEMERINTAHAN</b><br>
+<b>Karolus Dari</b> - HP/WA: <a href="https://wa.me/6282144025922" style="color:#0a4d2a;font-weight:bold;text-decoration:none;font-size:14px">0821-4402-5922</a><br>
+<small>Alamat: Rt/Rw.001/001 Dusun Aegomo, Jl: Jurusan Roga-Ende KM.45</small><br>
+<button onclick="window.open('https://wa.me/6282144025922?text=Halo%20Kaka%20Karolus%20Dari%20Desa%20Roga,%20saya%20mau%20tanya%20surat%20online','_blank')" class="btn btn-hijau" style="width:auto;padding:8px 18px;margin-top:8px;font-size:11px">💬 CHAT WA KAROLUS DARI</button>
+</div>
+</div>
+
 <script>
-let fotoBase64 = "";
-function previewFoto() {
-    const file = document.getElementById('wargaFile').files[0];
-    const reader = new FileReader();
-    reader.onloadend = function() {
-        fotoBase64 = reader.result;
-        const img = document.getElementById('imgPreview');
-        img.src = fotoBase64;
-        img.style.display = "block";
-    }
-    if (file) { reader.readAsDataURL(file); }
-}
-function kirimSurat(e) {
-    e.preventDefault();
-    const nik = document.getElementById('wargaNIK').value;
-    const nama = document.getElementById('wargaNama').value;
-    const dusun = document.getElementById('wargaDusun').value;
-    const jenis = document.getElementById('wargaJenisSurat').value;
-    const keperluan = document.getElementById('wargaKeperluan').value;
-    if(nik.length!== 16) { alert("NIK harus tepat 16 digit angka!"); return; }
-    let antreanSurat = localStorage.getItem("antrean_surat_dari_rumah");
-    antreanSurat = antreanSurat? JSON.parse(antreanSurat) : [];
-    const dataBaru = {
-        id: "TRK-" + Date.now(),
-        nik: nik,
-        nama: nama.toUpperCase(),
-        dusun: dusun,
-        jenis: jenis,
-        keperluan: keperluan,
-        foto: fotoBase64,
-        waktu: new Date().toLocaleString('id-ID') + " WITA",
-        status: "MENUNGGU PROSES",
-        kontak_admin: "082-144-025-922"
-    };
-    antreanSurat.push(dataBaru);
-    localStorage.setItem("antrean_surat_dari_rumah", JSON.stringify(antreanSurat));
-    const statusBox = document.getElementById('statusBox');
-    statusBox.style.display = "block";
-    statusBox.innerHTML = `🎉 <b>BERHASIL DIKIRIM!</b><br>Kode Pelacakan Anda: <b>${dataBaru.id}</b><br>Data otomatis masuk ke Panel Admin Antrean Surat Desa Roga.<br>Silakan hubungi Kasi Pem (Bpk. Karolus Dari) di <b>082-144-025-922</b> untuk pencetakan fisik berkas Anda.`;
-    document.getElementById('formWarga').reset();
-    document.getElementById('imgPreview').style.display = "none";
-    fotoBase64 = "";
-    alert("Permohonan surat berhasil dikirim ke Admin Desa!\nKode: " + dataBaru.id + "\nOtomatis terkoneksi ke Panel Admin.\nHubungi Admin: 082-144-025-922");
-}
+let fotoBase64="";function previewFoto(i){const f=i.files[0];if(!f)return;if(f.size>1500000){alert("Foto max 1.5MB!");i.value="";return;}const r=new FileReader();r.onload=e=>{fotoBase64=e.target.result;document.getElementById('prevImg').src=fotoBase64;document.getElementById('prevWrap').style.display='block';};r.readAsDataURL(f);}function hapusFoto(){fotoBase64="";document.getElementById('foto').value="";document.getElementById('prevWrap').style.display='none';}function resetForm(){document.getElementById('formSurat').reset();hapusFoto();document.getElementById('statusBox').style.display='none';}document.getElementById('nik').addEventListener('input',e=>{e.target.value=e.target.value.replace(/[^0-9]/g,'');});document.getElementById('nama').addEventListener('input',e=>{e.target.value=e.target.value.toUpperCase();});
+</script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+const firebaseConfig = {apiKey: "AIzaSyCAubppaW0xLMKxZIjIeA_LbubuYd9STvU",authDomain: "website-desa-roga.firebaseapp.com",databaseURL: "https://website-desa-roga-default-rtdb.asia-southeast1.firebasedatabase.app",projectId: "website-desa-roga",storageBucket: "website-desa-roga.firebasestorage.app",messagingSenderId: "747779814475",appId: "1:747779814475:web:a110a0de147c39748289ce",measurementId: "G-VET1MZFTY2"};
+const app = initializeApp(firebaseConfig); const db = getFirestore(app);
+window.kirimOnline=async(e)=>{e.preventDefault();const nik=document.getElementById('nik').value.trim();const nama=document.getElementById('nama').value.trim();const dusun=document.getElementById('dusun').value;const jenis=document.getElementById('jenis').value;const keperluan=document.getElementById('keperluan').value.trim();const box=document.getElementById('statusBox');const btn=document.getElementById('btnKirim');if(nik.length!==16){box.className='status err';box.innerText='❌ NIK harus 16 digit!';box.style.display='block';return false;}btn.disabled=true;btn.innerText='⏳ MENGIRIM ONLINE...';box.className='status ok';box.innerText='⏳ Mengirim ke Firebase website-desa-roga...';box.style.display='block';try{await addDoc(collection(db,"surat_dari_rumah"),{nik,nama,dusun,jenis,keperluan,foto:fotoBase64||"",waktu:new Date().toLocaleString('id-ID',{timeZone:'Asia/Makassar'}),status:"BARU",createdAt:serverTimestamp(),alamat_kantor:"Rt/Rw.001/001 Dusun Aegomo, Jl: Jurusan Roga-Ende KM.45",admin:"Karolus Dari",hp_admin:"082144025922"});box.className='status ok';box.innerHTML='✅ <b>BERHASIL ONLINE!</b><br>Surat '+jenis+' atas nama '+nama+' ('+dusun+') sudah masuk.<br>Admin Kasi Pem <b>Karolus Dari - 0821-4402-5922</b> akan proses di Kantor Desa Roga, Rt/Rw.001/001 Dusun Aegomo.';resetForm();}catch(err){box.className='status err';box.innerHTML='❌ GAGAL: '+err.message;}finally{btn.disabled=false;btn.innerText='🚀 KIRIM ONLINE KE DESA';}return false;};
 </script>
 </body>
 </html>
