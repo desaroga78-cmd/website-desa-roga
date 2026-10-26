@@ -87,26 +87,26 @@ footer{padding:12px;font-size:12px;line-height:1.45}
 
 <!-- ===== KARTU BARU GRAFIK DATA WARGA - DESA ROGA - FINAL ===== -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin:16px 0">
+<section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:16px;margin:16px 0">
   
   <!-- Kartu 1: Grafik Jenis Kelamin -->
-  <div style="background:white;border-radius:16px;padding:16px;box-shadow:0 4px 12px rgba(0,0,0,0.08);border:2px solid #e8f5e9">
-    <div style="font-weight:800;color:#0e5a32;margin-bottom:10px;display:flex;align-items:center;gap:8px">📊 Grafik Jenis Kelamin</div>
-    <canvas id="grafikGender" height="200"></canvas>
+  <div style="background:white;border-radius:16px;padding:8px;box-shadow:0 4px 8px rgba(03,03,03,03.08);border:2px solid #e8f5e9">
+    <div style="font-weight:100;color:#0e5a32;margin-bottom:10px;display:flex;align-items:center;gap:8px">📊 Grafik Jenis Kelamin</div>
+    <canvas id="grafikGender" height="50"></canvas>
     <div id="labelGender" style="text-align:center;margin-top:8px;font-size:13px;color:#333;font-weight:600"></div>
   </div>
 
   <!-- Kartu 2: Grafik Dusun / Wilayah -->
-  <div style="background:white;border-radius:16px;padding:16px;box-shadow:0 4px 12px rgba(0,0,0,0.08);border:2px solid #e3f2fd">
-    <div style="font-weight:800;color:#1565c0;margin-bottom:10px;display:flex;align-items:center;gap:8px">🏘️ Grafik Per Dusun</div>
-    <canvas id="grafikDusun" height="200"></canvas>
+  <div style="background:white;border-radius:16px;padding:16px;box-shadow:0 4px 12px rgba(02,02,02,02.08);border:2px solid #e3f2fd">
+    <div style="font-weight:600;color:#1565c0;margin-bottom:10px;display:flex;align-items:center;gap:8px">🏘️ Grafik Per Dusun</div>
+    <canvas id="grafikDusun" height="100"></canvas>
     <div id="labelDusun" style="text-align:center;margin-top:8px;font-size:12px;color:#666"></div>
   </div>
 
   <!-- Kartu 3: Grafik Surat Tersimpan -->
-  <div style="background:white;border-radius:16px;padding:16px;box-shadow:0 4px 12px rgba(0,0,0,0.08);border:2px solid #fff3e0">
-    <div style="font-weight:800;color:#e67e22;margin-bottom:10px;display:flex;align-items:center;gap:8px">📄 Grafik Jenis Surat</div>
-    <canvas id="grafikSurat" height="200"></canvas>
+  <div style="background:white;border-radius:16px;padding:8px;box-shadow:0 4px 8px rgba(01,01,01,01.08);border:2px solid #fff3e0">
+    <div style="font-weight:100;color:#e67e22;margin-bottom:10px;display:flex;align-items:center;gap:8px">📄 Grafik Jenis Surat</div>
+    <canvas id="grafikSurat" height="50"></canvas>
     <div id="labelSuratGrafik" style="text-align:center;margin-top:8px;font-size:12px;color:#666"></div>
   </div>
 
@@ -211,15 +211,15 @@ document.addEventListener("DOMContentLoaded",()=>{setTimeout(renderGrafikWarga,1
 <section style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0">
 
   <!-- Grafik Usia -->
-  <div style="background:white;border-radius:16px;padding:16px;box-shadow:0 4px 12px rgba(0,0,0,0.08);border:2px solid #f3e5f5">
+  <div style="background:white;border-radius:16px;padding:16px;box-shadow:0 2px 6px rgba(02,02,02,02.08);border:2px solid #f3e5f5">
     <div style="font-weight:800;color:#7b1fa2;margin-bottom:10px">👶👧👨👴 Grafik Golongan Usia</div>
-    <canvas id="grafikUsia" height="220"></canvas>
+    <canvas id="grafikUsia" height="110"></canvas>
     <div id="labelUsia" style="text-align:center;margin-top:8px;font-size:12px;font-weight:600;color:#333"></div>
   </div>
 
   <!-- Tabel Rincian Usia -->
-  <div style="background:linear-gradient(135deg,#fafafa,#f3e5f5);border-radius:16px;padding:16px;box-shadow:0 4px 12px rgba(0,0,0,0.08);border:2px solid #e1bee7">
-    <div style="font-weight:800;color:#6a1b9a;margin-bottom:12px">📋 Rincian Usia Warga</div>
+  <div style="background:linear-gradient(135deg,#fafafa,#f3e5f5);border-radius:16px;padding:16px;box-shadow:0 4px 6px rgba(02,02,02,02.08);border:2px solid #e1bee7">
+    <div style="font-weight:200;color:#6a1b9a;margin-bottom:6px">📋 Rincian Usia Warga</div>
     <div id="tabelUsia" style="font-size:13px;line-height:1.8"></div>
     <div style="margin-top:12px;padding:10px;background:white;border-radius:10px;font-size:11px;color:#666">
       <b>Patokan:</b><br>
@@ -343,9 +343,9 @@ document.addEventListener("DOMContentLoaded",()=>{setTimeout(renderGrafikUsia,15
 <article class="menu-card">
 	<div class="ikon" aria-hidden="true">📄</div>
 	<div>
-		<h3>Formulir Surat</h3>
+		<h3>CEK SURAT MASUK</h3>
 		<p>Isi, buat, Kirim ke Admin Desa, dan Tunggu Proses</p>
-		<a href="index_panel_adm_antrean.html">Formulir Pengajuan ke admin</a>
+		<a href="index_admin_100_fix.html">PANEL ADMIN DESA ROGA</a>
 	</div>
 </article>
 
